@@ -2,12 +2,13 @@
 
 angular.module('bahmni.registration')
     .controller('PatientCommonController', ['$scope', '$rootScope', '$http', 'patientAttributeService', 'appService', 'spinner',
-        function ($scope, $rootScope, $http, patientAttributeService, appService, spinner) {
+        function ($scope, $rootScope, $http, patientAttributeService,  appService, spinner) {
             var autoCompleteFields = appService.getAppDescriptor().getConfigValue("autoCompleteFields", []);
             var showCasteSameAsLastNameCheckbox = appService.getAppDescriptor().getConfigValue("showCasteSameAsLastNameCheckbox");
             var personAttributes = [];
             var caste;
             $scope.showMiddleName = appService.getAppDescriptor().getConfigValue("showMiddleName");
+            $scope.showTribeName = appService.getAppDescriptor().getConfigValue("showTribeName");
             $scope.showBirthTime = appService.getAppDescriptor().getConfigValue("showBirthTime") != null
                 ? appService.getAppDescriptor().getConfigValue("showBirthTime") : true;  // show birth time by default
             $scope.genderCodes = Object.keys($rootScope.genderMap);
@@ -45,11 +46,18 @@ angular.module('bahmni.registration')
                     }]
                 });
             };
+
+
             spinner.forPromise($scope.getDeathConcepts());
             var filterRetireDeathConcepts = function (deathConcepts) {
                 return _.filter(deathConcepts, function (concept) {
                     return !concept.retired;
                 });
+            };
+
+            $scope.searchTribe = function (){
+            console.log($scope.patient.tribeName2);
+
             };
 
             $scope.isAutoComplete = function (fieldName) {
