@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bahmni.registration')
-    .controller('CreatePatientController', ['$scope', '$rootScope', '$state', 'patientService', 'patient', 'spinner', 'appService', 'messagingService', 'ngDialog', '$q', 'offlineService', 'providerConfig',
-        function($scope, $rootScope, $state, patientService, patient, spinner, appService, messagingService, ngDialog, $q, offlineService, providerConfig) {
+    .controller('CreatePatientController', ['$scope', '$rootScope', '$state', 'patientService', 'patient', 'spinner', 'appService', 'messagingService', 'ngDialog', '$q', 'offlineService', 'providerConfig','locationConfig',
+        function($scope, $rootScope, $state, patientService, patient, spinner, appService, messagingService, ngDialog, $q, offlineService, providerConfig, locationConfig) {
             var dateUtil = Bahmni.Common.Util.DateUtil;
             $scope.actions = {};
             var errorMessage;
@@ -13,9 +13,13 @@ angular.module('bahmni.registration')
             $scope.today = Bahmni.Common.Util.DateTimeFormatter.getDateWithoutTime(dateUtil.now());
             $scope.assumedBirthDay = appService.getAppDescriptor().getConfigValue("assumedBirthDay");
             $scope.checkDuplicatePatient = appService.getAppDescriptor().getConfigValue("checkDuplicatePatient");
+            $scope.patientAttendanceMode = appService.getAppDescriptor().getConfigValue("patientAttendanceMode");
             $scope.providerConfig = providerConfig;
+            $scope.locationConfig = locationConfig;
             $scope.verificationResults;
             $scope.duplicatePatient;
+
+            console.log($scope.patientAttendanceMode);
 
             $scope.copyNHIFDetails = function() {
                 $scope.patient.birthdate = angular.copy(new Date($scope.verificationResults.DateOfBirth));

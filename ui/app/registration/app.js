@@ -55,7 +55,10 @@ angular
                     },
                     providerConfig: function (providerInitialization) {
                       return providerInitialization();
-                     }
+                     },
+                   locationConfig: function (locationInitialization) {
+                       return locationInitialization();
+                   }
                 }
             })
             .state('patient', {

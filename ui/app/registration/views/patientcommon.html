@@ -166,10 +166,20 @@
         </section>
 
 
-        <legend class="registraion_legend" ng-if="::!providerAssaignEnabled">
+        <legend class="registraion_legend" ng-show="patientAttendanceMode=='room'">
+            <span class="mylegend"> {{ ::'REGISTRATION_LABEL_DOCTOR_ROOM' | translate}}</span>
+        </legend>
+
+        <legend class="registraion_legend" ng-show="patientAttendanceMode=='provider'">
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_PROVIDER' | translate}}</span>
         </legend>
-        <section class="age-wrapper">
+        <section class="age-wrapper" ng-show="patientAttendanceMode=='room'">
+            <div ng-if="::!providerAssaignEnabled">
+                <ng-include src="'views/location.html'"></ng-include>
+            </div>
+        </section>
+
+        <section class="age-wrapper" ng-show="patientAttendanceMode=='provider'">
             <div ng-if="::!providerAssaignEnabled">
                 <ng-include src="'views/provider.html'"></ng-include>
             </div>
