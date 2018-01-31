@@ -19,7 +19,6 @@ angular.module('bahmni.registration')
             $scope.verificationResults;
             $scope.duplicatePatient;
 
-            console.log($scope.patientAttendanceMode);
 
             $scope.copyNHIFDetails = function() {
                 $scope.patient.birthdate = angular.copy(new Date($scope.verificationResults.DateOfBirth));

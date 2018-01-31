@@ -1,16 +1,17 @@
 'use strict';
 
 angular.module('bahmni.registration')
-    .controller('EditPatientController', ['$scope', 'patientService', 'encounterService', '$stateParams', 'openmrsPatientMapper', '$window', '$q', 'spinner', 'appService', 'messagingService', '$rootScope','providerConfig', 'ngDialog',
-        function ($scope, patientService, encounterService, $stateParams, openmrsPatientMapper, $window, $q, spinner, appService, messagingService, $rootScope,providerConfig, ngDialog) {
+    .controller('EditPatientController', ['$scope', 'patientService', 'encounterService', '$stateParams', 'openmrsPatientMapper', '$window', '$q', 'spinner', 'appService', 'messagingService', '$rootScope','providerConfig', 'ngDialog','locationConfig',
+        function ($scope, patientService, encounterService, $stateParams, openmrsPatientMapper, $window, $q, spinner, appService, messagingService, $rootScope,providerConfig, ngDialog, locationConfig) {
             var dateUtil = Bahmni.Common.Util.DateUtil;
             var uuid = $stateParams.patientUuid;
             $scope.patient = {};
             $scope.actions = {};
             $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
             $scope.disablePhotoCapture = appService.getAppDescriptor().getConfigValue("disablePhotoCapture");
+            $scope.patientAttendanceMode = appService.getAppDescriptor().getConfigValue("patientAttendanceMode");
             $scope.providerConfig = providerConfig;
-            console.log(providerConfig);
+            $scope.locationConfig = locationConfig;
             $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
 
 
