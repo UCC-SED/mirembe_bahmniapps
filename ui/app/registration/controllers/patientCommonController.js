@@ -2,20 +2,13 @@
 
 angular.module('bahmni.registration')
     .controller('PatientCommonController', ['$scope', '$rootScope', '$http', 'patientAttributeService', 'appService', 'spinner',
-<<<<<<< HEAD
-        function ($scope, $rootScope, $http, patientAttributeService, appService, spinner) {
-=======
         function ($scope, $rootScope, $http, patientAttributeService,  appService, spinner) {
->>>>>>> a16382e269b1aeec3543f5174c7302709adce333
             var autoCompleteFields = appService.getAppDescriptor().getConfigValue("autoCompleteFields", []);
             var showCasteSameAsLastNameCheckbox = appService.getAppDescriptor().getConfigValue("showCasteSameAsLastNameCheckbox");
             var personAttributes = [];
             var caste;
             $scope.showMiddleName = appService.getAppDescriptor().getConfigValue("showMiddleName");
-<<<<<<< HEAD
-=======
             $scope.showTribeName = appService.getAppDescriptor().getConfigValue("showTribeName");
->>>>>>> a16382e269b1aeec3543f5174c7302709adce333
             $scope.showBirthTime = appService.getAppDescriptor().getConfigValue("showBirthTime") != null
                 ? appService.getAppDescriptor().getConfigValue("showBirthTime") : true;  // show birth time by default
             $scope.genderCodes = Object.keys($rootScope.genderMap);
@@ -53,11 +46,8 @@ angular.module('bahmni.registration')
                     }]
                 });
             };
-<<<<<<< HEAD
-=======
 
 
->>>>>>> a16382e269b1aeec3543f5174c7302709adce333
             spinner.forPromise($scope.getDeathConcepts());
             var filterRetireDeathConcepts = function (deathConcepts) {
                 return _.filter(deathConcepts, function (concept) {
@@ -65,14 +55,11 @@ angular.module('bahmni.registration')
                 });
             };
 
-<<<<<<< HEAD
-=======
             $scope.searchTribe = function (){
             console.log($scope.patient.tribeName2);
 
             };
 
->>>>>>> a16382e269b1aeec3543f5174c7302709adce333
             $scope.isAutoComplete = function (fieldName) {
                 return !_.isEmpty(autoCompleteFields) ? autoCompleteFields.indexOf(fieldName) > -1 : false;
             };
@@ -161,4 +148,3 @@ angular.module('bahmni.registration')
                 return ($scope.patient.causeOfDeath || $scope.patient.deathDate) && $scope.patient.dead;
             };
         }]);
-
