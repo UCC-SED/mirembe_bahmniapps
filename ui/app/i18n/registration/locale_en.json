@@ -95,5 +95,10 @@
   "REGISTRATION_LABEL_MOBILE_NUMBER":"Mobile Number",
   "REGISTRATION_LABEL_PROVIDER": "Doctor",
   "PLACEHOLDER_PROVIDER" : "Assaign Doctor",
+<<<<<<< HEAD
   "REGISTRATION_LABEL_PROVIDER" : "Doctor"
+=======
+  "REGISTRATION_LABEL_PROVIDER" : "Doctor",
+  "REGISTRATION_LABEL_Tribe_Name" : "Tribe Name"
+>>>>>>> a16382e269b1aeec3543f5174c7302709adce333
 }

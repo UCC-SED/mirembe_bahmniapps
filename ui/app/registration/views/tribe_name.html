@@ -1,0 +1,51 @@
+<article class="form-field patient-name-wrapper">
+    <script>
+  $( function() {
+    var availableTags = [{
+    value: 1,
+    label: "c++"
+}, {
+    value: 2,
+    label: "java"
+}, {
+    value: 3,
+    label: "php"
+}, {
+    value: 4,
+    label: "coldfusion"
+}, {
+    value: 5,
+    label: "javascript"
+}, {
+    value: 6,
+    label: "asp"
+}, {
+    value: 7,
+    label: "ruby"
+}];
+    $( "#seachTribes" ).autocomplete({
+      source: availableTags,
+      focus: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					// manually update the textbox
+					$(this).val(ui.item.label);
+				},
+				select: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					// manually update the textbox and hidden field
+					$(this).val(ui.item.label);
+					$("#tribeName").val(ui.item.value);
+				}
+    });
+  } );
+  </script>
+    <div class="field-attribute">
+        <label for="tribeNameLabel">{{ ::'REGISTRATION_LABEL_Tribe_Name' | translate}}</label>
+    </div>
+    <div class="field-value" id="tribeNameLabel">
+        <input id="seachTribes"  >
+        <input type="hidden" id="tribeName" data-ng-model="patient.tribeName">
+    </div>
+</article>

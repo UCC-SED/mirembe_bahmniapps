@@ -290,8 +290,12 @@ Bahmni.Common = Bahmni.Common || {};
         appointmentServiceUrl: RESTWS_V1 + "/appointmentService",
         insuranceValidatorServiceUrl: RESTWS_V1 + "/nhif/verification",
         normalNHIFVisit: "1",
+<<<<<<< HEAD
         providerUrl: RESTWS_V1 + "/provider",
         patientDuplicateDetection: RESTWS_V1 + "/emr/checkDuplicatePatients"
+=======
+        providerUrl: RESTWS_V1 + "/provider"
+>>>>>>> a16382e269b1aeec3543f5174c7302709adce333
     };
 })();
 

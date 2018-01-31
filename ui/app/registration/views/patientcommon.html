@@ -55,14 +55,22 @@
 
                     <span ng-show="::showMiddleName" data-ng-switch="::isAutoComplete('middleName')">
                   <input data-ng-switch-when="true"
+<<<<<<< HEAD
                          type="text" id="middleName" ng-model="$parent.patient.middleName" pattern-validate
+=======
+                         type="text" id="middleName" ng-model="$parent.patient.middleName" non-blank pattern-validate
+>>>>>>> a16382e269b1aeec3543f5174c7302709adce333
                          my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
                          data-item-type="personName"
                          placeholder="{{ ::'REGISTRATION_LABEL_PATIENT_MIDDLE_NAME' | translate}}"
                          title="{{::'REGISTRATION_LABEL_PATIENT_ENTER_MIDDLE_NAME' | translate}}">
 
                   <input data-ng-switch-default
+<<<<<<< HEAD
                          type="text" id="middleName" ng-model="patient.middleName" pattern-validate
+=======
+                         type="text" id="middleName" ng-model="patient.middleName" non-blank pattern-validate
+>>>>>>> a16382e269b1aeec3543f5174c7302709adce333
                          placeholder="{{ ::'REGISTRATION_LABEL_PATIENT_MIDDLE_NAME' | translate}}"
                          title="{{::'REGISTRATION_LABEL_PATIENT_ENTER_MIDDLE_NAME' | translate}}">
               </span>
@@ -141,6 +149,15 @@
             </div>
         </section>
 
+<<<<<<< HEAD
+=======
+        <section>
+            <div>
+                <ng-include src="'views/tribe_name.html'"></ng-include>
+            </div>
+        </section>
+
+>>>>>>> a16382e269b1aeec3543f5174c7302709adce333
         <legend class="registraion_legend" ng-if="::!addressHierarchyConfigs.showAddressFieldsTopDown">
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_ADDRESS_INFO' | translate}}</span>
         </legend>

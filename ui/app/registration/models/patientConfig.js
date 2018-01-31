@@ -56,7 +56,11 @@ Bahmni.Registration.PatientConfig = (function () {
     }
 
     function isItemAMandatoryField (item) {
+<<<<<<< HEAD
         var mandatoryPatientAttributes = ["healthCenter", "givenNameLocal", "middleNameLocal", "familyNameLocal", "paymentCategory", "paymentExemptionSubCategory", "insuranceType", "insuranceIdentification", "mobileNumber", "providerInCharge"];
+=======
+        var mandatoryPatientAttributes = ["healthCenter", "givenNameLocal", "middleNameLocal", "familyNameLocal", "paymentCategory", "paymentExemptionSubCategory", "insuranceType", "insuranceIdentification", "mobileNumber", "providerInCharge","tribeName"];
+>>>>>>> a16382e269b1aeec3543f5174c7302709adce333
         return mandatoryPatientAttributes.indexOf(item.name) > -1;
     }
 
