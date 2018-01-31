@@ -54,17 +54,6 @@ angular.module('bahmni.registration')
               });
           };
 
-<<<<<<< HEAD
-
-     var patientDuplicateDetection = function (patient) {
-            return $http.post(Bahmni.Common.Constants.patientDuplicateDetection, patient, {
-                 withCredentials: true
-                 });
-             };
-
-
-=======
->>>>>>> a16382e269b1aeec3543f5174c7302709adce333
         var get = function (uuid) {
             return patientServiceStrategy.get(uuid);
         };
@@ -90,6 +79,12 @@ angular.module('bahmni.registration')
             return $http.post(url, data, config);
         };
 
+        var patientDuplicateDetection = function (patient) {
+                    return $http.post(Bahmni.Common.Constants.patientDuplicateDetection, patient, {
+                         withCredentials: true
+                         });
+                     };
+
         return {
             search: search,
             searchByIdentifier: searchByIdentifier,
@@ -97,11 +92,7 @@ angular.module('bahmni.registration')
             update: update,
             get: get,
             updateImage: updateImage,
-<<<<<<< HEAD
             validateInsuranceCard : validateInsuranceCard,
             patientDuplicateDetection : patientDuplicateDetection
-=======
-            validateInsuranceCard : validateInsuranceCard
->>>>>>> a16382e269b1aeec3543f5174c7302709adce333
         };
     }]);
