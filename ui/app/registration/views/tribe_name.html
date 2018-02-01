@@ -11,13 +11,20 @@
             tribeName: request.term
           },
           success: function( data ) {
-
-             response($.map(data, function (value, key) {
+                
+              if(data == null){
+            data = {label : "Other"};
+              response(data);
+                 }
+                 else{
+             response($.map(data, function (value, key) {   
+                 
                 return {
                     label: value.tribe_name,
                     value: value.id
                 }
             }));
+          }
           }
         } );
       },
