@@ -77,9 +77,12 @@ angular
                     providerConfig: function (providerInitialization) {
                        return providerInitialization();
                       },
-                     locationConfig: function (locationInitialization) {
-                         return locationInitialization();
-                     }
+                     locationConfig: function (nurseObservationConfig) {
+                         return nurseObservationConfig();
+                     },
+                     billingConfig: function (nurseObservationConfig) {
+                           return nurseObservationConfig();
+                       }
                 }
             })
             .state('patient.edit', {

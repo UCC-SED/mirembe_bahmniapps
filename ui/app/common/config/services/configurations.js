@@ -59,6 +59,10 @@ angular.module('bahmni.common.config')
             return this.configs.genderMap;
         };
 
+        this.insuranceMap = function () {
+             return this.configs.insuranceMap;
+         };
+
         this.addressLevels = function () {
             return this.configs.addressLevels;
         };

@@ -134,6 +134,18 @@ angular.module('bahmni.common.domain')
             });
         };
 
+
+     configurationFunctions.insuranceMap = function () {
+            return $http.get(Bahmni.Common.Constants.globalPropertyUrl, {
+                method: "GET",
+                params: {
+                    property: 'mrs.insurance'
+                },
+                withCredentials: true
+            });
+        };
+
+
         configurationFunctions.relationshipTypeMap = function () {
             return $http.get(Bahmni.Common.Constants.globalPropertyUrl, {
                 method: "GET",

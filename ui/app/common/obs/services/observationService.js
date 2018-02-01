@@ -1,10 +1,12 @@
 'use strict';
 
-angular.module('bahmni.common.orders')
-    .factory('orderObservationService', ['encounterService', function (encounterService) {
+angular.module('bahmni.common.obs')
+    .factory('observationService', ['encounterService', function (encounterService) {
         var save = function (orders, patient, locationUuid) {
             var observationFilter = new Bahmni.Common.Domain.ObservationFilter();
             var observations = [];
+
+            console.log(orders);
             orders.forEach(function (order) {
                 if (order.bahmniObservations) {
                     order.bahmniObservations.forEach(function (obs) {
