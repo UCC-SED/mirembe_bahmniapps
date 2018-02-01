@@ -17,11 +17,21 @@ angular.module('bahmni.registration')
             console.log($scope.insuranceCodes);
             $scope.dobMandatory = appService.getAppDescriptor().getConfigValue("dobMandatory") || false;
             $scope.billingEnable = appService.getAppDescriptor().getConfigValue("billingEnable") || false;
-            $scope.billingCategory = ["Cash", "Insurance", "Exemption"];
+          
+            $scope.billingCategory = ["Cash", "Insurance"];
             $scope.billingExemptionSubCategory = ["Full Exemption", "Partial Exemption"];
             $scope.billingInsuranceType = ["NHIF", "AAR", "Jubiliee"];
             $scope.readOnlyExtraIdentifiers = appService.getAppDescriptor().getConfigValue("readOnlyExtraIdentifiers");
-
+            
+            var privileges = $rootScope.currentUser.privileges;
+            privileges.forEach(function (privilege){
+               if(privilege.name == "exemption") {
+               $scope.billingCategory.push("Exemption");  
+               }
+               
+            });
+            
+            
             $scope.getDeathConcepts = function () {
                 return $http({
                     url: Bahmni.Common.Constants.globalPropertyUrl,
@@ -146,7 +156,7 @@ angular.module('bahmni.registration')
                     $scope.patient.dead = true;
                 }
             };
-
+            
             $scope.disableIsDead = function () {
                 return ($scope.patient.causeOfDeath || $scope.patient.deathDate) && $scope.patient.dead;
             };
