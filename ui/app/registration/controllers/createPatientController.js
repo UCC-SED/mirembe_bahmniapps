@@ -190,7 +190,7 @@ angular.module('bahmni.registration')
 
             var createPromise = function() {
                 var deferred = $q.defer();
-                if ($scope.checkDuplicatePatient) {
+                if ($scope.checkDuplicatePatient && !$scope.emergencyRegistration) {
 
                     spinner.forPromise(patientService.patientDuplicateDetection($scope.patient).then(function(response) {
                         var duplicateResponse = JSON.stringify(response.data.patients[0].status);
