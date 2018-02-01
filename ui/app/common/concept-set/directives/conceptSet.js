@@ -191,7 +191,6 @@ angular.module('bahmni.common.conceptSet')
                 };
 
                 var runFormConditionForObs = function (enableCase, formName, formCondition, conceptName, flattenedObs) {
-                console.log("runFormConditionForObs");
                     var conceptSetObsValues = getFlattenedObsValues(flattenedObs);
                     _.each(_.keys(conceptSetObsValues), function (eachObsKey) {
                         if (eachObsKey.split('|')[0] == conceptName && eachObsKey.split('|')[1] != 'undefined') {
@@ -233,14 +232,12 @@ angular.module('bahmni.common.conceptSet')
                 };
 
                 var updateFormConditions = function (observationsOfCurrentTemplate, rootObservation) {
-                console.log("updateFormConditions");
                     if (Bahmni.ConceptSet.FormConditions.rules) {
                         runFormConditionForAllObsRecursively(rootObservation.concept.name, rootObservation);
                     }
                 };
 
                 var runFormConditionForAllObsRecursively = function (formName, rootObservation) {
-                console.log("runFormConditionForAllObsRecursively");
                     _.each(rootObservation.groupMembers, function (observation) {
                         var conditionFn = Bahmni.ConceptSet.FormConditions.rules && Bahmni.ConceptSet.FormConditions.rules[observation.concept.name];
                         if (conditionFn != null) {

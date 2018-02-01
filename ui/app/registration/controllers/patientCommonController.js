@@ -11,7 +11,10 @@ angular.module('bahmni.registration')
             $scope.showTribeName = appService.getAppDescriptor().getConfigValue("showTribeName");
             $scope.showBirthTime = appService.getAppDescriptor().getConfigValue("showBirthTime") != null
                 ? appService.getAppDescriptor().getConfigValue("showBirthTime") : true;  // show birth time by default
+                console.log($rootScope);
             $scope.genderCodes = Object.keys($rootScope.genderMap);
+            $scope.insuranceCodes = Object.keys($rootScope.insuranceMap);
+            console.log($scope.insuranceCodes);
             $scope.dobMandatory = appService.getAppDescriptor().getConfigValue("dobMandatory") || false;
             $scope.billingEnable = appService.getAppDescriptor().getConfigValue("billingEnable") || false;
           

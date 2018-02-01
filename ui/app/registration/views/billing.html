@@ -44,7 +44,7 @@
                         <select id="insuranceType" ng-model="patient.insuranceType"
                                 title="Select Type">
                             <option value="">{{ ::'REGISTRATION_LABEL_SELECT_INSURANCE_TYPE' | translate}}</option>
-                            <option ng-repeat="input in billingInsuranceType" value="{{input}}">{{input}}</option>
+                            <option ng-repeat="input in insuranceCodes" value="{{input}}">{{input}}</option>
                         </select>
 
                     </div>
