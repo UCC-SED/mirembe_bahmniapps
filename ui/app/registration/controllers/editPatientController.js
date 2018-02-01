@@ -13,7 +13,7 @@ angular.module('bahmni.registration')
             $scope.providerConfig = providerConfig;
             $scope.locationConfig = locationConfig;
             $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
-
+            $scope.emergencyRegistration=false;
 
                $scope.copyNHIFDetails = function ()
                         {

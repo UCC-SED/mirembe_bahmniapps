@@ -109,6 +109,7 @@ angular.module('bahmni.registration')
 
                 $scope.actions.followUpAction = function (patientProfileData) {
                     messagingService.clearAll();
+                      console.log("Message " + $scope.actions.submitSource)
                     switch ($scope.actions.submitSource) {
                     case 'startVisit':
                         var entry = getForwardUrlEntryForVisitFromTheConfig();

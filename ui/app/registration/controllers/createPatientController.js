@@ -18,6 +18,7 @@ angular.module('bahmni.registration')
             $scope.locationConfig = locationConfig;
             $scope.verificationResults;
             $scope.duplicatePatient;
+            $scope.emergencyRegistration=false;
 
 
             $scope.copyNHIFDetails = function() {
@@ -256,5 +257,10 @@ angular.module('bahmni.registration')
                     patientUuid: $scope.patient.uuid
                 });
             };
+
+    $scope.toggleEmergencyRegistration = function () {
+           $scope.emergencyRegistration=!$scope.emergencyRegistration;
+           console.log($scope.emergencyRegistration);
+             };
         }
     ]);

@@ -125,28 +125,25 @@
             </article>
         </section>
         <section class="age-wrapper">
-            <div ng-if="::!dobMandatory">
+            <div ng-if="::!dobMandatory" >
                 <ng-include src="'views/age.html'"></ng-include>
-                <ng-include src="'views/dob.html'"></ng-include>
-            </div>
-            <div ng-if="::dobMandatory">
-                <ng-include src="'views/dob.html'"></ng-include>
-                <ng-include src="'views/age.html'"></ng-include>
+                <ng-include src="'views/dob.html'" ng-if="!emergencyRegistration" ></ng-include>
             </div>
         </section>
 
-        <section>
+        <section ng-if="!emergencyRegistration">
             <div>
                 <ng-include src="'views/mobileNumber.html'"></ng-include>
             </div>
         </section>
 
-        <section>
+        <section ng-if="!emergencyRegistration">
             <div>
                 <ng-include src="'views/tribe_name.html'"></ng-include>
             </div>
         </section>
 
+        <div ng-if="!emergencyRegistration">
         <legend class="registraion_legend" ng-if="::!addressHierarchyConfigs.showAddressFieldsTopDown">
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_ADDRESS_INFO' | translate}}</span>
         </legend>
@@ -155,25 +152,25 @@
                  field-validation="::fieldValidation"
                  strict-autocomplete-from-level="::addressHierarchyConfigs.strictAutocompleteFromLevel"
                  ng-if="::!addressHierarchyConfigs.showAddressFieldsTopDown"></section>
-
-        <legend class="registraion_legend" ng-if="::!addressHierarchyConfigs.showAddressFieldsTopDown">
+        </div>
+        <legend class="registraion_legend" ng-if="!emergencyRegistration">
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_BILLING_INFO' | translate}}</span>
         </legend>
-        <section class="age-wrapper">
+        <section class="age-wrapper" ng-if="!emergencyRegistration">
             <div ng-if="::!billingEnable">
                 <ng-include src="'views/billing.html'"></ng-include>
             </div>
         </section>
 
 
-        <legend class="registraion_legend" ng-show="patientAttendanceMode=='room'">
+        <legend class="registraion_legend" ng-show="patientAttendanceMode=='room'" >
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_DOCTOR_ROOM' | translate}}</span>
         </legend>
 
-        <legend class="registraion_legend" ng-show="patientAttendanceMode=='provider'">
+        <legend class="registraion_legend" ng-show="patientAttendanceMode=='provider'" >
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_PROVIDER' | translate}}</span>
         </legend>
-        <section class="age-wrapper" ng-show="patientAttendanceMode=='room'">
+        <section class="age-wrapper" ng-show="patientAttendanceMode=='room'" >
             <div ng-if="::!providerAssaignEnabled">
                 <ng-include src="'views/location.html'"></ng-include>
             </div>
@@ -186,14 +183,14 @@
         </section>
 
         <section top-down-address-fields data-address-levels="::addressLevels" data-address="patient.address"
-                 field-validation="::fieldValidation" ng-if="::addressHierarchyConfigs.showAddressFieldsTopDown"
+                 field-validation="::fieldValidation" ng-if="::addressHierarchyConfigs.showAddressFieldsTopDown && !emergencyRegistration"
                  strict-autocomplete-from-level="::addressHierarchyConfigs.strictAutocompleteFromLevel"></section>
 
-        <legend class="registraion_legend" ng-if="patient.extraIdentifiers.length>0">
+        <legend class="registraion_legend" ng-if="patient.extraIdentifiers.length>0 && !emergencyRegistration">
             <span class="mylegend">Additional Identifiers</span>
         </legend>
 
-        <section>
+        <section ng-if="!emergencyRegistration">
             <!--edit patient flow-->
             <section>
                 <div ng-if="patient.uuid != undefined">
@@ -267,12 +264,12 @@
             </section>
         </section>
 
-        <legend class="registraion_legend" ng-if="patientConfiguration.customAttributeRows().length > 0">
+        <legend class="registraion_legend" ng-if="patientConfiguration.customAttributeRows().length > 0 && !emergencyRegistration">
             <span class="mylegend">{{ ::'REGISTRATION_LABEL_OTHER_INFO' | translate}}</span>
         </legend>
 
         <section class="form-field-inline clearfix"
-                 ng-repeat="attributeRow in ::patientConfiguration.customAttributeRows()">
+                 ng-repeat="attributeRow in ::patientConfiguration.customAttributeRows()" ng-if="!emergencyRegistration">
             <article class="form-field" ng-repeat="attribute in ::attributeRow"
                      ng-class="::{'right-form-field' : $index%2 != 0}">
                 <attribute-types target-model="patient" attribute="::attribute" field-validation="::fieldValidation"
@@ -284,7 +281,7 @@
     </div>
 
     <div ng-repeat="section in ::patientConfiguration.getOrderedPatientAttributesSections()"
-         class="additional-info-wrapper">
+         class="additional-info-wrapper" ng-if="!emergencyRegistration">
         <div ng-if="section.canShow">
             <div class="box-container form" ng-if="::(section.attributes.length > 0 && section.title)">
                 <legend class="additional-attribute" toggle="section.expand">
@@ -312,7 +309,7 @@
             </div>
         </div>
     </div>
-    <div class="box-container" ng-if="::(relationshipTypes.length > 0)">
+    <div class="box-container" ng-if="!emergencyRegistration">
         <legend class="additional-attribute" ng-show="::relationshipTypes" toggle="patient.hasRelationships">
           <span>
               <i class="fa fa-caret-right"></i>
@@ -323,7 +320,7 @@
         <div patient-relationship patient="patient" ng-show="patient.hasRelationships"
              ng-if="::relationshipTypes"></div>
     </div>
-    <div class="box-container" ng-if="deathConceptExists">
+    <div class="box-container" ng-if="deathConceptExists && !emergencyRegistration">
         <legend class="additional-attribute" toggle="patient.isDead">
           <span>
               <i class="fa fa-caret-right"></i>
