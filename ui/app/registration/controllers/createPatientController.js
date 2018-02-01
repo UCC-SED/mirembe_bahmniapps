@@ -249,7 +249,7 @@ angular.module('bahmni.registration')
                     }
                 });
             };
-
+            
             $scope.afterSave = function() {
                 messagingService.showMessage("info", "REGISTRATION_LABEL_SAVED");
                 $state.go("patient.edit", {
