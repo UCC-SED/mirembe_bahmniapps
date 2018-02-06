@@ -18,7 +18,7 @@ angular.module('bahmni.registration')
             $scope.dobMandatory = appService.getAppDescriptor().getConfigValue("dobMandatory") || false;
             $scope.billingEnable = appService.getAppDescriptor().getConfigValue("billingEnable") || false;
           
-            $scope.billingCategory = ["Cash", "Insurance"];
+            $scope.billingCategory = ["Cash"];
             $scope.billingExemptionSubCategory = ["Full Exemption", "Partial Exemption"];
             $scope.billingInsuranceType = ["NHIF", "AAR", "Jubiliee"];
             $scope.readOnlyExtraIdentifiers = appService.getAppDescriptor().getConfigValue("readOnlyExtraIdentifiers");
@@ -27,6 +27,9 @@ angular.module('bahmni.registration')
             privileges.forEach(function (privilege){
                if(privilege.name == "exemption") {
                $scope.billingCategory.push("Exemption");  
+               }
+             if(privilege.name == "insurance") {
+               $scope.billingCategory.push("Insurance");  
                }
                
             });
