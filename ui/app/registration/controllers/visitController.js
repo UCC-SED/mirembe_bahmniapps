@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('bahmni.registration')
-    .controller('VisitController', ['$window', '$scope', '$rootScope', '$state', '$bahmniCookieStore', 'patientService', 'encounterService', '$stateParams', 'spinner', '$timeout', '$q', 'appService', 'openmrsPatientMapper', 'contextChangeHandler', 'messagingService', 'sessionService', 'visitService', '$location', '$translate', 'offlineService',
-        function ($window, $scope, $rootScope, $state, $bahmniCookieStore, patientService, encounterService, $stateParams, spinner, $timeout, $q, appService, openmrsPatientMapper, contextChangeHandler, messagingService, sessionService, visitService, $location, $translate, offlineService) {
+    .controller('VisitController', ['$window','$http', '$scope', '$filter', '$rootScope', '$state', '$bahmniCookieStore', 'patientService', 'encounterService', '$stateParams', 'spinner', '$timeout', '$q', 'appService', 'openmrsPatientMapper', 'contextChangeHandler', 'messagingService', 'sessionService', 'visitService', '$location', '$translate', 'offlineService','ngDialog',
+        function ($window, $http, $scope, $filter, $rootScope, $state, $bahmniCookieStore, patientService, encounterService, $stateParams, spinner, $timeout, $q, appService, openmrsPatientMapper, contextChangeHandler, messagingService, sessionService, visitService, $location, $translate, offlineService, ngDialog) {
             var vm = this;
             var patientUuid = $stateParams.patientUuid;
             var extensions = appService.getAppDescriptor().getExtensions("org.bahmni.registration.conceptSetGroup.observations", "config");
             var locationUuid = sessionService.getLoginLocationUuid();
             var selectedProvider = $rootScope.currentProvider;
+            $scope.billingCategory = ["Cash", "Insurance"];
             $scope.conceptSets = extensions.map(function (extension) {
                 return new Bahmni.ConceptSet.ConceptSetSection(extension, $rootScope.currentUser, {}, [], {});
             });
@@ -56,6 +57,7 @@ angular.module('bahmni.registration')
             };
 
             var save = function () {
+                  spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier).then(function (response) {
                 $scope.encounter = {
                     patientUuid: $scope.patient.uuid,
                     locationUuid: locationUuid,
@@ -71,11 +73,14 @@ angular.module('bahmni.registration')
                 });
 
                 $scope.encounter.observations = $scope.observations;
+
                 $scope.encounter.observations = new Bahmni.Common.Domain.ObservationFilter().filter($scope.encounter.observations);
 
                 var createPromise = offlineService.isOfflineApp() ? encounterPromise() : encounterService.create($scope.encounter);
                 spinner.forPromise(createPromise);
                 return createPromise;
+
+                    }));
             };
 
             var encounterPromise = function () {
@@ -160,6 +165,20 @@ angular.module('bahmni.registration')
                 }
             };
 
+            $scope.validateNHIF = function() {
+            var insuranceData = $filter('filter')($scope.observations[0].groupMembers, { label: "Insurance ID" });
+                            spinner.forPromise(patientService.validateInsuranceCard(insuranceData[0].value, Bahmni.Common.Constants.normalNHIFVisit, "").then(function(response) {
+                                $scope.verificationResults = response.data;
+
+                                ngDialog.open({
+                                    template: 'views/insuranceStatusModal.html',
+                                    scope: $scope
+                                });
+                                return;
+
+                            }))
+                        };
+
             // Start :: Registration Page validation
             // To be deleted later - Hacky fix only for Registration Page
             var mandatoryConceptGroup = [];
@@ -197,7 +216,8 @@ angular.module('bahmni.registration')
             var afterSave = function () {
                 var forwardUrl = appService.getAppDescriptor().getConfigValue("afterVisitSaveForwardUrl");
                 if (forwardUrl != null) {
-                    $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {'patientUuid': patientUuid});
+                console.log("aftersave");
+                   // $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {'patientUuid': patientUuid});
                 } else {
                     $state.transitionTo($state.current, $state.params, {
                         reload: true,
@@ -228,6 +248,15 @@ angular.module('bahmni.registration')
                 var visitType = $scope.encounterConfig.getVisitTypeByUuid($scope.visitTypeUuid);
                 $scope.context = {visitType: visitType, patient: $scope.patient};
             };
+
+              var sendConsultationFeeOrder = function (patientIdentifier) {
+                                var url = Bahmni.Common.Constants.sendConsultationFeeOrder;
+                                return $http.get(url, {
+                                    params: {
+                                        patientIdentifier: patientIdentifier
+                                    }
+                                });
+                            };
 
             spinner.forPromise($q.all([getPatient(), getActiveEncounter(), searchActiveVisitsPromise()]).then(getConceptSet));
         }]);

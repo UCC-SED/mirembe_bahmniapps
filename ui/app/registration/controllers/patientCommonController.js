@@ -19,8 +19,6 @@ angular.module('bahmni.registration')
             $scope.billingEnable = appService.getAppDescriptor().getConfigValue("billingEnable") || false;
           
             $scope.billingCategory = ["Cash", "Insurance"];
-            $scope.billingExemptionSubCategory = ["Full Exemption", "Partial Exemption"];
-            $scope.billingInsuranceType = ["NHIF", "AAR", "Jubiliee"];
             $scope.readOnlyExtraIdentifiers = appService.getAppDescriptor().getConfigValue("readOnlyExtraIdentifiers");
             
             var privileges = $rootScope.currentUser.privileges;
