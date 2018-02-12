@@ -3,6 +3,8 @@
     "password": "Password",
     "location": "Location",
     "login": "Login1",
+    "CONSULTATION_LABEL_SAVED" : "Saved",
+    "OBS_ABNORMAL_TRANSLATE_KEY" : "Abnormal",
     "selectLocation": "Select Location",
     "clinical_key": "Clinical",
     "MESSAGE_DIALOG_OPTION_COPY" : "Copy Error",
