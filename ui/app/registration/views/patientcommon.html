@@ -153,16 +153,6 @@
                  strict-autocomplete-from-level="::addressHierarchyConfigs.strictAutocompleteFromLevel"
                  ng-if="::!addressHierarchyConfigs.showAddressFieldsTopDown"></section>
         </div>
-        <legend class="registraion_legend" ng-if="!emergencyRegistration">
-            <span class="mylegend"> {{ ::'REGISTRATION_LABEL_BILLING_INFO' | translate}}</span>
-        </legend>
-        <section class="age-wrapper" ng-if="!emergencyRegistration">
-            <div ng-if="::!billingEnable">
-                <ng-include src="'views/billing.html'"></ng-include>
-            </div>
-        </section>
-
-
         <legend class="registraion_legend" ng-show="patientAttendanceMode=='room'" >
             <span class="mylegend"> {{ ::'REGISTRATION_LABEL_DOCTOR_ROOM' | translate}}</span>
         </legend>
