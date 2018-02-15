@@ -171,10 +171,12 @@ angular.module('bahmni.clinical')
             };
 
             $scope.updateOrderAttribute = function (drugOrder, orderAttribute, valueToSet) {
-                if (!$scope.shouldBeDisabled(drugOrder, orderAttribute)) {
-                    $scope.toggleDrugOrderAttribute(orderAttribute, valueToSet);
-                    $scope.consultation.drugOrdersWithUpdatedOrderAttributes[drugOrder.uuid] = drugOrder;
-                }
+
+                       if (!$scope.shouldBeDisabled(drugOrder, orderAttribute)) {
+                                $scope.toggleDrugOrderAttribute(orderAttribute, valueToSet);
+                                $scope.consultation.drugOrdersWithUpdatedOrderAttributes[drugOrder.uuid] = drugOrder;
+
+                         }
             };
 
             $scope.toggleDrugOrderAttribute = function (orderAttribute, valueToSet) {

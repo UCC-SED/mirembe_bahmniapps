@@ -293,7 +293,8 @@ Bahmni.Common = Bahmni.Common || {};
         providerUrl: RESTWS_V1 + "/provider",
         patientDuplicateDetection: RESTWS_V1 + "/emr/checkDuplicatePatients",
         registrationEncounterType: "REG",
-        consultationEncounterType: "Consultation"
+        consultationEncounterType: "Consultation",
+        updateDeliveryOrder : RESTWS_V1 + "/emr/updateSingleDeliveryOrder"
 
 
     };

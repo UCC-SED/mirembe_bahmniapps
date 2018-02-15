@@ -36,6 +36,18 @@ angular.module('bahmni.common.services')
             }
         };
 
+
+         var updateDeliveryOrder = function (drugName, patientUuid) {
+                        var url = Bahmni.Common.Constants.updateDeliveryOrder;
+                        return $http.get(url, {
+                            params: {
+                                drugName: drugName,
+                                patientIdentifier: patientUuid
+                            }
+                        });
+
+                };
+
         var getSetMembersOfConcept = function (conceptSetFullySpecifiedName, searchTerm) {
             return $http.get(Bahmni.Common.Constants.drugUrl, {
                 method: "GET",
@@ -68,6 +80,7 @@ angular.module('bahmni.common.services')
             search: search,
             getRegimen: getRegimen,
             getSetMembersOfConcept: getSetMembersOfConcept,
-            getDrugStockStatus: getDrugStockStatus
+            getDrugStockStatus: getDrugStockStatus,
+            updateDeliveryOrder: updateDeliveryOrder
         };
     }]);
