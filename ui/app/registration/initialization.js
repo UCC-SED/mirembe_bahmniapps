@@ -71,6 +71,7 @@ angular.module('bahmni.registration').factory('initialization',
 
             var mergeFormConditions = function () {
                 var formConditions = Bahmni.ConceptSet.FormConditions;
+                 console.log(formConditions);
                 if (formConditions) {
                     formConditions.rules = mergeService.merge(formConditions.rules, formConditions.rulesOverride);
                 }

@@ -109,7 +109,6 @@ angular.module('bahmni.registration')
 
                 $scope.actions.followUpAction = function (patientProfileData) {
                     messagingService.clearAll();
-                      console.log("Message " + $scope.actions.submitSource)
                     switch ($scope.actions.submitSource) {
                     case 'startVisit':
                         var entry = getForwardUrlEntryForVisitFromTheConfig();
@@ -149,9 +148,8 @@ angular.module('bahmni.registration')
 
                 var createVisit = function (patientProfileData, forwardUrl) {
 
-                    spinner.forPromise(sendConsultationFeeOrder(patientProfileData.patient.identifiers[0].identifier).then(function (response) {
-                        console.log("response " + response);
-                    }));
+                  //  spinner.forPromise(sendConsultationFeeOrder(patientProfileData.patient.identifiers[0].identifier).then(function (response) {
+                 //   }));
                     if (isEmptyVisitLocation()) {
                         $state.go('patient.edit', {
                             patientUuid: $scope.patient.uuid

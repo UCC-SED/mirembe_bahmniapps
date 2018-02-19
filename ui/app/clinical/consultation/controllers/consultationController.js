@@ -3,11 +3,11 @@
 angular.module('bahmni.clinical').controller('ConsultationController', ['$scope', '$rootScope', '$state', '$location', 'clinicalAppConfigService', 'diagnosisService', 'urlHelper', 'contextChangeHandler',
     'spinner', 'encounterService', 'messagingService', 'sessionService', 'retrospectiveEntryService', 'patientContext', '$q',
     'patientVisitHistoryService', '$stateParams', '$window', 'visitHistory', 'clinicalDashboardConfig', 'appService',
-    'ngDialog', '$filter', 'configurations', 'offlineService', 'visitConfig', 'conditionsService', 'integrationService',
+    'ngDialog', '$filter', 'configurations', 'offlineService', 'visitConfig', 'conditionsService', 'integrationService','drugService',
     function ($scope, $rootScope, $state, $location, clinicalAppConfigService, diagnosisService, urlHelper, contextChangeHandler,
         spinner, encounterService, messagingService, sessionService, retrospectiveEntryService, patientContext, $q,
         patientVisitHistoryService, $stateParams, $window, visitHistory, clinicalDashboardConfig, appService,
-        ngDialog, $filter, configurations, offlineService, visitConfig, conditionsService, integrationService) {
+        ngDialog, $filter, configurations, offlineService, visitConfig, conditionsService, integrationService, drugService) {
         var DateUtil = Bahmni.Common.Util.DateUtil;
         var getPreviousActiveCondition = Bahmni.Common.Domain.Conditions.getPreviousActiveCondition;
         $scope.togglePrintList = false;
@@ -442,7 +442,6 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             spinner.forPromise(integrationService.submitLabOrder(
                 providerUuid, conceptUuid, patientUuid, locationUuid
             ).then(function (response) {
-                console.log("response " + response);
             }));
         };
 
@@ -450,7 +449,6 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             spinner.forPromise(integrationService.submitDrugOrder(providerUuid,
                 DrugOrder, patientUuid, locationUuid
             ).then(function (response) {
-                console.log("response " + response);
             }));
         };
 
@@ -459,7 +457,6 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
                 patientUuid,
                 dispositionNotes
             ).then(function (response) {
-                console.log("response " + response);
             }));
         };
 
@@ -470,7 +467,6 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             }
             return spinner.forPromise($q.all([preSavePromise(), encounterService.getEncounterType($state.params.programUuid, sessionService.getLoginLocationUuid())]).then(function (results) {
                 var encounterData = results[0];
-                console.log(encounterData);
                 encounterData.encounterTypeUuid = results[1].uuid;
                 var params = angular.copy($state.params);
                 params.cachebuster = Math.random();
@@ -480,7 +476,12 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
                             configurations.consultationNoteConcept(), configurations.labOrderNotesConcept(), $scope.followUpConditionConcept);
                         var consultation = consultationMapper.map(saveResponse.data);
                         consultation.lastvisited = $scope.lastvisited;
-
+                         angular.forEach($scope.consultation.drugOrdersWithUpdatedOrderAttributes, function(item){
+                               spinner.forPromise(drugService.updateDeliveryOrder(
+                                    item.concept.name, $scope.consultation.patientUuid
+                                                      ).then(function (response) {
+                                     }));
+                                  });
                         return consultation;
                     }).then(function (savedConsultation) {
                         return spinner.forPromise(diagnosisService.populateDiagnosisInformation($scope.patient.uuid, savedConsultation)

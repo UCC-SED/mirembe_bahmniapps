@@ -12,7 +12,6 @@ angular.module('bahmni.clinical')
             $scope.scrollingEnabled = false;
             var extensions = clinicalAppConfigService.getAllConceptSetExtensions($stateParams.conceptSetGroupName);
             var configs = clinicalAppConfigService.getAllConceptsConfig();
-            console.log(extensions);
             var visitType = configurations.encounterConfig().getVisitTypeByUuid($scope.consultation.visitTypeUuid);
             $scope.context = {
                 visitType: visitType,

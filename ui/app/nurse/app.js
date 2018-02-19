@@ -50,8 +50,8 @@ angular
                         }
                     },
                     'content': {
-                        templateUrl: 'views/orderFulfillment.html',
-                        controller: 'OrderFulfillmentController',
+                        templateUrl: 'views/observation.html',
+                        controller: 'ObservationController',
                         resolve: {
                             nurseObservationConfig: function (nurseObservationConfig, $stateParams) {
                                 var formName = $stateParams.orderType;

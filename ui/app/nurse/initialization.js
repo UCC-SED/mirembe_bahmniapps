@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bahmni.nurse')
-.factory('initialization', ['$rootScope', '$q', 'appService', 'spinner', 'configurations', 'orderTypeService', 'locationService',
-    function ($rootScope, $q, appService, spinner, configurations, orderTypeService, locationService) {
+.factory('initialization', ['$rootScope', '$q', 'appService', 'spinner', 'configurations', 'orderTypeService', 'locationService','mergeService', 'offlineService',
+    function ($rootScope, $q, appService, spinner, configurations, orderTypeService, locationService, mergeService, offlineService) {
         var getConfigs = function () {
             var config = $q.defer();
             var configNames = ['encounterConfig', 'patientConfig', 'genderMap', 'relationshipTypeMap'];
@@ -22,6 +22,14 @@ angular.module('bahmni.nurse')
             return config.promise;
         };
 
+    var mergeFormConditions = function () {
+                var formConditions = Bahmni.ConceptSet.FormConditions;
+                console.log(formConditions);
+                if (formConditions) {
+                    formConditions.rules = mergeService.merge(formConditions.rules, formConditions.rulesOverride);
+                }
+            };
+
         var getLocationUuidsFromLocationTags = function (tags) {
             $rootScope.facilityLocationUuids = [];
             return locationService.getAllByTag(tags, "ANY").then(function (response) {
@@ -35,6 +43,11 @@ angular.module('bahmni.nurse')
             return appService.initApp('nurse', {'app': true, 'extension': true });
         };
 
-        return spinner.forPromise(initApp().then(getConfigs()).then(orderTypeService.loadAll()));
+
+
+        return spinner.forPromise(initApp()
+        .then(getConfigs())
+        .then(orderTypeService.loadAll())
+        .then(mergeFormConditions()));
     }
 ]);
