@@ -12,7 +12,7 @@ angular.module('bahmni.clinical')
             var initializeReferralScopes = function () {
                $scope.newSpecimens = $scope.consultation.newlyAddedSpecimens || [];
             };
-            console.log($scope.observation);
+           
 			//initializeReferralScopes();
          
             $scope.isRetrospectiveMode = function () {
@@ -38,11 +38,11 @@ angular.module('bahmni.clinical')
             {
 				console.log("Post Save");
 				
-				console.log($scope.consultation.observations[0].groupMembers);
+				
 				findTransferType($scope.consultation.observations[0].groupMembers);
 				if($scope.TransferIn===true)
 				{
-					console.log("call change visit function");
+					
 					
 					locationService.getAllByTag('Login Location').then(function(data)
 					{
@@ -58,7 +58,7 @@ angular.module('bahmni.clinical')
             }
             
             var getLocationuuid = function (locations)
-            { console.log(locations);
+            { 
 				locations.forEach(function(location)
 				{
 					if(location.display==$scope.choseenVisit)
@@ -76,8 +76,8 @@ angular.module('bahmni.clinical')
             {
 				$scope.TransferIn=false;
 				dataTrans.forEach(function(data)
-				{
-					if(data.conceptNameToDisplay=="Transfer/Referral")
+				{  
+					if(data.conceptNameToDisplay=="Type of Transfer")
 					{	
 						
 						

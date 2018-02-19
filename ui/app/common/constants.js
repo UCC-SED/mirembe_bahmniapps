@@ -264,6 +264,10 @@ Bahmni.Common = Bahmni.Common || {};
         encryptionType: {
             SHA3: 'SHA3'
         },
+        hospital_details: {
+		name: "Aga Khan Hospital",
+		district: "Kinondoni"
+		},
         LoginInformation: 'LoginInformation',
         // orderSetSpecialUnits:["mg/kg","mg/m2"],
         ServerDateTimeFormat: 'YYYY-MM-DDTHH:mm:ssZZ',
