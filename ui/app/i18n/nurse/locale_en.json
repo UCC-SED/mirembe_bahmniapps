@@ -10,6 +10,8 @@
     "MESSAGE_DIALOG_OPTION_COPY" : "Copy Error",
     "OBS_ABNORMAL_TRANSLATE_KEY": "Abnormal",
     "MESSAGE_DIALOG_OPTION_OKAY": "OK",
+    "OBS_BOOLEAN_YES_KEY": "Yes",
+    "OBS_BOOLEAN_NO_KEY": "No",
     "ORDERS_FORM_ERRORS_MESSAGE_KEY": "Please enter a value in the mandatory fields or correct the value in the highlighted fields to proceed"
 
 }

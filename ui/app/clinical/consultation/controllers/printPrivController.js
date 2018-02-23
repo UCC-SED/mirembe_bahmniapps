@@ -2,7 +2,7 @@
 
 angular.module('bahmni.clinical')
     .controller('printPrivController', ['$scope', '$rootScope', '$q', 'labOrderResultService', 'treatmentService', 'dispositionService', 'printPrivService', 'retrospectiveEntryService', 'spinner', '$state',
-        function ($scope, $rootScope, $q, labOrderResultService, treatmentService, dispositionService, printPrivService, retrospectiveEntryService, spinner, $state, ) {
+        function ($scope, $rootScope, $q, labOrderResultService, treatmentService, dispositionService, printPrivService, retrospectiveEntryService, spinner, $state) {
             var consultation = $scope.consultation;
             console.log($scope.consultation);
             var allDispositions = [];
