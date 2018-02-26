@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('bahmni.clinical')
+<<<<<<< HEAD
     .controller('printPrivController', ['$scope','$rootScope', '$q','printer','diagnosisService','providerService','labOrderResultService','treatmentService', 'dispositionService', 'printPrivService','retrospectiveEntryService', 'spinner','$state',
     function ($scope,$rootScope, $q,printer,diagnosisService,providerService,labOrderResultService,treatmentService, dispositionService, printPrivService,retrospectiveEntryService, spinner,$state) {
         var consultation = $scope.consultation;
@@ -30,7 +31,6 @@ angular.module('bahmni.clinical')
 
            if($scope.repotType =="CTC"){
         printer.printFromScope('consultation/views/printCTCreferal.html', printScope);
-
         }
         if($scope.repotType == "vct"){
          printer.printFromScope('consultation/views/vctferralPrint.html', printScope);

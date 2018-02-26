@@ -49,7 +49,7 @@
                         </div>
                     </article>
 
-                    <article class="field-table-row" ng-repeat="attribute in programAttributeTypes">
+                    <article class="field-table-row" ng-repeat="attribute in programAttributeTypes" ng-if="isIncluded(attribute)">
                         <attribute-types target-model="patientProgramAttributes" attribute="attribute"
                                          is-form="true" handle-change="handleProgramAttributeUpdate(attribute.name)"></attribute-types>
                     </article>

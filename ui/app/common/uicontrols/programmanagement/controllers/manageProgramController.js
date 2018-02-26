@@ -19,6 +19,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             var programSpecificAttributeTypesDefinition = appService.getAppDescriptor().getConfigValue("program").programSpecificAttributeTypesDefinition;
             var id = "#programEnrollmentContainer";
 
+
             var updateActiveProgramsList = function () {
                 spinner.forPromise(programService.getPatientPrograms($scope.patient.uuid).then(function (programs) {
                     $scope.activePrograms = programs.activePrograms;
@@ -61,9 +62,10 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     $scope.allPrograms.showProgramSection = true;
                 }), id);
                 spinner.forPromise(programService.getProgramAttributeTypes().then(function (programAttributeTypes) {
-                    $scope.programAttributeTypes = programAttributeTypes;
+                   $scope.programAttributeTypes = programAttributeTypes;
                     $scope.allProgramAttributeTypes = programAttributeTypes;
                 }), id);
+
                 $scope.programSelected = null;
                 $scope.patientProgramAttributes = {};
                 $scope.programEnrollmentDate = null;
@@ -286,6 +288,8 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 var formConditions = Bahmni.Clinical.Program.FormConditions;
                 if (formConditions && formConditions.rules) {
                     var conditionFn = formConditions.rules[attributeName];
+                    console.log(attributeName);
+                    console.log(conditionFn);
                     $scope.programAttributeTypes = runOnConditions(conditionFn, $scope.patientProgramAttributes, $scope.programAttributeTypes, $scope.allProgramAttributeTypes);
                     $scope.patientProgramAttributes = resetProgramAttributeHiddenValue(conditionFn, $scope.patientProgramAttributes);
                 }
@@ -353,6 +357,9 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 return minStartDate;
             };
 
+ $scope.isIncluded = function (attribute) {
+                return !($scope.programSelected && _.includes(attribute.excludeFrom, $scope.programSelected.name));
+            };
             init();
         }
     ]);
