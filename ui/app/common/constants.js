@@ -265,8 +265,8 @@ Bahmni.Common = Bahmni.Common || {};
             SHA3: 'SHA3'
         },
         hospital_details: {
-		name: "Aga Khan Hospital",
-		district: "Kinondoni"
+		name: "Mirembe Hospital",
+		district: "Dodoma"
 		},
         LoginInformation: 'LoginInformation',
         // orderSetSpecialUnits:["mg/kg","mg/m2"],

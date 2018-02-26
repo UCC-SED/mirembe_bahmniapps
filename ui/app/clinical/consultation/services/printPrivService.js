@@ -35,11 +35,22 @@ angular.module('bahmni.clinical')
            
 
         };
+        var searchProviderByUuid = function (uuid) {
+                    return $http.get(Bahmni.Common.Constants.providerUrl, {
+                        method: "GET",
+                        params: {
+                            user: uuid,
+                            v: "full"
+                        },
+                        cache: false
+                    });
+                };
 
 
         return {
             getTransferData: getTransferData,
             getTB: getTB,
+            searchProviderByUuid,
            // openVisit:openVisit
         };
     }]);

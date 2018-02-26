@@ -46,6 +46,8 @@ angular.module('bahmni.clinical')
 					
 					locationService.getAllByTag('Login Location').then(function(data)
 					{
+					console.log("login location");
+					console.log(data);
 					getLocationuuid(data.data.results);
 					changeVisit($scope.consultation.observations[0].groupMembers);
 					});
@@ -77,7 +79,7 @@ angular.module('bahmni.clinical')
 				$scope.TransferIn=false;
 				dataTrans.forEach(function(data)
 				{  
-					if(data.conceptNameToDisplay=="Type of Transfer")
+					if(data.conceptNameToDisplay=="Type of Transfer/Referral")
 					{	
 						
 						

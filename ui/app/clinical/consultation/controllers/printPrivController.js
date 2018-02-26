@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('bahmni.clinical')
-    .controller('printPrivController', ['$scope','$rootScope', '$q','printer','providerService','labOrderResultService','treatmentService', 'dispositionService', 'printPrivService','retrospectiveEntryService', 'spinner','$state',
-    function ($scope,$rootScope, $q,printer,providerService,labOrderResultService,treatmentService, dispositionService, printPrivService,retrospectiveEntryService, spinner,$state) {
+    .controller('printPrivController', ['$scope','$rootScope', '$q','printer','diagnosisService','providerService','labOrderResultService','treatmentService', 'dispositionService', 'printPrivService','retrospectiveEntryService', 'spinner','$state',
+    function ($scope,$rootScope, $q,printer,diagnosisService,providerService,labOrderResultService,treatmentService, dispositionService, printPrivService,retrospectiveEntryService, spinner,$state) {
         var consultation = $scope.consultation;
-        console.log($scope.providers);
-        console.log($rootScope.currentUser.uuid);
+        console.log($scope);
+        //console.log($rootScope.currentUser.uuid);
         var allDispositions = [];
-		$scope.female=null;
-		$scope.male=null;
+		$scope.gender=null;
+
 		$scope.tb_other=null;
 		$scope.tb_lung=null;
 		$scope.HIVstatus=null;
@@ -16,9 +16,9 @@ angular.module('bahmni.clinical')
 		$scope.hospitalName = Bahmni.Common.Constants.hospital_details.name;
 		$scope.district = Bahmni.Common.Constants.hospital_details.district;
 		if($scope.patient.gender=='F')
-		$scope.female="✔";
+		$scope.gender="Female";
 		else
-		$scope.male="✔";
+		$scope.gender="Male";
 
         $scope.printCTCreferal = function(){
 
@@ -32,8 +32,8 @@ angular.module('bahmni.clinical')
         printer.printFromScope('consultation/views/printCTCreferal.html', printScope);
 
         }
-        if($scope.repotType == "gRef"){
-         printer.printFromScope('consultation/views/gReferralPrint.html', printScope);
+        if($scope.repotType == "vct"){
+         printer.printFromScope('consultation/views/vctferralPrint.html', printScope);
 
         }
 
@@ -49,9 +49,36 @@ angular.module('bahmni.clinical')
             retriveTransferData($scope.transferData.data[0].groupMembers);
 		}
         });
-        printPrivService.searchByUuid($rootScope.currentUser.uuid).then(function (resp){
-			var providerData = resp.data.results[0].attributes;
-			$scope.docFullName = resp.data.results[0].person.display;
+
+        treatmentService.getActiveDrugOrders($scope.patient.uuid).then(function(data){
+             $scope.trets = "";
+                    var x =0;
+             data.forEach(function (tret){
+
+              if(x<4){
+               $scope.trets= $scope.trets + tret.drug.name+ " | ";
+                    }
+                    x++;
+                      });
+                });
+        diagnosisService.getDiagnoses($scope.patient.uuid).then(function(data){
+
+        $scope.diagnos = "";
+        var x =0;
+        data.data.forEach(function (diagnosis){
+        if(x<4){
+        $scope.diagnos= $scope.diagnos + diagnosis.codedAnswer.name+"("+diagnosis.order+ ")" + " | ";
+        }
+        x++;
+            });
+                });
+
+        printPrivService.searchProviderByUuid($rootScope.currentUser.uuid).then(function (resp){
+
+			resp.data.results.forEach(function (res){
+			if(res.attributes.length > 1){
+			var providerData = res.attributes;
+			$scope.docFullName = res.person.display;
 			providerData.forEach(function (prov){
 				if(prov.attributeType.display=="Phone Number")
 				$scope.PhoneNumber = prov.value;
@@ -60,8 +87,17 @@ angular.module('bahmni.clinical')
 				$scope.title = prov.value;
 				
 			});
+			}
+			});
 			
 		});
+        if($scope.repotType == "vct"){
+        if($scope.patient.gender=='F')
+        		$scope.gender="Kike";
+        		else
+        		$scope.gender="Kiume";
+
+        }
         
 	if($scope.repotType == "gRef"){
     		  printPrivService.getTB($scope.patient.uuid).then(function(data)
@@ -324,8 +360,8 @@ angular.module('bahmni.clinical')
 		
 		var retriveTransferData = function(newObs)
 		{
-			
-		newObs.forEach(function(obs) 
+
+		newObs.forEach(function(obs)
 			{
 			if(obs.conceptNameToDisplay=="Name of Facility To be Transfer")
 			{	
@@ -333,8 +369,16 @@ angular.module('bahmni.clinical')
 			$scope.hospital_name=obs.valueAsString;
 			
 			
-			} 
-			if(obs.conceptNameToDisplay=="Clinical Notes")
+			}
+			if( obs.conceptNameToDisplay == "Address of Referred Facility" ){
+			$scope.address=obs.valueAsString;
+
+			}
+			if( obs.conceptNameToDisplay == "Address of Referred Facility 2" ){
+            			$scope.address2=obs.valueAsString;
+
+            			}
+			if(obs.conceptNameToDisplay=="Clinical Notes/Findings")
 			{
 				$scope.clinical_notes=obs.valueAsString;
 				

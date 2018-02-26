@@ -4,14 +4,15 @@
 		<h4>MINISTRY OF HEALTH AND SOCIAL WELFARE</h4>
 
 	</div>
+	<font size="4.2" face="Courier New" color="#0000" >
 <div align="left" style="float:left;">
 	<h5>Telephone 026 2394570</h5>
 	<h5>FAX. No. 2390364</h5>
-	<h5>Ref. No. ________________</h5>
-	<h4>To</h4>
-	<h5>Hospital {{hospital_name}}</h5>
-	<h4>address1</h4>
-	<h4>address2</h4>
+	<h3>To</h3>
+	<h5> {{hospital_name}}</h5>
+	<h5>{{address}}</h5>
+	<h5>{{address2}}</h5>
+	<h5>{{FacilityToBeDistrict}}</h5>
 </div>
 	<img src="./../images/tanzania-logo.png" height="80px"/>
 <div style="float:right;">
@@ -24,21 +25,21 @@
 
 </div>
 <div>
-	<font size="4.2" face="Courier New" color="#0000" >
+
 <table width="100%">
-<tr><td>FULL NAME:<u>{{patient.name}}</u>&nbsp;SEX:Female:<u>{{female}}</u> &nbsp;File No.........</td></tr>
+<tr><td>FULL NAME:<u>{{patient.name}}</u>&nbsp;SEX:<u>{{gender}}</u> &nbsp;File No:<u>{{patient.FileNumber.value}}</u></td></tr>
 	<tr></tr>
 	<tr></tr>
-	<tr><td>AGE:<u>{{patient.age}} </u> &nbsp;&nbsp;&nbsp;Address:.............&nbsp;&nbsp;&nbsp; Occupation............</td></tr>
+	<tr><td>AGE:<u>{{patient.age}} </u> &nbsp;&nbsp;&nbsp;Address:<u>{{patient.address.address2}},{{patient.address.address3}}</u>&nbsp;&nbsp;&nbsp; Occupation:<u> {{patient.occupation.value.display}}</u></td></tr>
 	<tr></tr>
 	<tr></tr>
-	<tr><td>Brief History/Clinical & Psychiatric Findings:<u>{{remarks}}</u></td></tr>
+	<tr><td>Brief History/Clinical & Psychiatric Findings:<u>{{clinical_notes}}</u></td></tr>
 	<tr></tr>
 	<tr></tr>
-	<tr><td>Diagnosis:<u>{{remarks}}</u></td></tr>
+	<tr><td>Diagnosis:<p>{{diagnos}}</p></td></tr>
 	<tr></tr>
 	<tr></tr>
-	<tr><td>Treatment:<u>{{remarks}}</u></td></tr>
+	<tr><td>Treatment:<u>{{trets}}</u></td></tr>
 	<tr></tr>
 	<tr></tr>
 	<tr><td>REASON FOR REFERRAL/TRANSFER:<u>{{remarks}}</u></td></tr>
@@ -47,9 +48,10 @@
 	<tr><td>NAME OF OFFICER:<u>{{docFullName}}</td></tr>
 	<tr></tr>
 	<tr></tr>
-	<tr><td>SIGNATURE:<u>{{docFullName}}</td></tr>
+	<tr><td>SIGNATURE:<u> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</u></td></tr>
 	<tr></tr>
 	<tr></tr>
-	<tr><td>DESIGNATION:<u>{{docFullName}}</td></tr>
+	<tr><td>DESIGNATION:<u>{{title}}</u></td></tr>
+	<tr><td>Phone Number:<u>{{PhoneNumber}}</u></td></tr>
 </table></font>
 </div>
