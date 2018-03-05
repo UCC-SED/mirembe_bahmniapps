@@ -2,10 +2,10 @@
 
 angular.module('bahmni.clinical')
     .controller('AddTreatmentController', ['$scope', '$rootScope', 'contextChangeHandler', 'treatmentConfig', 'drugService',
-        '$timeout', 'clinicalAppConfigService', 'ngDialog', '$window', 'messagingService', 'appService', 'activeDrugOrders',
+        '$timeout', 'clinicalAppConfigService', 'ngDialog', '$window','visitHistory', '$stateParams','messagingService', 'appService','diagnosisService', 'activeDrugOrders',
         'orderSetService', '$q', 'locationService', 'spinner',
         function ($scope, $rootScope, contextChangeHandler, treatmentConfig, drugService, $timeout,
-            clinicalAppConfigService, ngDialog, $window, messagingService, appService, activeDrugOrders,
+            clinicalAppConfigService, ngDialog, $window,visitHistory,$stateParams, messagingService, appService,diagnosisService, activeDrugOrders,
             orderSetService, $q, locationService, spinner) {
             var DateUtil = Bahmni.Common.Util.DateUtil;
             var DrugOrderViewModel = Bahmni.Clinical.DrugOrderViewModel;
@@ -313,6 +313,9 @@ angular.module('bahmni.clinical')
             }, true);
 
             $scope.add = function () {
+                //popup if there is no diagnosis at that visit
+                latest_diagnosis();
+
                 var treatments = $scope.treatments;
                 if ($scope.treatment.isNewOrderSet) {
                     treatments = $scope.orderSetTreatments;
@@ -622,6 +625,31 @@ angular.module('bahmni.clinical')
                 $scope.consultation.removableDrugs.push(removableOrder);
             };
 
+            var latest_diagnosis = function(){
+            //check for diagnosiss and take latest visit
+
+             var visit = _.get(visitHistory, 'activeVisit');
+             diagnosisService.getDiagnoses($scope.patient.uuid).then(function(data){
+
+                   var lastvisitDate = new Date(visit.startDatetime);
+                   var lastDiagnosisDate = new Date(data.data[0].diagnosisDateTime);
+
+                   if(lastvisitDate > lastDiagnosisDate)
+                  {
+                  //call for pop show no diagnosis for this visit conflictingNoDiagnosis.html
+                     ngDialog.open({
+                           template: 'consultation/views/treatmentSections/conflictingNoDiagnosis.html',
+                                     scope: $scope
+                                  });
+                           $scope.popupActive = true;
+                           return;
+                  }
+
+                            });
+
+
+            };
+
             var saveTreatment = function () {
                 var tabNames = Object.keys($scope.consultation.newlyAddedTabTreatments || {});
                 var allTreatmentsAcrossTabs = _.flatten(_.map(tabNames, function (tabName) {
@@ -812,6 +840,7 @@ angular.module('bahmni.clinical')
             };
 
             var init = function () {
+
                 $scope.consultation.removableDrugs = $scope.consultation.removableDrugs || [];
                 $scope.consultation.discontinuedDrugs = $scope.consultation.discontinuedDrugs || [];
                 $scope.consultation.drugOrdersWithUpdatedOrderAttributes = $scope.consultation.drugOrdersWithUpdatedOrderAttributes || {};
