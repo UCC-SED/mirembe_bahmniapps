@@ -4,9 +4,7 @@ angular.module('bahmni.home')
     .controller('DashboardController', ['$scope', '$state', 'appService', 'locationService', 'spinner', '$bahmniCookieStore', '$window', '$q', 'offlineService', 'schedulerService', 'eventQueue', 'offlineDbService', 'androidDbService', 'networkStatusService', 'messagingService',
         function($scope, $state, appService, locationService, spinner, $bahmniCookieStore, $window, $q, offlineService, schedulerService, eventQueue, offlineDbService, androidDbService, networkStatusService, messagingService) {
             $scope.appExtensions = appService.getAppDescriptor().getExtensions($state.current.data.extensionPointId, "link") || [];
-            console.log($scope.appExtensions);
             var test = appService.getAppDescriptor().getConfigValue('locationClinicMapping');
-            console.log(test.locations[0].location);
 
             $scope.selectedLocationUuid = {};
             $scope.isOfflineApp = offlineService.isOfflineApp();
@@ -29,13 +27,10 @@ angular.module('bahmni.home')
                 if (offlineService.isAndroidApp()) {
                     offlineDbService = androidDbService;
                 }
-                console.log(getCurrentLocation().name);
 
 
                 angular.forEach(test.locations, function(value, key) {
                     if (value.location == getCurrentLocation().name) {
-                        console.log(value.clinicName);
-
                         angular.forEach($scope.appExtensions, function(extension, key) {
                             if (extension.id == "bahmni.clinical" && value.app=="clinic") {
                                 extension.translationKey = value.clinicName;
