@@ -236,6 +236,7 @@ Bahmni.Common = Bahmni.Common || {};
         submitLabOrder: RESTWS_V1 + "/emr/submitLabOrder",
         submitLabOrder: RESTWS_V1 + "/emr/submitLabOrder",
         sendConsultationFeeOrder: RESTWS_V1 + "/emr/createConsultationQuotation",
+        updateBillingCategory: RESTWS_V1 + "/emr/updatePatientBillingCategory",
         submitDisposition: RESTWS_V1 + "/emr/submitDisposition",
         orderTypeUrl: RESTWS_V1 + "/ordertype",
         userUrl: RESTWS_V1 + "/user",

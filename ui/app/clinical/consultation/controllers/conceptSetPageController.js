@@ -8,6 +8,7 @@ angular.module('bahmni.clinical')
             clinicalAppConfigService, messagingService, configurations, $state, spinner,
             contextChangeHandler, $q, $translate, observationFormService, appService) {
             $scope.consultation.selectedObsTemplate = $scope.consultation.selectedObsTemplate || [];
+            console.log($scope.allTemplates);
             $scope.allTemplates = $scope.allTemplates || [];
             $scope.scrollingEnabled = false;
             var extensions = clinicalAppConfigService.getAllConceptSetExtensions($stateParams.conceptSetGroupName);
@@ -36,6 +37,7 @@ angular.module('bahmni.clinical')
                                 v: "custom:" + customRepresentation
                             }).then(function (response) {
                                 var allTemplates = response.data.results[0].setMembers;
+                                console.log(allTemplates);
                                 createConceptSections(allTemplates);
                                 if ($state.params.programUuid) {
                                     showOnlyTemplatesFilledInProgram();
@@ -134,7 +136,9 @@ angular.module('bahmni.clinical')
             };
 
             $scope.filterTemplates = function () {
+
                 $scope.uniqueTemplates = _.uniqBy($scope.allTemplates, 'label');
+                console.log($scope.uniqueTemplates);
                 if ($scope.consultation.searchParameter) {
                     $scope.uniqueTemplates = _.filter($scope.uniqueTemplates, function (template) {
                         return _.includes(template.label.toLowerCase(), $scope.consultation.searchParameter.toLowerCase());

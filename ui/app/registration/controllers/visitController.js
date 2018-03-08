@@ -57,7 +57,7 @@ angular.module('bahmni.registration')
             };
 
             var save = function () {
-                  spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier).then(function (response) {
+                  spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier,  $scope.observations[0].groupMembers[0].value.name.name).then(function (response) {
                 $scope.encounter = {
                     patientUuid: $scope.patient.uuid,
                     locationUuid: locationUuid,
@@ -216,8 +216,7 @@ angular.module('bahmni.registration')
             var afterSave = function () {
                 var forwardUrl = appService.getAppDescriptor().getConfigValue("afterVisitSaveForwardUrl");
                 if (forwardUrl != null) {
-                console.log("aftersave");
-                    $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {'patientUuid': patientUuid});
+                //    $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {'patientUuid': patientUuid});
                 } else {
                     $state.transitionTo($state.current, $state.params, {
                         reload: true,
@@ -249,11 +248,12 @@ angular.module('bahmni.registration')
                 $scope.context = {visitType: visitType, patient: $scope.patient};
             };
 
-              var sendConsultationFeeOrder = function (patientIdentifier) {
+              var sendConsultationFeeOrder = function (patientIdentifier, paymentCategoryName) {
                                 var url = Bahmni.Common.Constants.sendConsultationFeeOrder;
                                 return $http.get(url, {
                                     params: {
-                                        patientIdentifier: patientIdentifier
+                                        patientIdentifier: patientIdentifier,
+										paymentCategoryName: paymentCategoryName
                                     }
                                 });
                             };
