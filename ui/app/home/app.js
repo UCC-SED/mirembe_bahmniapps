@@ -69,7 +69,24 @@ angular.module('bahmni.home', ['ui.router', 'httpErrorInterceptor', 'bahmni.comm
                         return offlineDbInitialization();
                     }
                 }
+            })
+            .state('gothomis', {
+                url: '/gothomis',
+                controller: 'GothomisRequestController',
+                templateUrl: 'views/gothomisRequest.html',
+                    resolve: {
+                        offlineDb: function (offlineDbInitialization) {
+                            return offlineDbInitialization();
+                        },
+                        initialData: function (loginInitialization, offlineDb) {
+                            return loginInitialization();
+                        },
+                        webWorker: function (schedulerService, initialData) {
+                            return schedulerService.stopSync();
+                        }
+                    }
             });
+
             $httpProvider.defaults.headers.common['Disable-WWW-Authenticate'] = true;
             $bahmniTranslateProvider.init({app: 'home', shouldMerge: true});
         }]).run(['$rootScope', '$templateCache', function ($rootScope, $templateCache) {
