@@ -249,7 +249,7 @@ angular.module('bahmni.registration')
                 if (forwardUrl != null) {
                     //   $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {
                      //     'patientUuid': patientUuid
-                      });
+                     // });
                 } else {
                     $state.transitionTo($state.current, $state.params, {
                         reload: true,
