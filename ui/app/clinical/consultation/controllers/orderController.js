@@ -220,7 +220,7 @@ angular.module('bahmni.clinical')
             };
 
             $scope.isPrintShown = function (isOrderSaved) {
-                return _.some($scope.enableRadiologyOrderOptions, function (option) {
+                return _.some($scope.enableRafsadiologyOrderOptions, function (option) {
                     return option.toLowerCase() === 'needsprint';
                 })
                 &&
