@@ -726,6 +726,7 @@ angular.module('bahmni.clinical')
                 var returnOrderSet = function () {
                     return orderSet;
                 };
+                console.log(promisesToCalculateDose);
                 return $q.all(promisesToCalculateDose).then(returnOrderSet);
             };
             var createDrugOrderViewModel = function (orderTemplate) {
@@ -756,6 +757,7 @@ angular.module('bahmni.clinical')
 
             var createDrugOrdersAndGetConflicts = function (orderSet) {
                 var conflictingDrugOrders = [];
+                 console.log("createDrugOrdersAndGetConflicts");
                 var orderSetMemberTemplates = _.map(orderSet.orderSetMembers, 'orderTemplate');
                 _.each(orderSetMemberTemplates, function (orderTemplate) {
                     var drugOrderViewModel = createDrugOrderViewModel(orderTemplate);
@@ -764,11 +766,14 @@ angular.module('bahmni.clinical')
                     if (!conflictingDrugOrder) {
                         drugOrderViewModel.include = true;
                     } else {
+                       console.log("createDrugOrdersAndGetConflicts");
                         conflictingDrugOrders.push(conflictingDrugOrder);
                     }
+                       console.log("createDrugOrdersAndGetConflicts");
                     $scope.orderSetTreatments.push(drugOrderViewModel);
                 });
                 setSortWeightForOrderSetDrugs($scope.orderSetTreatments);
+
                 return conflictingDrugOrders;
             };
             var showConflictMessageIfAny = function (conflictingDrugOrders) {
@@ -784,6 +789,7 @@ angular.module('bahmni.clinical')
                         'conflictingDrugOrders': conflictingDrugOrders
                     }
                 });
+                console.log("showConflictMessageIfAny");
                 $scope.popupActive = true;
             };
             $scope.addOrderSet = function (orderSet) {
@@ -794,6 +800,7 @@ angular.module('bahmni.clinical')
                     $scope.newOrderSet.uuid = orderSet.uuid;
                     $scope.isSearchDisabled = true;
                 };
+                console.log("addOrderSet");
                 calculateDoseForTemplatesIn(orderSet)
                     .then(createDrugOrdersAndGetConflicts)
                     .then(showConflictMessageIfAny)

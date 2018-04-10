@@ -383,7 +383,6 @@ angular.module('bahmni.common.conceptSet')
                 });
 
                 var deregisterObservationUpdated = $scope.$root.$on("event:observationUpdated-" + conceptSetName, function (event, conceptName, rootObservation) {
-                    console.log("deregisterObservationUpdated");
                     var formName = rootObservation.concept.name;
                     var formCondition = Bahmni.ConceptSet.FormConditions.rules && Bahmni.ConceptSet.FormConditions.rules[conceptName];
                     if (formCondition) {

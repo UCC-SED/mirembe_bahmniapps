@@ -31,6 +31,7 @@ angular.module('authentication')
 
         var getAuthFromServer = function (username, password, otp) {
             var btoa = otp ? username + ':' + password + ':' + otp : username + ':' + password;
+            console.log(btoa);
             return $http.get(sessionResourcePath, {
                 headers: {'Authorization': 'Basic ' + window.btoa(btoa)},
                 cache: false

@@ -288,8 +288,6 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 var formConditions = Bahmni.Clinical.Program.FormConditions;
                 if (formConditions && formConditions.rules) {
                     var conditionFn = formConditions.rules[attributeName];
-                    console.log(attributeName);
-                    console.log(conditionFn);
                     $scope.programAttributeTypes = runOnConditions(conditionFn, $scope.patientProgramAttributes, $scope.programAttributeTypes, $scope.allProgramAttributeTypes);
                     $scope.patientProgramAttributes = resetProgramAttributeHiddenValue(conditionFn, $scope.patientProgramAttributes);
                 }

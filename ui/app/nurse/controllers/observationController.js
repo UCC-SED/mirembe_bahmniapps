@@ -1,22 +1,23 @@
 "use strict";
 
 angular.module('bahmni.nurse').controller('ObservationController', ['$scope', '$rootScope', '$stateParams', '$state', '$q', 'patientContext', 'orderService', 'observationService',
-    'orderTypeService', 'sessionService', 'encounterService', 'spinner', 'messagingService', 'appService', '$anchorScroll', 'nurseObservationConfig', 'contextChangeHandler','$bahmniCookieStore','offlineService',
-    function ($scope, $rootScope, $stateParams, $state, $q, patientContext, orderService, observationService,
-              orderTypeService, sessionService, encounterService, spinner, messagingService, appService, $anchorScroll, nurseObservationConfig, contextChangeHandler, $bahmniCookieStore, offlineService) {
+    'orderTypeService', 'sessionService', 'encounterService', 'spinner', 'messagingService', 'appService', '$anchorScroll', 'nurseObservationConfig', 'contextChangeHandler', '$bahmniCookieStore', 'offlineService',
+    function($scope, $rootScope, $stateParams, $state, $q, patientContext, orderService, observationService,
+        orderTypeService, sessionService, encounterService, spinner, messagingService, appService, $anchorScroll, nurseObservationConfig, contextChangeHandler, $bahmniCookieStore, offlineService) {
         $scope.patient = patientContext.patient;
-       // $scope.formName = $stateParams.orderType + Bahmni.Common.Constants.fulfillmentFormSuffix;
+        // $scope.formName = $stateParams.orderType + Bahmni.Common.Constants.fulfillmentFormSuffix;
         $scope.nurseObservationConfig = nurseObservationConfig;
         $scope.orderType = $stateParams.orderType;
         $scope.openStatus = true;
         $scope.nextPageLoading = false;
-
-         var selectedProvider = $rootScope.currentProvider;
+        var configs = appService.getAppDescriptor().getConfigValue("conceptSetUI") || {};
+        var allConceptSections = [];
+        var selectedProvider = $rootScope.currentProvider;
         $scope.orders = [];
         var regEncounterTypeUuid = $rootScope.encounterConfig.encounterTypes[Bahmni.Common.Constants.consultationEncounterType];
         var locationUuid = sessionService.getLoginLocationUuid();
 
-        var getActiveEncounter = function () {
+        var getActiveEncounter = function() {
             var currentProviderUuid = $rootScope.currentProvider ? $rootScope.currentProvider.uuid : null;
             return encounterService.find({
                 patientUuid: $scope.patient.uuid,
@@ -24,15 +25,14 @@ angular.module('bahmni.nurse').controller('ObservationController', ['$scope', '$
                 includeAll: Bahmni.Common.Constants.includeAllObservations,
                 locationUuid: sessionService.getLoginLocationUuid(),
                 encounterTypeUuids: [regEncounterTypeUuid]
-            }).then(function (encounterTransactionResponse) {
+            }).then(function(encounterTransactionResponse) {
                 $scope.encounter = encounterTransactionResponse.data;
-                 $scope.observations = encounterTransactionResponse.data.observations;
-                 console.log( $scope.observations);
-                 return $scope.encounter;
+                $scope.observations = encounterTransactionResponse.data.observations;
+                return $scope.encounter;
             });
         };
 
-        $scope.getOrders = function () {
+        $scope.getOrders = function() {
             var patientUuid = patientContext.patient.uuid;
             $scope.orderTypeUuid = orderTypeService.getOrderTypeUuid($stateParams.orderType);
             var includeObs = false;
@@ -47,11 +47,11 @@ angular.module('bahmni.nurse').controller('ObservationController', ['$scope', '$
                 orderUuid: $scope.orderUuid,
                 locationUuids: $rootScope.facilityLocationUuids
             };
-            return orderService.getOrders(params).then(function (response) {
+            return orderService.getOrders(params).then(function(response) {
                 var data = response.data;
                 $scope.orders.push.apply($scope.orders, data);
-                $scope.orders.forEach(function (order) {
-                    order.bahmniObservations = _.filter($scope.encounter.observations, function (observation) {
+                $scope.orders.forEach(function(order) {
+                    order.bahmniObservations = _.filter($scope.encounter.observations, function(observation) {
                         return observation.orderUuid === order.orderUuid;
                     });
                     if (order.bahmniObservations.length > 0) {
@@ -60,22 +60,26 @@ angular.module('bahmni.nurse').controller('ObservationController', ['$scope', '$
                 });
             });
         };
-        $scope.toggleShowOrderForm = function (obs) {
-              obs.showForm = !obs.showForm;
+        $scope.toggleShowOrderForm = function(obs) {
+            obs.showForm = !obs.showForm;
         };
 
-        var init = function () {
-         $scope.nurseObservationConfig.forEach(function (nurseObservationConfig) {
-                                nurseObservationConfig.showForm = false;
-                        });
+        var getObservationsForTemplate = function(template) {
+            return _.filter($scope.consultation.observations, function(observation) {
+                return !observation.formFieldPath && observation.concept.uuid === template.uuid;
+            });
+        };
+
+        var init = function() {
+            $scope.nurseObservationConfig.forEach(function(nurseObservationConfig) {
+                nurseObservationConfig.showForm = false;
+            });
             return getActiveEncounter().then($scope.getOrders);
 
         };
 
-
-       $scope.$on("event:saveObservations", function () {
-           console.log("run");
-                         return save().then(afterSave);
+        $scope.$on("event:saveObservations", function() {
+            return save().then(afterSave);
         });
 
 
@@ -83,7 +87,7 @@ angular.module('bahmni.nurse').controller('ObservationController', ['$scope', '$
         $scope.config = $scope.fulfillmentConfig || {};
         $anchorScroll();
 
-        $scope.isFormValid = function () {
+        $scope.isFormValid = function() {
             var contxChange = contextChangeHandler.execute();
             var shouldAllow = contxChange["allow"];
             if (!shouldAllow) {
@@ -93,45 +97,51 @@ angular.module('bahmni.nurse').controller('ObservationController', ['$scope', '$
             return shouldAllow;
         };
 
-    var afterSave = function () {
-                var forwardUrl = appService.getAppDescriptor().getConfigValue("afterVisitSaveForwardUrl");
-                if (forwardUrl != null) {
-                    $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {'patientUuid': patientUuid});
-                } else {
-                    $state.transitionTo($state.current, $state.params, {
-                        reload: true,
-                        inherit: false,
-                        notify: true
-                    });
-                }
-                messagingService.showMessage('info', 'CONSULTATION_LABEL_SAVED');
+
+
+
+        var afterSave = function() {
+            var forwardUrl = appService.getAppDescriptor().getConfigValue("afterVisitSaveForwardUrl");
+            if (forwardUrl != null) {
+                $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {
+                    'patientUuid': patientUuid
+                });
+            } else {
+                $state.transitionTo($state.current, $state.params, {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                });
+            }
+            messagingService.showMessage('info', 'CONSULTATION_LABEL_SAVED');
+        };
+
+
+        var save = function() {
+
+            $scope.encounter = {
+                patientUuid: $scope.patient.uuid,
+                locationUuid: locationUuid,
+                encounterTypeUuid: regEncounterTypeUuid,
+                orders: [],
+                drugOrders: [],
+                extensions: {}
             };
 
+            $bahmniCookieStore.put(Bahmni.Common.Constants.grantProviderAccessDataCookieName, selectedProvider, {
+                path: '/',
+                expires: 1
+            });
 
-             var save = function () {
+            $scope.encounter.observations = $scope.observations;
 
-                $scope.encounter = {
-                    patientUuid: $scope.patient.uuid,
-                    locationUuid: locationUuid,
-                    encounterTypeUuid: regEncounterTypeUuid,
-                    orders: [],
-                    drugOrders: [],
-                    extensions: {}
-                };
+            $scope.encounter.observations = new Bahmni.Common.Domain.ObservationFilter().filter($scope.encounter.observations);
 
-                $bahmniCookieStore.put(Bahmni.Common.Constants.grantProviderAccessDataCookieName, selectedProvider, {
-                    path: '/',
-                    expires: 1
-                });
-
-                $scope.encounter.observations = $scope.observations;
-
-                $scope.encounter.observations = new Bahmni.Common.Domain.ObservationFilter().filter($scope.encounter.observations);
-
-                var createPromise = offlineService.isOfflineApp() ? encounterPromise() : encounterService.create($scope.encounter);
-                spinner.forPromise(createPromise);
-                return createPromise;
-                    };
+            var createPromise = offlineService.isOfflineApp() ? encounterPromise() : encounterService.create($scope.encounter);
+            spinner.forPromise(createPromise);
+            return createPromise;
+        };
 
 
-    }]);
+    }
+]);

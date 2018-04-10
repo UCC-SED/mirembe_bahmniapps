@@ -20,13 +20,21 @@ angular.module('consultation', ['ui.router', 'bahmni.clinical', 'bahmni.common.c
 ]);
 angular.module('consultation')
     .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', '$bahmniTranslateProvider', '$compileProvider',
-        function ($stateProvider, $httpProvider, $urlRouterProvider, $bahmniTranslateProvider, $compileProvider) {
+        function($stateProvider, $httpProvider, $urlRouterProvider, $bahmniTranslateProvider, $compileProvider) {
             $urlRouterProvider.otherwise('/' + Bahmni.Clinical.Constants.defaultExtensionName + '/patient/search');
             $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|file):/);
             $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|blob|chrome-extension):/);
             var patientSearchBackLink = {
                 label: "",
                 state: "search.patientsearch",
+                accessKey: "p",
+                id: "patients-link",
+                icon: "fa-users"
+            };
+            var programPatientSearchBackLink = {
+                label: "",
+                state: "search.patientsearch",
+                state: 'search.patientsearch({configName: "programs"})',
                 accessKey: "p",
                 id: "patients-link",
                 icon: "fa-users"
@@ -58,7 +66,7 @@ angular.module('consultation')
                         backLinks: [homeBackLink]
                     },
                     resolve: {
-                        retrospectiveIntialization: function (retrospectiveEntryService) {
+                        retrospectiveIntialization: function(retrospectiveEntryService) {
                             return retrospectiveEntryService.initializeRetrospectiveEntry();
                         }
                     }
@@ -76,10 +84,10 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
                             return offlineDbInitialization();
                         },
-                        initializeConfigs: function (initialization, $stateParams, offlineDb) {
+                        initializeConfigs: function(initialization, $stateParams, offlineDb) {
                             $stateParams.configName = $stateParams.configName || Bahmni.Clinical.Constants.defaultExtensionName;
                             patientSearchBackLink.state = 'search.patientsearch({configName: \"' + $stateParams.configName + '\"})';
                             return initialization($stateParams.configName, offlineDb);
@@ -95,21 +103,21 @@ angular.module('consultation')
                     views: {
                         'content': {
                             template: '<div ui-view="content"></div>',
-                            controller: function ($scope, patientContext) {
+                            controller: function($scope, patientContext) {
                                 $scope.patient = patientContext.patient;
                             }
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
                             return offlineDbInitialization();
                         },
-                        initialization: function (initialization, $stateParams, offlineDb) {
+                        initialization: function(initialization, $stateParams, offlineDb) {
                             $stateParams.configName = $stateParams.configName || Bahmni.Clinical.Constants.defaultExtensionName;
                             patientSearchBackLink.state = 'search.patientsearch({configName: \"' + $stateParams.configName + '\"})';
                             return initialization($stateParams.configName, offlineDb);
                         },
-                        patientContext: function (initialization, patientInitialization, $stateParams) {
+                        patientContext: function(initialization, patientInitialization, $stateParams) {
                             return patientInitialization($stateParams.patientUuid);
                         }
                     }
@@ -120,7 +128,7 @@ angular.module('consultation')
                         'content': {
                             template: '<div ui-view="dashboard-header"></div> <div ui-view="dashboard-content"></div>' +
                                 '<patient-control-panel patient="patient" visit-history="visitHistory" visit="visit" show="showControlPanel" consultation="consultation"/>',
-                            controller: function ($scope, visitHistory, consultationContext, followUpConditionConcept) {
+                            controller: function($scope, visitHistory, consultationContext, followUpConditionConcept) {
                                 $scope.visitHistory = visitHistory;
                                 $scope.consultation = consultationContext;
                                 $scope.followUpConditionConcept = followUpConditionConcept;
@@ -131,34 +139,34 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
                             return offlineDbInitialization();
                         },
-                        visitHistory: function (offlineDb, visitHistoryInitialization, $stateParams, $rootScope) {
+                        visitHistory: function(offlineDb, visitHistoryInitialization, $stateParams, $rootScope) {
                             return visitHistoryInitialization($stateParams.patientUuid, $rootScope.visitLocation);
                         },
-                        retrospectiveIntialization: function (retrospectiveEntryService) {
+                        retrospectiveIntialization: function(retrospectiveEntryService) {
                             return retrospectiveEntryService.initializeRetrospectiveEntry();
                         },
-                        followUpConditionConcept: function (conditionsService) {
-                            return conditionsService.getFollowUpConditionConcept().then(function (response) {
+                        followUpConditionConcept: function(conditionsService) {
+                            return conditionsService.getFollowUpConditionConcept().then(function(response) {
                                 return response.data.results[0];
                             });
                         },
-                        consultationContext: function (consultationInitialization, initialization, $stateParams, followUpConditionConcept) {
+                        consultationContext: function(consultationInitialization, initialization, $stateParams, followUpConditionConcept) {
                             return consultationInitialization(
                                 $stateParams.patientUuid, $stateParams.encounterUuid, $stateParams.programUuid, $stateParams.enrollment, followUpConditionConcept);
                         },
-                        dashboardInitialization: function (offlineDb, $rootScope, initialization, patientContext, clinicalDashboardConfig, userService) {
-                            return clinicalDashboardConfig.load().then(function () {
+                        dashboardInitialization: function(offlineDb, $rootScope, initialization, patientContext, clinicalDashboardConfig, userService) {
+                            return clinicalDashboardConfig.load().then(function() {
                                 $rootScope.currentUser.addToRecentlyViewed(patientContext.patient, clinicalDashboardConfig.getMaxRecentlyViewedPatients());
                                 return userService.savePreferences();
                             });
                         },
-                        visitSummary: function (visitSummaryInitialization, initialization, visitHistory) {
+                        visitSummary: function(visitSummaryInitialization, initialization, visitHistory) {
                             return visitHistory.activeVisit ? visitSummaryInitialization(visitHistory.activeVisit.uuid) : null;
                         },
-                        visitConfig: function (initialization, visitTabConfig) {
+                        visitConfig: function(initialization, visitTabConfig) {
                             return visitTabConfig.load();
                         }
                     }
@@ -210,7 +218,7 @@ angular.module('consultation')
                         tabConfigName: null
                     },
                     resolve: {
-                        treatmentConfig: function (initialization, treatmentConfig, $stateParams) {
+                        treatmentConfig: function(initialization, treatmentConfig, $stateParams) {
                             return treatmentConfig($stateParams.tabConfigName);
                         }
                     },
@@ -227,7 +235,7 @@ angular.module('consultation')
                         cachebuster: null
                     },
                     resolve: {
-                        activeDrugOrders: function (treatmentService, $stateParams) {
+                        activeDrugOrders: function(treatmentService, $stateParams) {
                             return treatmentService.getActiveDrugOrders($stateParams.patientUuid, $stateParams.dateEnrolled, $stateParams.dateCompleted);
                         }
                     },
@@ -286,7 +294,7 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        allOrderables: function (ordersTabInitialization) {
+                        allOrderables: function(ordersTabInitialization) {
                             return ordersTabInitialization();
                         }
                     }
@@ -303,7 +311,7 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        referralConceptSet: function (referralTabInitialization) {
+                        referralConceptSet: function(referralTabInitialization) {
                             return referralTabInitialization();
                         }
                     }
@@ -321,24 +329,24 @@ angular.module('consultation')
                     }
                 })
                 .state('patient.dashboard.show.appointment', {
-                     url: '/appointment',
-                     params: {
-                       cachebuster: null
-                     },
-                     views: {
-                      'consultation-content': {
-                              templateUrl: 'consultation/views/appointment.html',
-                              controller: 'appointmentController'
-                               }
-                      },
-                       resolve: {
-                        appointmentConfig: function (appointmentInitialization) {
+                    url: '/appointment',
+                    params: {
+                        cachebuster: null
+                    },
+                    views: {
+                        'consultation-content': {
+                            templateUrl: 'consultation/views/appointment.html',
+                            controller: 'appointmentController'
+                        }
+                    },
+                    resolve: {
+                        appointmentConfig: function(appointmentInitialization) {
                             return appointmentInitialization();
 
-                       }
+                        }
 
-                      }
-                 })
+                    }
+                })
                 .state('patient.dashboard.show.bacteriology', {
                     url: '/bacteriology',
                     params: {
@@ -351,7 +359,7 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        bacteriologyConceptSet: function (bacteriologyTabInitialization) {
+                        bacteriologyConceptSet: function(bacteriologyTabInitialization) {
                             return bacteriologyTabInitialization();
                         }
                     }
@@ -373,16 +381,16 @@ angular.module('consultation')
                     views: {
                         'content': {
                             template: '<div ui-view="visit-content"></div>',
-                            controller: function ($scope, visitHistory) {
+                            controller: function($scope, visitHistory) {
                                 $scope.visitHistory = visitHistory;
                             }
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
                             return offlineDbInitialization();
                         },
-                        visitHistory: function (offlineDb, visitHistoryInitialization, $stateParams) {
+                        visitHistory: function(offlineDb, visitHistoryInitialization, $stateParams) {
                             return visitHistoryInitialization($stateParams.patientUuid);
                         }
                     }
@@ -411,10 +419,10 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
                             return offlineDbInitialization();
                         },
-                        visitSummary: function (offlineDb, visitSummaryInitialization, $stateParams) {
+                        visitSummary: function(offlineDb, visitSummaryInitialization, $stateParams) {
                             return visitSummaryInitialization($stateParams.visitUuid);
                         }
                     }
@@ -431,7 +439,7 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        visitSummary: function (visitSummaryInitialization, $stateParams) {
+                        visitSummary: function(visitSummaryInitialization, $stateParams) {
                             return visitSummaryInitialization($stateParams.visitUuid);
                         }
                     }
@@ -442,8 +450,8 @@ angular.module('consultation')
                         backLinks: [homeBackLink]
                     },
                     resolve: {
-                        observation: function (observationsService, $stateParams) {
-                            return observationsService.getRevisedObsByUuid($stateParams.observationUuid).then(function (results) {
+                        observation: function(observationsService, $stateParams) {
+                            return observationsService.getRevisedObsByUuid($stateParams.observationUuid).then(function(results) {
                                 return results.data;
                             });
                         }
@@ -454,7 +462,7 @@ angular.module('consultation')
                             controller: 'PatientListHeaderController'
                         },
                         'dashboard-content': {
-                            controller: function ($scope, observation, patientContext) {
+                            controller: function($scope, observation, patientContext) {
                                 $scope.observation = observation;
                                 $scope.patient = patientContext.patient;
                             },
@@ -479,13 +487,13 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
                             return offlineDbInitialization();
                         },
-                        visitSummary: function (offlineDb, visitSummaryInitialization, $stateParams) {
+                        visitSummary: function(offlineDb, visitSummaryInitialization, $stateParams) {
                             return visitSummaryInitialization($stateParams.visitUuid, $stateParams.tab);
                         },
-                        visitConfig: function (initialization, visitTabConfig) {
+                        visitConfig: function(initialization, visitTabConfig) {
                             return visitTabConfig.load();
                         }
                     }
@@ -498,7 +506,7 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        retrospectiveIntialization: function (retrospectiveEntryService) {
+                        retrospectiveIntialization: function(retrospectiveEntryService) {
                             return retrospectiveEntryService.initializeRetrospectiveEntry();
                         }
                     }
@@ -506,7 +514,7 @@ angular.module('consultation')
                 .state('patient.patientProgram.show', {
                     url: '/consultationContext',
                     data: {
-                        backLinks: [patientSearchBackLink]
+                        backLinks: [programPatientSearchBackLink]
                     },
                     views: {
                         'patientProgram-header': {
@@ -519,10 +527,11 @@ angular.module('consultation')
                         }
                     },
                     resolve: {
-                        offlineDb: function (offlineDbInitialization) {
+                        offlineDb: function(offlineDbInitialization) {
+
                             return offlineDbInitialization();
                         },
-                        visitHistory: function (offlineDb, visitHistoryInitialization, $stateParams) {
+                        visitHistory: function(offlineDb, visitHistoryInitialization, $stateParams) {
                             return visitHistoryInitialization($stateParams.patientUuid);
                         }
                     }
@@ -536,10 +545,10 @@ angular.module('consultation')
             });
         }
     ]).run(['stateChangeSpinner', '$rootScope', 'offlineService', 'schedulerService', 'auditLogService', 'configurationService',
-        function (stateChangeSpinner, $rootScope, offlineService, schedulerService, auditLogService, configurationService) {
+        function(stateChangeSpinner, $rootScope, offlineService, schedulerService, auditLogService, configurationService) {
             FastClick.attach(document.body);
             stateChangeSpinner.activate();
-            var log = function (toState, toParams) {
+            var log = function(toState, toParams) {
                 var params = {};
                 params.eventType = Bahmni.Clinical.AuditLogEventDetails[toState.name].eventType;
                 params.message = Bahmni.Clinical.AuditLogEventDetails[toState.name].message;
@@ -548,8 +557,8 @@ angular.module('consultation')
                 params.module = "clinical";
                 auditLogService.auditLog(params);
             };
-            var cleanUpStateChangeSuccess = $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
-                configurationService.getConfigurations(['enableAuditLog']).then(function (result) {
+            var cleanUpStateChangeSuccess = $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams) {
+                configurationService.getConfigurations(['enableAuditLog']).then(function(result) {
                     if (result.enableAuditLog) {
                         log(toState, toParams);
                     }
@@ -557,14 +566,14 @@ angular.module('consultation')
 
                 window.scrollTo(0, 0);
             });
-            var cleanUpNgDialogOpened = $rootScope.$on('ngDialog.opened', function () {
+            var cleanUpNgDialogOpened = $rootScope.$on('ngDialog.opened', function() {
                 $('html').addClass('ngdialog-open');
             });
-            var cleanUpNgDialogClosing = $rootScope.$on('ngDialog.closing', function () {
+            var cleanUpNgDialogClosing = $rootScope.$on('ngDialog.closing', function() {
                 $('html').removeClass('ngdialog-open');
             });
 
-            $rootScope.$on("$destroy", function () {
+            $rootScope.$on("$destroy", function() {
                 cleanUpStateChangeSuccess();
                 cleanUpNgDialogOpened();
                 cleanUpNgDialogClosing();
