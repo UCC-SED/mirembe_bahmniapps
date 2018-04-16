@@ -5,6 +5,7 @@ angular.module('bahmni.clinical')
         var controller = function ($scope, $rootScope) {
             var patientContextConfig = appService.getAppDescriptor().getConfigValue('patientContext') || {};
             $scope.initPromise = patientService.getPatientContext($scope.patient.uuid, $state.params.enrollment, patientContextConfig.personAttributes, patientContextConfig.programAttributes, patientContextConfig.additionalPatientIdentifiers);
+            $scope.theAddress = $scope.patient.address.address2 +" - "+$scope.patient.address.address3+" - "+$scope.patient.address.countyDistrict;
 
             $scope.initPromise.then(function (response) {
                 $scope.patientContext = response.data;

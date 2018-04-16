@@ -104,8 +104,7 @@ angular.module('bahmni.clinical')
     			$scope.tbData=data;
 
                 if(data.data.results.length>0){
-    			console.log("rch");
-    			console.log(data.data.results);
+
     			$scope.tbData.data.results.forEach(function (result){
 
     		if(result.display=="HIV Care and Treatment"){
@@ -158,8 +157,7 @@ angular.module('bahmni.clinical')
 			$scope.tbData=data;
 			
             if(data.data.results.length>0){
-			console.log("rch");
-			console.log(data.data.results);
+
 			$scope.tbData.data.results.forEach(function (result){
 				
 		if(result.display=="HIV Care and Treatment"){
@@ -445,7 +443,7 @@ angular.module('bahmni.clinical')
 		
 		labOrderResultService.getAllForPatient(params).then(function (response){
 			
-			console.log(response.tabular.tabularResult);
+
 			var labresults= response.tabular.tabularResult.values;
 			var Laborders = response.tabular.tabularResult.orders;
 			Laborders.forEach(function (order){
@@ -454,7 +452,7 @@ angular.module('bahmni.clinical')
 				if(labresult.testOrderIndex==order.index){
 					$scope.cd4 = labresult.result;
 					$scope.cd4Date = labresult.accessionDateTime;
-				console.log(labresult.result);
+
 			 }
 			});	
 				
@@ -492,7 +490,7 @@ angular.module('bahmni.clinical')
 		
 		var get_TB_meds = function (meds_name){
 		treatmentService.getAllDrugOrdersFor($scope.patient.uuid,meds_name).then(function(response){
-		console.log(response);
+
 			 if(response.length>0)
            {
            
@@ -529,7 +527,7 @@ angular.module('bahmni.clinical')
 		var get_HIV_meds = function (hiv_data){
 			treatmentService.getAllDrugOrdersFor($scope.patient.uuid,hiv_data).then(function(response){
 			
-			console.log(response);
+
 			var hivDrugs="";
 			var smallDate=1;
 			var BigDate=1;

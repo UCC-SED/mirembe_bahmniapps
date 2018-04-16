@@ -3,16 +3,23 @@
         <div class="infoMsgRetrospectiveModeEnabled" ng-if="isRetrospectiveMode()">
             <i class="fa fa-info-circle"></i>
             <span><strong>Transfer</strong> entry is <strong>NOT allowed</strong> in retrospective mode</span>
-        </div>
+        </div>n
          <div align='right'>
         <button ng-click="gotToPrint()" class="confirm btn-success">
                            Go to Print/Priview
                         </button>
                         </div><br/>
-        <div  class="sample-container">
-			 
+        <div align="center"  class="sample-container">
+           <div> Categorty:<button id="doctorRoom" ng-init="show=0" ng-click="show=1">Doctor's Room</button>
+            <button id="otherCateg"  ng-click="show=2" >Other</button>
+           </div><br/>
+            <div align="center" ng-if="show === 1">
+               Select Room: <select ng-change="SelectedRow()" ng-model='room.selected'  ng-options='room for room in rooms'></select>
+
+            </div>
             <form class="form" >
-                <section class="section-grid">
+
+                <section ng-if="show === 2" class="section-grid">
                     <div class="box concept-set-container" id="{{ scrollOnEdit }}">
                       
                         <div>

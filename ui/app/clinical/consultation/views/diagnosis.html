@@ -5,8 +5,8 @@
                 <div class="table new-diagnosis primary-section-grid">
                     <div class="row table-header">
                         <div class="col col1"><span>Diagnosis</span></div>
-                        <div class="col col2"><span>Order</span></div>
-                        <div class="col col3"><span>Certainty</span></div>
+                        <!--<div class="col col2"><span>Order</span></div>-->
+                        <div class="col col3" style="width:33%"><span>Certainty</span></div>
                         <div class="col col4" ng-show="isStatusConfigured()"><span>Status</span></div>
                     </div>
 
@@ -35,12 +35,13 @@
                                 </span>
 
                             </div>
-                            <div class="col col2">
-                                <buttons-radio class="btn-group" model='diagnosis.order' id="order-{{$index}}"
-                                               ng-class="{'illegalValue': !diagnosis.isValidOrder()}"
-                                               options='orderOptions'/>
-                            </div>
-                            <div class="col col3">
+                            <input type="hidden" model='diagnosis.order'  ng-init="diagnosis.order=orderOptions.CLINICAL_DIAGNOSIS_ORDER_PRIMARY"/>
+                            <!--<div class="col col2">
+                                 <buttons-radio class="btn-group" model='diagnosis.order' id="order-{{$index}}"
+                                                ng-class="{'illegalValue': !diagnosis.isValidOrder()}"
+                                                options='orderOptions'/>
+                             </div>-->
+                            <div class="col col3" style="width:33%">
                                 <buttons-radio class="small-btn" model='diagnosis.certainty' id="certainty-{{$index}}"
                                                ng-class="{'illegalValue': !diagnosis.isValidCertainty()}"
                                                options='certaintyOptions'/>
