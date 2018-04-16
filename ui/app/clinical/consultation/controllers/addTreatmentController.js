@@ -314,7 +314,7 @@ angular.module('bahmni.clinical')
 
             $scope.add = function () {
                 //popup if there is no diagnosis at that visit
-                latest_diagnosis();
+               // latest_diagnosis();
 
                 var treatments = $scope.treatments;
                 if ($scope.treatment.isNewOrderSet) {
@@ -330,8 +330,10 @@ angular.module('bahmni.clinical')
 
                 newDrugOrder.calculateEffectiveStopDate();
 
+                var currentProviderUuid = $rootScope.currentProvider ? $rootScope.currentProvider.uuid : null;
+
                 spinner.forPromise(drugService.getDrugStockStatus(
-                    newDrugOrder.drug.name, newDrugOrder.drug.uuid, $scope.gothomisIntegrationStatus
+                    newDrugOrder.drug.name, newDrugOrder.drug.uuid, $scope.gothomisIntegrationStatus, currentProviderUuid
                 ).then(function (response) {
                     var drugStatusResponse = response.data.stockStatus;
 

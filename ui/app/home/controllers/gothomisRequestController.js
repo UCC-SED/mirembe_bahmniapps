@@ -21,8 +21,11 @@ angular.module('bahmni.home')
             $scope.$on('$viewContentLoaded', function() {
                 var verificationToken = params.verificationToken;
                 var userUuid = params.userUuid;
+                var ClinicId = params.ClinicId;
 
-                spinner.forPromise(authenticateBackEnd(verificationToken, userUuid, clinicID).success(function(response) {
+
+
+                spinner.forPromise(authenticateBackEnd(verificationToken, userUuid, ClinicId).success(function(response) {
 
                     if (response.authenticationStatus) {
                         username = response.username;
@@ -30,19 +33,17 @@ angular.module('bahmni.home')
                         location = $filter('filter')($scope.locations, function(location) {
                             return (location.name === response.location);
                         });
+                        console.log(location);
                         login();
                     } else {
                         // redirectToLandingPageIfAlreadyAuthenticated();
-                        $window.location.href = "https://192.168.33.10/bahmni/home/index.html#/login";
+                       // $window.location.href = "https://192.168.33.10/bahmni/home/index.html#/login";
                     }
                 }));
 
-
-
             });
 
-
-            var authenticateBackEnd = function(verificationToken, userUuid) {
+            var authenticateBackEnd = function(verificationToken, userUuid, clinicID) {
                 var url = Bahmni.Common.Constants.emrAccessRequest;
                 return $http.get(url, {
                     params: {
@@ -181,6 +182,7 @@ angular.module('bahmni.home')
                 sessionService.loginUser(username, password, location[0], $scope.loginInfo.otp).then(
 
                     function(data) {
+                    console.log(location[0]);
                         ensureNoSessionIdInRoot();
                         if (data && data.firstFactAuthorization) {
                             $scope.showOTP = true;

@@ -234,10 +234,10 @@ Bahmni.Common = Bahmni.Common || {};
         localDrugStockUrl: RESTWS_V1 + "/emr/getDrugStatus",
         gothomisDrugStockUrl: RESTWS_V1 + "/emr/getDrugStockStatus",
         submitLabOrder: RESTWS_V1 + "/emr/submitLabOrder",
-        submitLabOrder: RESTWS_V1 + "/emr/submitLabOrder",
         sendConsultationFeeOrder: RESTWS_V1 + "/emr/createConsultationQuotation",
         updateBillingCategory: RESTWS_V1 + "/emr/updatePatientBillingCategory",
         submitDisposition: RESTWS_V1 + "/emr/submitDisposition",
+        submitDrugOrder: RESTWS_V1 + "/emr/submitDrugOrder",
         orderTypeUrl: RESTWS_V1 + "/ordertype",
         userUrl: RESTWS_V1 + "/user",
         passwordUrl: RESTWS_V1 + "/password",
@@ -300,7 +300,9 @@ Bahmni.Common = Bahmni.Common || {};
         registrationEncounterType: "REG",
         consultationEncounterType: "Consultation",
         updateDeliveryOrder : RESTWS_V1 + "/emr/updateSingleDeliveryOrder",
-        emrAccessRequest : RESTWS_V1 + "/emr/emrAccessRequest"
+        emrAccessRequest : RESTWS_V1 + "/emr/emrAccessRequest",
+        gothomisUserId : RESTWS_V1 + "/emr/getProviderUserID",
+        gothomisLogOut : RESTWS_V1 + "/emr/logOutGothomis"
 
 
     };

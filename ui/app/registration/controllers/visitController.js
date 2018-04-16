@@ -81,7 +81,7 @@ angular.module('bahmni.registration')
                     }
                 }
                 saved = true;
-                spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier, $scope.observations[0].groupMembers[0].value.name.name).success(function(response) {
+                spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier, $scope.observations[0].groupMembers[0].value.name.name).then(function(response) {
                     $scope.encounter = {
                         patientUuid: $scope.patient.uuid,
                         locationUuid: locationUuid,
@@ -103,6 +103,9 @@ angular.module('bahmni.registration')
 
                     var createPromise = offlineService.isOfflineApp() ? encounterPromise() : encounterService.create($scope.encounter);
                     spinner.forPromise(createPromise);
+                    console.log(createPromise);
+                    afterSave();
+
                     return createPromise;
 
                 }));
@@ -249,7 +252,7 @@ angular.module('bahmni.registration')
                 if (forwardUrl != null) {
                        $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {
                           'patientUuid': patientUuid
-                     });
+                    });
                 } else {
                     $state.transitionTo($state.current, $state.params, {
                         reload: true,
@@ -262,7 +265,7 @@ angular.module('bahmni.registration')
             };
 
             $scope.submit = function() {
-                return validate().then(save).then(afterSave);
+                return validate().then(save);
             };
 
             $scope.today = function() {

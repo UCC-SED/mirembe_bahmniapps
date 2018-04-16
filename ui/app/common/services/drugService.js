@@ -18,12 +18,13 @@ angular.module('bahmni.common.services')
             });
         };
 
-        var getDrugStockStatus = function (drugName, drugUuid, gothomisIntegrationStatus) {
+        var getDrugStockStatus = function (drugName, drugUuid, gothomisIntegrationStatus, currentProviderUuid) {
             if (gothomisIntegrationStatus) {
                 var url = Bahmni.Common.Constants.gothomisDrugStockUrl;
                 return $http.get(url, {
                     params: {
-                        drugUuid: drugUuid
+                        drugUuid: drugUuid,
+                        providerUuid: currentProviderUuid
                     }
                 });
             } else {
