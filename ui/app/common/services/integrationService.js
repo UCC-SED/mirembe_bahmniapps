@@ -55,10 +55,24 @@ angular.module('bahmni.common.services')
                 }
             });
         };
+
+         var getGothomisUserID = function (username) {
+         var url = Bahmni.Common.Constants.gothomisUserId;
+                    var params = {
+                        username: username
+                    };
+
+                    return $http.get(url, {
+                        params: params,
+                        withCredentials: true
+                    });
+                };
+
         return {
             submitLabOrder: submitLabOrder,
             submitDrug: submitDrug,
             submitDrugOrder: submitDrugOrder,
-            submitDisposition: submitDisposition
+            submitDisposition: submitDisposition,
+            getGothomisUserID :getGothomisUserID
         };
     }]);

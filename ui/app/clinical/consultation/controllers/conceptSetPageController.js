@@ -138,7 +138,6 @@ angular.module('bahmni.clinical')
             $scope.filterTemplates = function () {
 
                 $scope.uniqueTemplates = _.uniqBy($scope.allTemplates, 'label');
-                console.log($scope.uniqueTemplates);
                 if ($scope.consultation.searchParameter) {
                     $scope.uniqueTemplates = _.filter($scope.uniqueTemplates, function (template) {
                         return _.includes(template.label.toLowerCase(), $scope.consultation.searchParameter.toLowerCase());
