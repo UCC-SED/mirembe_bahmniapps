@@ -158,6 +158,9 @@
 
                 <div ng-include src="'../common/concept-set/views/observationDataTypes/showComment.html'" ng-if="observation.getControlType() != 'video'"></div>
 
+                <div ng-include src="'../common/concept-set/views/observationDataTypes/showPriviousData.html'" ng-if="observation.getControlType() != 'video'"></div>
+
+
                 <div class="offset-label" ng-if="observation.showComment">
                     <label class="control-label"></label>
                     <div class="field-value">
@@ -251,7 +254,7 @@
                         <div class="button-wrap-video fr">
                             <div ng-if="isRemoveValid(observation)" ng-include src="'../common/concept-set/views/observationDataTypes/removeClone.html'" class="fl"></div>
                             <div ng-include src="'../common/concept-set/views/observationDataTypes/addMore.html'" class="fl"></div>
-                            <button type="button" toggle="observation.showComment" ng-if="observation.value"
+                           <button type="button" toggle="observation.showComment" ng-if="observation.value"
                                     class="comment-toggle fr" tabindex="-1"
                                     ng-class="{'has-notes': observation.comment}">
                                 <i class="fa fa-file-o">
@@ -260,6 +263,9 @@
                                 </i>
                                 <i class="fa fa-file-text-o"></i>
                             </button>
+                            <div ng-include src="'../common/concept-set/views/observationDataTypes/showPriviousData.html'" ng-if="observation.getControlType() != 'video'"></div>
+
+
                         </div>
                         <textarea class="consultation-img-comments" ng-if="observation.showComment" maxlength="255"
                                   ng-model="observation.comment" msd-elastic>
@@ -315,6 +321,7 @@
 
                     <div ng-include src="'../common/concept-set/views/observationDataTypes/addMore.html'"></div>
                 </div>
+
                 <button ng-if="::observation.canHaveComment()" type="button" toggle="observation.showComment"
                         ng-blur="handleUpdate()" ng-disabled="observation.disabled"
                         class="comment-toggle fr" tabindex="-1" ng-class="{'has-notes': observation.comment}">
@@ -324,6 +331,7 @@
                     </i>
                     <i class="fa fa-file-text-o"></i>
                 </button>
+                <div ng-include src="'../common/concept-set/views/observationDataTypes/showPriviousData.html'" ng-if="observation.getControlType() != 'video'"></div>
 
                 <div ng-if="::observation.canHaveComment()" class="offset-label" >
                     <label class="control-label"></label>

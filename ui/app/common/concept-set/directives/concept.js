@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bahmni.common.conceptSet')
-    .directive('concept', ['RecursionHelper', 'spinner', '$filter', 'messagingService',
-        function (RecursionHelper, spinner, $filter, messagingService) {
+    .directive('concept', ['RecursionHelper', 'spinner', '$filter', 'ngDialog','priviousDataService','messagingService',
+        function (RecursionHelper, spinner, $filter,ngDialog,priviousDataService, messagingService) {
             var link = function (scope) {
                 var hideAbnormalbuttonConfig = scope.observation && scope.observation.conceptUIConfig && scope.observation.conceptUIConfig['hideAbnormalButton'];
 
@@ -39,6 +39,22 @@ angular.module('bahmni.common.conceptSet')
                     }
                     return false;
                 };
+                scope.displayPriviousDialog = function (event) {
+                                   console.log(scope.patient.uuid);
+                                   priviousDataService.getPriviousData(scope.patient.uuid,event).then(function(data){
+                                  console.log("check check");
+                                  scope.priviousData = data.data;
+                                   });
+                                   scope.conceptName = event;
+                                   ngDialog.openConfirm({
+                                                       template: '../common/concept-set/views/observationDataTypes/PriviousDialogData.html',
+                                                       scope: scope
+                                                   });
+                                };
+
+                scope.closeThisDialog = function () {
+                                ngDialog.close();
+                                };
 
                 scope.isRemoveValid = function (observation) {
                     if (observation.getControlType() == 'image') {

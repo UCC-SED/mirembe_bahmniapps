@@ -183,6 +183,7 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             $scope.showConfirmationPopUp = true;
         });
 
+
         $scope.displayConfirmationDialog = function (event) {
             if ($rootScope.hasVisitedConsultation && $scope.showSaveConfirmDialogConfig) {
                 if (event) {
