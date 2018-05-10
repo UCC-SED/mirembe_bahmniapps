@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="934ab504-330f-4686-b0fd-3ee26760d827" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js" afterPath="$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js" />
+      <change beforePath="$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html" afterPath="$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,21 +34,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="concept.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="concept.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="48" column="56" lean-forward="false" selection-start-line="48" selection-start-column="56" selection-end-line="48" selection-end-column="56" />
+            <state relative-caret-position="396">
+              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PriviousDialogData.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PriviousDialogData.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="203">
-              <caret line="23" column="25" lean-forward="false" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+              <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -135,8 +136,8 @@
         <option value="$PROJECT_DIR$/ui/app/orders/index.html" />
         <option value="$PROJECT_DIR$/ui/app/reports/index.html" />
         <option value="$PROJECT_DIR$/ui/app/nurse/index.html" />
-        <option value="$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html" />
         <option value="$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js" />
+        <option value="$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html" />
       </list>
     </option>
   </component>
@@ -783,18 +784,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
+    <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="23" column="25" lean-forward="false" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+        <state relative-caret-position="396">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js">
+    <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="48" column="56" lean-forward="false" selection-start-line="48" selection-start-column="56" selection-end-line="48" selection-end-column="56" />
+        <state relative-caret-position="203">
+          <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
           <folding />
         </state>
       </provider>

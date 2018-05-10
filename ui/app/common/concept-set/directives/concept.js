@@ -43,11 +43,9 @@ angular.module('bahmni.common.conceptSet')
                 scope.priviousData = [];
                                    console.log(scope.patient.uuid);
                                    priviousDataService.getPriviousData(scope.patient.uuid,event).then(function(data){
-                                  console.log("check check");
+
                    data.data.forEach(function (value) {
-                                console.log(value);
                                   if(value.valueAsString){
-                                  console.log("1234");
                                 scope.priviousData2 =  data.data;
                                 scope.coded = true;
                                   }else{
@@ -55,8 +53,7 @@ angular.module('bahmni.common.conceptSet')
                                   scope.coded = false;
                                   }
                                    });
-                                   console.log( scope.priviousData);
-                                   console.log( scope.priviousData2);
+
                                    });
                                    scope.conceptName = event;
                                    ngDialog.openConfirm({
