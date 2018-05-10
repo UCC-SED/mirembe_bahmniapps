@@ -47,8 +47,8 @@ angular.module('bahmni.common.conceptSet')
                    data.data.forEach(function (value) {
                             console.log(value);
                                   if(value.valueAsString){
-                                scope.priviousData = {value: value.valueAsString,
-                                observationDateTime: value.observationDateTime
+                                scope.priviousData = {{value: value.valueAsString,
+                                observationDateTime: value.observationDateTime}
                                 }
                                   }else{
                                   scope.priviousData.push(value);
