@@ -46,8 +46,8 @@
       <file leaf-file-name="PriviousDialogData.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="17" column="53" lean-forward="false" selection-start-line="17" selection-start-column="53" selection-end-line="17" selection-end-column="53" />
+            <state relative-caret-position="185">
+              <caret line="22" column="31" lean-forward="false" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -794,8 +794,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="17" column="53" lean-forward="false" selection-start-line="17" selection-start-column="53" selection-end-line="17" selection-end-column="53" />
+        <state relative-caret-position="185">
+          <caret line="22" column="31" lean-forward="false" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
           <folding />
         </state>
       </provider>
