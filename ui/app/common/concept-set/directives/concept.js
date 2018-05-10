@@ -51,7 +51,6 @@ angular.module('bahmni.common.conceptSet')
                                 scope.coded = true;
                                   }else{
                                   scope.priviousData = data.data;
-
                                   scope.coded = false;
                                   }
                                    });
