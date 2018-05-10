@@ -11,6 +11,8 @@
                   ng-show="!allPrograms.showProgramSection">
                 <div class="field-table-view">
 
+
+
                     <article class="fl field-table-row" id="right_col">
                         <div class="cell-attributes">
                             <label>{{'PROGRAM_MANAGEMENT_LABEL_PROGRAM' | translate}} : </label>
@@ -45,13 +47,14 @@
                             </label>
                         </div>
                         <div class="cell-value">
-                            <input type="date" max="{{today}}" ng-model="programEnrollmentDate" ng-required="true">
+                            <input type="date"  max="{{today}}" ng-model="programEnrollmentDate" ng-required="true"  pattern="dd/MM/YYYY">
                         </div>
                     </article>
 
                     <article class="field-table-row" ng-repeat="attribute in programAttributeTypes" ng-if="isIncluded(attribute)">
+
                         <attribute-types target-model="patientProgramAttributes" attribute="attribute"
-                                         is-form="true" handle-change="handleProgramAttributeUpdate(attribute.name)"></attribute-types>
+                                         is-form="true" handle-Update="handleProgramAttributeUpdate(attribute.name)"></attribute-types>
                     </article>
                     <div class="field-table-row">
                         <input class="fr" type="submit" value="{{'PROGRAM_MANAGEMENT_ENROLL_KEY' | translate}}"/>

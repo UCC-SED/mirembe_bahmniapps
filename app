@@ -1,0 +1,1 @@
+/bahmni/mirembe_bahmniapps/ui/app

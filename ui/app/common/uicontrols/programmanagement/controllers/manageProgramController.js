@@ -16,6 +16,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
             $scope.today = DateUtil.getDateWithoutTime(DateUtil.now());
             $scope.allProgramAttributeTypes = [];
             $scope.programAttributeTypes = [];
+
             var programSpecificAttributeTypesDefinition = appService.getAppDescriptor().getConfigValue("program").programSpecificAttributeTypesDefinition;
             var id = "#programEnrollmentContainer";
 
@@ -34,6 +35,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                     formatProgramDates();
                 }), id);
             };
+
 
             var populateDefaultSelectedState = function (patientProgram) {
                 var activePatientProgramState = getActivePatientProgramState(patientProgram.states);
@@ -72,6 +74,8 @@ angular.module('bahmni.common.uicontrols.programmanagment')
 
                 updateActiveProgramsList();
             };
+
+
 
             var successCallback = function () {
                 messagingService.showMessage("info", "CLINICAL_SAVE_SUCCESS_MESSAGE_KEY");
@@ -285,6 +289,7 @@ angular.module('bahmni.common.uicontrols.programmanagment')
                 return patientProgramAttributes;
             };
             $scope.handleProgramAttributeUpdate = function (attributeName) {
+                    console.log(attributeName);
                 var formConditions = Bahmni.Clinical.Program.FormConditions;
                 if (formConditions && formConditions.rules) {
                     var conditionFn = formConditions.rules[attributeName];
