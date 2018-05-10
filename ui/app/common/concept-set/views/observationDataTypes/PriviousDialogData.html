@@ -12,9 +12,8 @@
                 <th scope="col">Date Recorded</th>
             </tr>
             </thead>
-            {{priviousData}}
             <tbody ng-repeat="privious in priviousData">
-            <tr>
+            <tr>{{privious}}
                 <td>{{privious.value}}</td>
                 <td><span ng-bind="privious.observationDateTime | date:'dd/MM/yyyy'"></span></td>
             </tr>
