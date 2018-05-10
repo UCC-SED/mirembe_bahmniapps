@@ -46,7 +46,7 @@ angular.module('bahmni.common.conceptSet')
                                   console.log("check check");
                    data.data.forEach(function (value) {
                                 console.log(value);
-                                  if(value.name){
+                                  if(value.valueAsString){
                                   console.log("1234");
                                 scope.priviousData2 =  data.data;
                                 scope.coded = true;
