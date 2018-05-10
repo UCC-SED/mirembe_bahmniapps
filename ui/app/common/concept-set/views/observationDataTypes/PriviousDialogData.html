@@ -19,9 +19,9 @@
             </tr>
             </tbody>
             <tbody ng-repeat="privious2 in priviousData2" ng-if="coded">
-            <tr>{{privious2}}
-                <td>{{privious.value}}</td>
-                <td><span ng-bind="privious.observationDateTime | date:'dd/MM/yyyy'"></span></td>
+            <tr>
+                <td>{{privious2.shortName}}</td>
+                <td><span ng-bind="privious2.observationDateTime | date:'dd/MM/yyyy'"></span></td>
             </tr>
             </tbody>
         </table>

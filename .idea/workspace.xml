@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="934ab504-330f-4686-b0fd-3ee26760d827" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js" afterPath="$PROJECT_DIR$/ui/app/common/concept-set/directives/concept.js" />
       <change beforePath="$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html" afterPath="$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -47,8 +46,8 @@
       <file leaf-file-name="PriviousDialogData.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="14" column="42" lean-forward="false" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+            <state relative-caret-position="365">
+              <caret line="23" column="44" lean-forward="false" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -795,8 +794,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/app/common/concept-set/views/observationDataTypes/PriviousDialogData.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="14" column="42" lean-forward="false" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+        <state relative-caret-position="365">
+          <caret line="23" column="44" lean-forward="false" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
           <folding />
         </state>
       </provider>
