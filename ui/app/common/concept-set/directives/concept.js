@@ -45,9 +45,9 @@ angular.module('bahmni.common.conceptSet')
                                    priviousDataService.getPriviousData(scope.patient.uuid,event).then(function(data){
                                   console.log("check check");
                    data.data.forEach(function (value) {
-
-                                  if(value.name){
-                                scope.priviousData.push(value.name)
+                            console.log( scope.priviousData);
+                                  if(value.valueAsString){
+                                scope.priviousData.push(value.valueAsString)
                                   }else{
                                   scope.priviousData.push(value);
                                   }
