@@ -40,14 +40,16 @@ angular.module('bahmni.common.conceptSet')
                     return false;
                 };
                 scope.displayPriviousDialog = function (event) {
-                scope.priviousData = [];
+                scope.priviousData = {};
                                    console.log(scope.patient.uuid);
                                    priviousDataService.getPriviousData(scope.patient.uuid,event).then(function(data){
                                   console.log("check check");
                    data.data.forEach(function (value) {
-                            console.log( scope.priviousData);
+                            console.log(value);
                                   if(value.valueAsString){
-                                scope.priviousData.push(value.valueAsString)
+                                scope.priviousData = {value:value.valueAsString,
+                                observationDateTime: ""
+                                }
                                   }else{
                                   scope.priviousData.push(value);
                                   }
