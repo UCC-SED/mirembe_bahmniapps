@@ -12,8 +12,14 @@
                 <th scope="col">Date Recorded</th>
             </tr>
             </thead>
-            <tbody ng-repeat="privious in priviousData">
+            <tbody ng-repeat="privious in priviousData" ng-if="!coded">
             <tr>
+                <td>{{privious.value}}</td>
+                <td><span ng-bind="privious.observationDateTime | date:'dd/MM/yyyy'"></span></td>
+            </tr>
+            </tbody>
+            <tbody ng-repeat="privious2 in priviousData2" ng-if="coded">
+            <tr>{{privious2}}
                 <td>{{privious.value}}</td>
                 <td><span ng-bind="privious.observationDateTime | date:'dd/MM/yyyy'"></span></td>
             </tr>
