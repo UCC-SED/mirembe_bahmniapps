@@ -1,16 +1,17 @@
 'use strict';
 
 angular.module('bahmni.common.conceptSet')
-    .directive('conceptSet', ['contextChangeHandler', 'appService', 'observationsService', 'messagingService', 'conceptSetService', 'conceptSetUiConfigService', 'spinner',
-        function (contextChangeHandler, appService, observationsService, messagingService, conceptSetService, conceptSetUiConfigService, spinner) {
+    .directive('conceptSet', ['contextChangeHandler', 'appService', 'observationsService', 'resultMapService','messagingService', 'conceptSetService', 'conceptSetUiConfigService', 'spinner',
+        function (contextChangeHandler, appService, observationsService,resultMapService, messagingService, conceptSetService, conceptSetUiConfigService, spinner) {
             var controller = function ($scope) {
                 var conceptSetName = $scope.conceptSetName;
                 var ObservationUtil = Bahmni.Common.Obs.ObservationUtil;
                 var conceptSetUIConfig = conceptSetUiConfigService.getConfig();
                 var observationMapper = new Bahmni.ConceptSet.ObservationMapper();
+                var conceptResultMap = appService.getAppDescriptor().getConfigValue("conceptResultMap") || {};
+
                 var validationHandler = $scope.validationHandler() || contextChangeHandler;
                 var id = "#" + $scope.sectionId;
-
                 $scope.atLeastOneValueIsSet = $scope.atLeastOneValueIsSet || false;
                 $scope.conceptSetRequired = false;
                 $scope.showTitleValue = $scope.showTitle();
@@ -90,6 +91,33 @@ angular.module('bahmni.common.conceptSet')
                         });
                     }
                 };
+
+                var setResultMapped = function (groupMembers, conceptResultMap) {
+                                    if (conceptResultMap) {
+                                        _.each(groupMembers, function (groupMember) {
+                                            var conceptFullName = groupMember.concept.name;
+                                            var present = _.includes(_.keys(conceptResultMap), conceptFullName);
+                                                if (present && groupMember.value == undefined) {
+                                                if (groupMember.concept.dataType == "Coded") {
+                                                    //setDefaultsForCodedObservations(groupMember, defaults);
+                                                } else {
+                                                if( conceptResultMap[conceptFullName].dataType==="obs"){
+                                               resultMapService.getResultData($scope.patient.uuid, conceptResultMap[conceptFullName].mapTo ).then(function (data){
+                                                groupMember.value = data.data[0].value;
+                                               });
+                                               }
+
+                                                }
+                                            }
+                                            /*if (groupMember.groupMembers && groupMember.groupMembers.length > 0) {
+                                                setDefaultsForGroupMembers(groupMember.groupMembers, defaults);
+                                                if (groupMember instanceof Bahmni.ConceptSet.ObservationNode && defaults[groupMember.label] && groupMember.abnormalObs && groupMember.abnormalObs.value == undefined) {
+                                                    groupMember.onValueChanged(groupMember.value);
+                                                }
+                                            }*/
+                                        });
+                                    }
+                                };
 
                 var setDefaultsForCodedObservations = function (observation, defaults) {
                     var defaultCodedAnswer = getCodedAnswerWithDefaultAnswerString(defaults, observation);
@@ -270,6 +298,7 @@ angular.module('bahmni.common.conceptSet')
                     }).then(function (response) {
                         $scope.conceptSet = response.data.results[0];
                         $scope.rootObservation = $scope.conceptSet ? observationMapper.map($scope.observations, $scope.conceptSet, conceptSetUIConfig) : null;
+
                         if ($scope.rootObservation) {
                             $scope.rootObservation.conceptSetName = $scope.conceptSetName;
                             focusFirstObs();
@@ -278,6 +307,7 @@ angular.module('bahmni.common.conceptSet')
                             var defaults = getDefaults();
                             addDummyImage();
                             setDefaultsForGroupMembers(groupMembers, defaults);
+                            setResultMapped(groupMembers, conceptResultMap);
                             var observationsOfCurrentTemplate = getObservationsOfCurrentTemplate();
                             updateFormConditions(observationsOfCurrentTemplate, $scope.rootObservation);
                         } else {

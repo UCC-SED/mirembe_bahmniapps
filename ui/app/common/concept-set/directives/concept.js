@@ -9,8 +9,7 @@ angular.module('bahmni.common.conceptSet')
                 scope.now = moment().format("YYYY-MM-DD hh:mm:ss");
                 scope.showTitle = scope.showTitle === undefined ? true : scope.showTitle;
                 scope.hideAbnormalButton = hideAbnormalbuttonConfig == undefined ? scope.hideAbnormalButton : hideAbnormalbuttonConfig;
-
-                scope.cloneNew = function (observation, parentObservation) {
+               scope.cloneNew = function (observation, parentObservation) {
                     observation.showAddMoreButton = function () {
                         return false;
                     };

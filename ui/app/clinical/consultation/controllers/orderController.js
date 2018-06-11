@@ -9,6 +9,9 @@ angular.module('bahmni.clinical')
             var RadiologyOrderOptionsConfig = appService.getAppDescriptor().getConfig("enableRadiologyOrderOptions");
             $scope.enableRadiologyOrderOptions = RadiologyOrderOptionsConfig ? RadiologyOrderOptionsConfig.value : null;
 
+            var EnableLabOrderOptions = appService.getAppDescriptor().getConfig("enableLabOrderOptions");
+            $scope.enableLabOrderOptions = EnableLabOrderOptions ? EnableLabOrderOptions.value : null;
+
             var testConceptToParentsMapping = {}; // A child concept could be part of multiple parent panels
 
             var collapseExistingActiveSection = function (section) {
@@ -119,6 +122,7 @@ angular.module('bahmni.clinical')
                 });
 
                 _.each($scope.selectedOrders, function (order) {
+                console.log(order);
                     order.isUrgent = order.urgency == "STAT" ? true : order.isUrgent;
                 });
             };
@@ -233,6 +237,12 @@ angular.module('bahmni.clinical')
                 &&
                 $scope.activeTab.name == 'Radiology';
             };
+            $scope.isUrgentLab = function () {
+                            return  $scope.enableLabOrderOptions.toLowerCase() === 'urgent'
+                            &&
+                            $scope.activeTab.name == 'Lab departments';
+                        };
+
             $scope.setEditedFlag = function (order, orderNoteText) {
                 if (order.previousNote !== orderNoteText) {
                     order.commentToFulfiller = orderNoteText;

@@ -102,6 +102,7 @@ angular.module('bahmni.clinical')
         
         var getProposedWards = function () {
 		return dispositionService.getproposedWards().then(function (response) {
+			console.log(response);
 			$scope.wards=response.data.results[0].answers;
 				
 			});
