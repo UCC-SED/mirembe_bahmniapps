@@ -165,7 +165,7 @@ angular.module('bahmni.clinical')
                 return disposition;
             }
         };
-        
+        getProposedWards();
         spinner.forPromise(loadDispositionActions(), '#disposition');
 
         var saveDispositions = function () {
