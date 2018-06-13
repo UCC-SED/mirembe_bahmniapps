@@ -35,6 +35,7 @@ angular.module('bahmni.clinical')
 
         var getDispositionActionsPromise = function () {
             return dispositionService.getDispositionActions().then(function (response) {
+                console.log(222);
                 getProposedWards();
                 getWardsavePromise();
                 allDispositions = new Bahmni.Clinical.DispostionActionMapper().map(response.data.results[0].answers);
@@ -109,6 +110,7 @@ angular.module('bahmni.clinical')
 
         var getProposedWards = function () {
             return dispositionService.getproposedWards().then(function (response) {
+            console.log(response);
                 $scope.wards = response.data.results[0].answers;
 
             });
