@@ -54,33 +54,7 @@ angular
                         controller: 'MyReportsController'
                     }
                 }
-            }).state('dashboard.newReports', {
-                              url: '/newReports?appName',
-                              views: {
-                                  'content': {
-                                      templateUrl: 'views/reportDashboard.html',
-                                      controller: 'ReportDashboardController'
-                                  }
-                              },
-                              resolve: {
-                                 initializeConfig: function (initialization, $stateParams) {
-                                  return initialization($stateParams.appName);
-                                    }
-                                  }
-            }).state('dashboard.deptreports', {
-                                url: '/deptreports?dept',
-                                 views: {
-                                  'content': {
-                                   templateUrl: 'views/reportsByDepartment.html',
-                                   controller: 'ReportsByDepartmentController'
-                                   }
-                                 },
-                                 resolve: {
-                                     initializeConfig: function (newreportinitialization, $stateParams) {
-                                     return newreportinitialization($stateParams.dept);
-                                       }
-                                      }
-             });;
+            });
 
             var getAppName = function () {
                 var val = location.hash.indexOf("appName=");

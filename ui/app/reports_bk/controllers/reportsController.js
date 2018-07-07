@@ -28,7 +28,6 @@ angular.module('bahmni.reports')
         };
 
         var validateReport = function (report) {
-       console.log(report);
             if (!report.responseType) {
                 messagingService.showMessage("error", "Select format for the report: " + report.name);
                 return false;
@@ -86,12 +85,10 @@ angular.module('bahmni.reports')
 
         var initializeFormats = function () {
             var supportedFormats = appService.getAppDescriptor().getConfigValue("supportedFormats") || _.keys(reportService.getAvailableFormats());
-            console.log(supportedFormats);
             supportedFormats = _.map(supportedFormats, function (format) {
                 return format.toUpperCase();
             });
             $scope.formats = _.pick(reportService.getAvailableFormats(), supportedFormats);
-            console.log($scope.formats);
         };
 
         var initialization = function () {

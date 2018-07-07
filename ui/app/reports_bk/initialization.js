@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bahmni.reports').factory('initialization',
-    ['authenticator', 'appService', 'spinner', 'configurations','$rootScope',
-        function (authenticator, appService, spinner, configurations, $rootScope) {
+    ['authenticator', 'appService', 'spinner', 'configurations',
+        function (authenticator, appService, spinner, configurations) {
             return function (appName) {
                 var loadConfigPromise = function () {
                     return configurations.load([]);

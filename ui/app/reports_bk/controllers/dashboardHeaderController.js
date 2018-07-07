@@ -8,7 +8,6 @@ angular.module('bahmni.reports')
                 if (appService.getAppDescriptor().getConfigValue("enableReportQueue")) {
                     backLinks.push({text: "REPORTS_HEADER_REPORTS", state: "dashboard.reports", accessKey: "d"});
                     backLinks.push({text: "REPORTS_HEADER_MY_REPORTS", state: "dashboard.myReports", accessKey: "m"});
-                    backLinks.push({text: "REPORTS_HEADER_NEW_REPORTS", state: "dashboard.newReports", accessKey: "f"});
                 }
                 $state.get('dashboard').data.backLinks = backLinks;
             };

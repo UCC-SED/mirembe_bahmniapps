@@ -10,8 +10,6 @@
         <link rel="stylesheet" href="../components/ngDialog/css/ngDialog-theme-plain.min.css"/>
         <!-- build:css reports.min.css -->
         <link rel="stylesheet" href="../styles/clinical.css"/>
-        <link rel="stylesheet" href="../styles/home.css"/>
-        <link rel="stylesheet" href="../styles/appointmentScheduling.css">
         <!-- endbuild -->
     </head>
     <body>
@@ -82,7 +80,8 @@
 
         <script src="../common/concept-set/init.js"></script>
         <script src="../common/concept-set/services/conceptService.js"></script>
-
+        <script src="../common/concept-set/services/priviousDataService.js"></script>
+        <script src="../common/concept-set/services/resultMapService.js"></script>
         <script src="../common/domain/init.js"></script>
         <script src="../common/domain/models/retrospectiveEntry.js"></script>
         <script src="../common/domain/services/retrospectiveEntryService.js"></script>
@@ -146,13 +145,10 @@
 
         <script src="init.js"></script>
         <script src="initialization.js"></script>
-        <script src="newreportinitialization.js"></script>
         <script src="services/reportService.js"></script>
         <script src="controllers/reportsController.js"></script>
         <script src="controllers/myReportsController.js"></script>
         <script src="controllers/dashboardHeaderController.js"></script>
-        <script src="controllers/reportDashboardController.js"></script>
-        <script src="controllers/reportsByDepartmentController.js"></script>
 
         <script src="app.js"></script>
 

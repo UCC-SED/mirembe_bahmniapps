@@ -59,17 +59,6 @@ angular.module('bahmni.reports')
             window.open(url);
         };
 
-        var newGenerateReport = function (report) {
-            console.log(currentUser());
-                    var url = Bahmni.Common.Constants.reportsUrl + "/newreport";
-                    url = (url + "?name={0}&startDate={1}&endDate={2}&responseType={3}&paperSize={4}&appName={5}&facilityName={6}&HFRID={7}&facilityOwnership={8}&council={9}&region={10}&personReporting={11}&CTCID={12}&followUpPeriod={13}")
-                    .format(report.name, report.startDate, report.stopDate, report.responseType, paperSize, appName, report.facilityName, report.HFRID,report.facilityOwnership,report.council,report.region,currentUser(),report.CTCID,report.followUpPeriod||0);
-                    if (report.reportTemplateLocation && report.responseType == 'application/vnd.ms-excel-custom') {
-                        url = (url + "&macroTemplateLocation=" + report.reportTemplateLocation);
-                    }
-                    window.open(url);
-                };
-
         return {
             getFormatForMimeType: getFormatForMimeType,
             getMimeTypeForFormat: getMimeTypeForFormat,
@@ -77,7 +66,6 @@ angular.module('bahmni.reports')
             scheduleReport: scheduleReport,
             getScheduledReports: getScheduledReports,
             deleteReport: deleteReport,
-            generateReport: generateReport,
-            newGenerateReport:newGenerateReport
+            generateReport: generateReport
         };
     }]);

@@ -17878,6 +17878,16 @@ button.mfp-close:hover {
   background-color: #FFF;
   border: 1px solid #ddd;
 }
+
+.adt input.disposition-action {
+  color: #363463;
+  display: block;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  background-color: #FFF;
+  border: 1px solid #ddd;
+}
 /* line 15, adt/_adt.scss */
 .adt .patient-disposition-status {
   color: green;

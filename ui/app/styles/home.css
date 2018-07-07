@@ -5053,7 +5053,7 @@ table tr.has-test-notes td {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: right;
-  background: #eee;
+  background: #80aaff;
   padding: 10px 15px;
   border-radius: 5px;
   box-shadow: 0px 4px 5px -2px #ccc;
@@ -10271,7 +10271,6 @@ body {
   padding-bottom: 5px;
   font-size: 12px;
   color: #898989;
-  display: none;
 }
 /* line 512, home/_home.scss */
 .power-by img {
