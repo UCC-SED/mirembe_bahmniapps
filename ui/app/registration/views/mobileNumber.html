@@ -3,6 +3,6 @@
         <label for="mobileNumberLabel">{{ ::'REGISTRATION_LABEL_MOBILE_NUMBER' | translate}}</label>
     </div>
     <div class="field-value" id="mobileNumberLabel">
-        <input type="text" id="mobileNumber" ng-model="patient.mobileNumber"  >
+        <input type="text" id="mobileNumber" ng-model="patient.mobileNumber" minlength="10" maxlength="10" >
     </div>
 </article>

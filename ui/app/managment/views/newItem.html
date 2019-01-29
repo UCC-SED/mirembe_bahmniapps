@@ -1,0 +1,68 @@
+<div class="adt">
+    <div class="box-container">
+        <div class="audit-log-filter">
+            <header>
+                <p>{{customHeader}}</p>
+            </header>
+            <article id="startFrom">
+                <div class="disposition-action">
+                    <p>
+                      <label >Item Category </label>
+                              <select id="itemCategory" ng-model="item.category" class="disposition-action" ng-model="option" ng-options="o for o in items" ng-click="onItemCategorySelected(item.category)"></select>
+                    </p>
+                </div>
+                <div ng-if="item.category " id="itemName">
+                <p>
+                    <label for="startFrom">Item Name  </label>
+                    <input class="disposition-action" id="itemName" type="text" ng-model="item.name">
+                </p>
+                 <div ng-if="item.category ==='Laboratory Test' && item.name" id="itemMappingSource">
+                
+                 <p>
+                <label for="startFrom">Laboratory Departments </label>    
+                              <select id="departmentName" ng-model="item.itemDepartmentName" class="disposition-action" ng-model="option" ng-options="o for o in labDepartments" ></select>
+                    </p>
+                </div>
+                </div>
+                 <div ng-if="item.category ==='Drug' && item.name" id="itemMappingSource">
+                
+                 <p>
+                <label for="startFrom">Mapping Category </label>    
+                              <select id="sourceCategory" ng-model="item.sourceCategory" class="disposition-action" ng-model="option" ng-options="o for o in drugSourceCategory" ></select>
+                    </p>
+                </div>
+                 <div ng-if="item.category ==='Diagnosis' && item.name" id="itemMappingSource">
+                
+                 <p>
+                <label for="startFrom">Mapping Category </label>    
+                              <select id="sourceCategory" ng-model="item.sourceCategory" class="disposition-action" ng-model="option" ng-options="o for o in diagnosisSourceCategory" ></select>
+                    </p>
+                </div>
+
+                 <div ng-if="item.category ==='Laboratory Test' && item.name" id="itemMappingSource">
+                
+                 <p>
+                <label for="startFrom">Mapping Category </label>    
+                              <select id="sourceCategory" ng-model="item.sourceCategory" class="disposition-action" ng-model="option" ng-options="o for o in labSourceCategory" ></select>
+                    </p>
+                </div>
+                 <div ng-if="item.sourceCategory" id="itemMappingCode">
+
+                <p>
+                <label for="startFrom">Mapping Code  </label>
+                    <input class="disposition-action" id="itemName" type="text" ng-model="item.mappingCode">
+                </p>
+                </div>
+
+                <p>
+                <button  type="submit" ng-if="item.category && item.name "  class="run-report confirm" ng-click="createNewItem(item)">
+                    {{buttonLabel}}
+                </button>
+                </p>
+            </article>
+
+        </div>
+   
+    </div>
+</div>
+

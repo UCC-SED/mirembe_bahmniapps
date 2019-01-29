@@ -1,0 +1,34 @@
+<div class="adt">
+    <div class="box">
+        <div class="audit-log-filter">
+            <header>
+                <p>{{customHeader}}</p>
+            </header>
+            <article id="startFrom">
+
+                <div  id="salePrice">
+                     <label >Sale Price  </label>
+                <p>    
+                    <input class="disposition-action" id="itemSalePrice" type="number" ng-model="item.salePrice">
+                </p>
+                <label >TSH</label>
+                </div>
+                 <div  id="insuranceSalePrice">
+                     <label >NHIF Sale Price  </label>
+                <p>
+                    <input class="disposition-action" id="itemName" type="text" ng-model="item.insuranceSalePrice">
+                </p>
+                  <label >TSH</label>
+                </div>
+                
+                <button  type="submit" ng-if="item.salePrice"  class="run-report confirm" ng-click="setItemPrice(item)">
+                    {{buttonLabel}}
+                </button>
+               
+            </article>
+
+        </div>
+   
+    </div>
+</div>
+

@@ -128,10 +128,12 @@ angular.module('consultation')
                         'content': {
                             template: '<div ui-view="dashboard-header"></div> <div ui-view="dashboard-content"></div>' +
                                 '<patient-control-panel patient="patient" visit-history="visitHistory" visit="visit" show="showControlPanel" consultation="consultation"/>',
-                            controller: function($scope, visitHistory, consultationContext, followUpConditionConcept) {
+                            controller: function($scope, visitHistory, consultationContext, followUpConditionConcept, patientContext) {
                                 $scope.visitHistory = visitHistory;
                                 $scope.consultation = consultationContext;
                                 $scope.followUpConditionConcept = followUpConditionConcept;
+                                console.log(consultationContext);
+                                console.log(patientContext);
                                 $scope.lastConsultationTabUrl = {
                                     url: undefined
                                 };

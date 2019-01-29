@@ -6,6 +6,8 @@ angular.module('bahmni.registration')
             var dateUtil = Bahmni.Common.Util.DateUtil;
             $scope.actions = {};
             var errorMessage;
+            //var doctorRoomsMapLoginLocation = appService.getAppDescriptor().getConfigValue('doctorRoomsMapLoginLocation');
+            var doctorRoomsMapLoginLocation = appService.getAppDescriptor().getConfigValue("doctorRoomsMapLoginLocation").doctorRoomsMapLoginLocationDefinition;
             var configValueForEnterId = appService.getAppDescriptor().getConfigValue('showEnterID');
             $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
             $scope.disablePhotoCapture = appService.getAppDescriptor().getConfigValue("disablePhotoCapture");
@@ -19,6 +21,19 @@ angular.module('bahmni.registration')
             $scope.verificationResults;
             $scope.duplicatePatient;
             $scope.emergencyRegistration=false;
+            $scope.currenLoginLocationName=$rootScope.loggedInLocation.display;
+
+            var doctorRoomsLoginLocMapping = function (doctorRoomsMapLoginLocation, loginLocationName)
+            {
+                angular.forEach(doctorRoomsMapLoginLocation, function(doctorRooms) {
+                 if(doctorRooms.loginLocationName === loginLocationName)
+                 {
+                    console.log($scope.locationConfig);
+                    $scope.locationConfig.locations=doctorRooms.doctorRooms;
+                    console.log($scope.locationConfig);
+                 }
+             });
+            }
 
 
             $scope.copyNHIFDetails = function() {
@@ -102,6 +117,7 @@ angular.module('bahmni.registration')
                 prepopulateDefaultsInFields();
                 expandSectionsWithDefaultValue();
                 $scope.patientLoaded = true;
+                doctorRoomsLoginLocMapping(doctorRoomsMapLoginLocation,$rootScope.loggedInLocation.display);
             };
 
             init();

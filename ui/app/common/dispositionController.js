@@ -102,7 +102,6 @@ angular.module('bahmni.clinical')
         
         var getProposedWards = function () {
 		return dispositionService.getproposedWards().then(function (response) {
-			console.log(response);
 			$scope.wards=response.data.results[0].answers;
 				
 			});
@@ -165,7 +164,7 @@ angular.module('bahmni.clinical')
                 return disposition;
             }
         };
-        getProposedWards();
+        
         spinner.forPromise(loadDispositionActions(), '#disposition');
 
         var saveDispositions = function () {

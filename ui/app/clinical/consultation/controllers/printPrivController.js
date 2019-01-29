@@ -49,6 +49,8 @@ angular.module('bahmni.clinical')
 		}
         });
 
+
+
         treatmentService.getActiveDrugOrders($scope.patient.uuid).then(function(data){
              $scope.trets = "";
                     var x =0;
@@ -292,6 +294,16 @@ angular.module('bahmni.clinical')
 		var getHIVData = function (HIVdata)
 		{
 			console.log(HIVdata);
+			 printPrivService.getTransferData($scope.patient.uuid,"WEIGHT").then(function(data){
+                        $scope.weight = data.data[0].value;
+                            });
+
+              printPrivService.getTransferData($scope.patient.uuid,"CTC - Functional Status").then(function(data){
+                                                    $scope.functional_Status = data.data[0].value;
+                                                        });
+
+
+
 			HIVdata.forEach(function(data){
 			if(data.attributeType.display=="ID_Number"){
 				$scope.HIVnO = data.value;
@@ -299,21 +311,26 @@ angular.module('bahmni.clinical')
 			if(data.attributeType.display=="Date Enrolled In Care"){
 				$scope.HIVdATE = data.value;
 			}
-			if(data.attributeType.display=="Date Confirmed HIV+"){
+			if(data.attributeType.display=="Date Verified HIV Status"){
 				$scope.verifiedHiv = data.value;
+
 			}
-			if(data.attributeType.display=="Date Medically Eligible"){
+			if(data.attributeType.display=="Date Ready to Start ARV"){
 				$scope.date_readyMeds = data.value;
 			}
 			if(data.attributeType.display=="Date Start ART"){
 				$scope.date_startMeds = data.value;
 			}
-			if(data.attributeType.display=="Weight"){
-				$scope.weight = data.value;
-			}
+
 			if(data.attributeType.display=="Functional Status"){
 				$scope.functional_Status = data.value.display;
 			}
+			if(data.attributeType.display=="WHO Stage"){
+            $scope.clinical_stage = data.value.display;
+            			}
+            if(data.attributeType.display=="CD4 Count"){
+             $scope.cd4_count = data.value;
+                                    			}
 			
 			
 		});

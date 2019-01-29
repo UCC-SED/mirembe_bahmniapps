@@ -4,21 +4,19 @@
             <a href="javascript:void(0)" class="section-title" toggle="allPrograms.showProgramSection">
                 <i class="fa fa-minus-square" ng-show="!allPrograms.showProgramSection"></i>
                 <i class="fa fa-plus-square" ng-show="allPrograms.showProgramSection"></i>
-                {{'PROGRAM_MANAGEMENT_SELECT_PROGRAM_KEY' | translate}}
+                {{ clinicTitle | translate}}
             </a>
 
             <form class="select-program-option form-field clearfix" single-submit="enrollPatient()"
                   ng-show="!allPrograms.showProgramSection">
                 <div class="field-table-view">
 
-
-
                     <article class="fl field-table-row" id="right_col">
                         <div class="cell-attributes">
                             <label>{{'PROGRAM_MANAGEMENT_LABEL_PROGRAM' | translate}} : </label>
                         </div>
                         <div class="cell-value">
-                            <select ng-model="programSelected" ng-options="program.name for program in allPrograms"
+                            <select ng-model="programSelected" ng-options="program.name for program in allFilteredPrograms"
                                     data-ng-change="setWorkflowStates(programSelected)">
                                 <option value="">{{'PROGRAM_MANAGEMENT_CHOOSE_PROGRAM_KEY' | translate}}</option>
                             </select>
@@ -47,14 +45,14 @@
                             </label>
                         </div>
                         <div class="cell-value">
-                            <input type="date"  max="{{today}}" ng-model="programEnrollmentDate" ng-required="true"  pattern="dd/MM/YYYY">
+                            <input type="date" max="{{today}}" ng-model="programEnrollmentDate" ng-required="true">
                         </div>
                     </article>
 
-                    <article class="field-table-row" ng-repeat="attribute in programAttributeTypes" ng-if="isIncluded(attribute)">
+                   <article class="field-table-row" ng-repeat="attribute in programAttributeTypes" ng-if="showAttribute">
 
-                        <attribute-types target-model="patientProgramAttributes" attribute="attribute"
-                                         is-form="true" handle-Update="handleProgramAttributeUpdate(attribute.name)"></attribute-types>
+                        <attribute-types target-model="patientProgramAttributes" attribute="attribute" is-form="true" handle-change="handleProgramAttributeUpdate"
+                         ></attribute-types>
                     </article>
                     <div class="field-table-row">
                         <input class="fr" type="submit" value="{{'PROGRAM_MANAGEMENT_ENROLL_KEY' | translate}}"/>

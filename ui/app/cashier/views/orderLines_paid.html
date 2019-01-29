@@ -1,0 +1,33 @@
+<div class="revise-refill-modal-wrapper1"  aria-labelledby="dialog-label" id="re">
+    <span class="ngdialog-start1"></span>
+
+    <span class="ngdialog-close1"></span>
+
+    <div class="drug-details1">
+        <p><strong class="drug-name1"><h2>{{fullName}}</h2></p>
+    </div>
+    <div>
+        <table>
+            <thead>
+            <tr><th>Item</th><th>Quantity</th><th>Amount</th><th>Sub Total</th></tr>
+            </thead>
+            <tbody ng-repeat="orderLine in orderLines" >
+            <tr><td>{{orderLine.item_name}}</td><td>{{orderLine.qty}}</td><td>{{orderLine.amount}}</td><td>{{orderLine.amount * orderLine.qty}}</td></tr>
+            </tbody>
+
+            <tr><td></td><td></td><td>Total</td><td>{{total}}</td></tr>
+            <tr><td></td><td></td><td>Discount</td><td>{{discount}}</td></tr>
+            <tr><td></td><td></td><td>Grand Total</td><td>{{gTotal = total - discount}}</td></tr>
+        </table>
+    </div>
+    </br>
+
+        <button id="modal-okay-button" class="secondary-button" ng-click="closeThisDialog(0)"
+                ng-focus="toggleTabIndexWithinModal($event)">Close
+        </button>
+
+    </div>
+
+
+    <span class="ngdialog-end"></span>
+</div>

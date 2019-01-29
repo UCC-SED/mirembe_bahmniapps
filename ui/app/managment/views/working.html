@@ -1,0 +1,74 @@
+<section class="reg-search-wrapper">
+    <section class="reg-search">
+        <article class="search-seperator-l">
+            <form name="searchByIdForm" ng-submit="searchItem()" class="simple-form-ui clearfix">
+                <label for="registrationNumber"><strong>{{ ::'ITEM_NAME' | translate}}</strong></label>
+                <div class="search-patient-id fl">
+                    <input tabindex="2" class="fl" type="text" id="registrationNumber"
+                           ng-model="item.searchName" focus-me="true"
+                           placeholder="{{ ::'ITEM_NAME' | translate}}">
+                    <div class="reg-srch-btn fl">
+                        <button tabindex="3" type="submit" ng-disabled="!searchParameters.registrationNumber">{{
+                            ::'SEARCH_ITEM' | translate}}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </article>
+        <article class="search-seperator-r">
+            <form name="searchByNameForm" ng-submit="searchPatients()" class="simple-form-ui">
+
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'ITEM_CATEGORY' | translate}}</strong></label>
+                    <select id="category" ng-model="item.category" class="disposition-action"
+                            ng-model="option" ng-options="o for o in itemCategory"
+                            placeholder="{{ ::'ITEM_CATEGORY' | translate}}"></select>
+                </article>
+
+                <article class="fl">
+                    <div class="reg-srch-btn">
+                        <button tabindex="7" type="submit" ng-disabled="disableSearchButton()">{{ ::'SEARCH_ITEM' |
+                            translate}}
+                        </button>
+                    </div>
+                </article>
+
+                 <article class="fl right">
+                    <div class="reg-srch-btn">
+                        <button ng-click="createItem()" tabindex="7" type="submit" >{{::'CREATE_ITEM' |translate}}
+                        </button>
+                    </div>
+                </article>
+
+                 <article class="fl right">
+                    <div class="reg-srch-btn">
+                        <button ng-click="editItem()" tabindex="7" ng-show="showTable"  type="submit run-report" >{{::'EDIT_ITEM' |translate}}
+                        </button>
+                    </div>
+                </article>
+
+            </form>
+
+        </article>
+    </section>
+
+    <div class="note-container no-search-results" ng-if="noResultsMessage">
+        <div class="note warning">
+            <div class="text">
+                <p>{{noResultsMessage | translate:patientIdentifier }}</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="loader" ng-show="loadingMoreResults()"></div>
+
+    <div class="note-container no-more-results" ng-if="noMoreResultsPresent">
+        <div class="note warning">
+            <div class="text">
+                <p>{{ ::'REGISTRATION_LABEL_NO_RESULTS' | translate}}</p>
+            </div>
+        </div>
+    </div>
+</section>

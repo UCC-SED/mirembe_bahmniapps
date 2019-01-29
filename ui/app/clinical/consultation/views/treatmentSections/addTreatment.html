@@ -24,7 +24,8 @@
                        }"
                                    ng-change="onChange()"
                                    ng-model="treatment.drugNameDisplay" on-select="onSelect" autofocus
-                                   ng-disabled="treatment.previousOrderUuid" ng-readonly="treatment.isBeingEdited"/>
+                                   ng-disabled="treatment.previousOrderUuid" ng-readonly="treatment.isBeingEdited"
+                                   ng-blur="getDrugStockStatusByDrugName(treatment.drugNameDisplay)"/>
 
                 <span ng-if="treatmentConfig.allowNonCodedDrugs()">
                     <button type="button" ng-model="treatment.isNonCodedDrug"

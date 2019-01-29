@@ -1,0 +1,59 @@
+<div class="adt">
+    <div class="box-container">
+        <div class="audit-log-filter">
+            <header>
+                <p>{{customHeader}}</p>
+            </header>
+            <article id="startFrom">
+                <div class="disposition-action">
+                    <p>
+                      <label >Item Category </label>
+                              <select id="itemCategory" ng-model="item.itemCategory" class="disposition-action" ng-model="option" ng-options="o for o in items" ng-click="onItemCategorySelected(item.category)"></select>
+                    </p>
+                </div>
+                <div  id="itemName">
+                <p>
+                    <label for="startFrom">Item Name  </label>
+                    <input class="disposition-action" id="itemName" type="text" ng-model="item.itemName">
+                </p>
+                </div>
+                 <div ng-show="false" && item.name" id="itemMappingSource">
+                
+                 <p>
+                <label for="startFrom">Mapping Category </label>    
+                              <select id="sourceCategory" ng-model="item.sourceCategory" class="disposition-action" ng-model="option" ng-options="o for o in drugSourceCategory" ></select>
+                    </p>
+                </div>
+                 <div ng-show="false" id="itemMappingCode">
+
+                <p>
+                <label for="startFrom">Mapping Code  </label>
+                    <input class="disposition-action" id="itemName" type="text" ng-model="item.mappingCode">
+                </p>
+                </div>
+                 <div  id="salePrice">              
+                <p>  
+                <label >Sale Price  </label>  
+                    <input class="disposition-action" id="itemSalePrice" type="text" ng-model="item.itemPublicPrice">
+                </p>
+                <label >TSH</label>
+                </div>
+                 <div  id="insuranceSalePrice">         
+                <p>
+                    <label >NHIF Sale Price  </label>
+                    <input class="disposition-action" id="itemName" type="text" ng-model="item.itemInsurancePrice">
+                </p>
+                  <label >TSH</label>
+                </div>
+                <p>
+                <button  type="submit"  class="run-report confirm" ng-click="editItem(item)">
+                     {{::'EDIT_ITEM' |translate}}
+                </button>
+                </p>
+            </article>
+
+        </div>
+   
+    </div>
+</div>
+

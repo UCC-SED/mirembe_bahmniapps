@@ -1,0 +1,45 @@
+<div class="adt">
+   <p> <a id="bahmni.registration2" ng-href="../warehouse/#/index"
+       class="btn btn-secondary" role="button" target="_self"
+       href="../warehouse/#/index">Go Back</a>
+   </p>
+    <div class="box">
+        <div class="audit-log-filter">
+            <header>
+                <p>Enter New Price List</p>
+            </header>
+            <article id="startFrom">
+
+                <div  id="salePrice">
+                    <label >Price List Name  </label>
+                    <p>
+                        <input class="disposition-action" id="priceName" type="text" ng-model="item.priceName">
+                    </p>
+                     <p>
+                        <input type="checkbox" class="form-check-input" id="defaultPrice" ng-model="item.defaultPrice">
+                        <label class="form-check-label" for="defaultPrice">Default Price List</label>
+                    </p>
+
+
+
+                <button  type="submit"   class="run-report confirm" ng-click="setItemPrice()">
+                   Save
+                </button>
+                </div>
+            </article>
+
+        </div>
+<table>
+    <thead>
+    <tr><th>Price List Name</th><th>Default Price</th><th>Date Recorded</th></tr>
+    </thead>
+    <tbody ng-repeat="priceList in priceLists">
+    <tr><td>{{priceList.name}}</td><td><span ng-if="priceList.default_price == 1">Yes</span><span ng-if="priceList.default_price == 0">No</span></td><td>{{priceList.date_recorded}}</td></tr>
+
+    </tbody>
+
+
+</table>
+    </div>
+</div>
+

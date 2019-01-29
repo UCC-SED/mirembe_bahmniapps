@@ -17,6 +17,7 @@ angular.module('bahmni.clinical')
             $scope.addTreatment = true;
             $scope.canOrderSetBeAdded = true;
             $scope.isSearchDisabled = false;
+            $scope.ngDialog = ngDialog;
 
             $scope.getFilteredOrderSets = function (searchTerm) {
                 if (searchTerm && searchTerm.length >= 3) {
@@ -67,6 +68,7 @@ angular.module('bahmni.clinical')
             };
 
             $scope.selectFromDefaultDrugList = function () {
+                console.log("Change");
                 $scope.onSelect($scope.treatment.selectedItem);
             };
 
@@ -314,7 +316,7 @@ angular.module('bahmni.clinical')
 
             $scope.add = function () {
                 //popup if there is no diagnosis at that visit
-               // latest_diagnosis();
+               latest_diagnosis();
 
                 var treatments = $scope.treatments;
                 if ($scope.treatment.isNewOrderSet) {
@@ -336,8 +338,8 @@ angular.module('bahmni.clinical')
                     newDrugOrder.drug.name, newDrugOrder.drug.uuid, $scope.gothomisIntegrationStatus, currentProviderUuid
                 ).then(function (response) {
                     var drugStatusResponse = response.data.stockStatus;
-
-                    if (!drugStatusResponse) {
+               //Another need to be done with quantity
+                /*    if (!drugStatusResponse) {
                         $scope.stockAvaibilityStatus = !drugStatusResponse;
                         $scope.stockAvaibilityDrugOrder = newDrugOrder;
                         ngDialog.open({
@@ -346,7 +348,7 @@ angular.module('bahmni.clinical')
                         });
                         return;
                     }
-
+                */
                     if (getConflictingDrugOrder(newDrugOrder)) {
                         if ($scope.alreadyActiveSimilarOrder.isNewOrderSet) {
                             $scope.conflictingIndex = _.findIndex($scope.orderSetTreatments, $scope.alreadyActiveSimilarOrder);
@@ -632,12 +634,22 @@ angular.module('bahmni.clinical')
 
              var visit = _.get(visitHistory, 'activeVisit');
              diagnosisService.getDiagnoses($scope.patient.uuid).then(function(data){
-
+						console.log(data);
+						var noDiagnosis= null;
+						if(data.data.length == 0){
+							noDiagnosis ="no diagnosis";
+						}else{
+						
                    var lastvisitDate = new Date(visit.startDatetime);
                    var lastDiagnosisDate = new Date(data.data[0].diagnosisDateTime);
 
                    if(lastvisitDate > lastDiagnosisDate)
                   {
+					  noDiagnosis ="no diagnosis";
+				  }
+				 
+			      }
+				   if(noDiagnosis == "no diagnosis" ){
                   //call for pop show no diagnosis for this visit conflictingNoDiagnosis.html
                      ngDialog.open({
                            template: 'consultation/views/treatmentSections/conflictingNoDiagnosis.html',
@@ -645,7 +657,7 @@ angular.module('bahmni.clinical')
                                   });
                            $scope.popupActive = true;
                            return;
-                  }
+                     }
 
                             });
 
@@ -840,6 +852,29 @@ angular.module('bahmni.clinical')
                     $scope.consultation.activeAndScheduledDrugOrders.push(discontinuedDrug);
                 });
             };
+
+            $scope.getDrugStockStatusByDrugName = function (drugName)
+            {
+                 console.log(drugName);
+                if(drugName)
+                {
+                    console.log("RUn");
+           spinner.forPromise(drugService.getDrugStockStatusByDrugName(drugName).then(function (response) {
+                var drugStatusResponse = response.data.stockStatus;
+
+                    if (!drugStatusResponse) {
+                        $scope.stockAvaibilityStatus = !drugStatusResponse;
+                        $scope.stockAvaibilityDrugOrder = drugName;
+                        ngDialog.open({
+                            template: 'consultation/views/treatmentSections/availableDrugOrderModalNew.html',
+                            scope: $scope
+                        });
+                        return;
+                    }
+
+                }));
+       }
+            }
 
             var init = function () {
 

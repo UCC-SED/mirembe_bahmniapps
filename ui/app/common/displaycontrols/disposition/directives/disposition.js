@@ -23,7 +23,6 @@ angular.module('bahmni.common.displaycontrol.disposition')
 
 
                 var getWardsave = function () {
-
                     dispositionService.getWardData($scope.patientUuid, Bahmni.Common.Constants.ward_saveConcept).then(function (response) {
 
                         if(response.data.results.length > 0)

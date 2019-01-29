@@ -81,7 +81,7 @@ angular.module('bahmni.registration')
                     }
                 }
                 saved = true;
-                spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier, $scope.observations[0].groupMembers[0].value.name.name).then(function(response) {
+                spinner.forPromise(sendConsultationFeeOrder($scope.patient.primaryIdentifier.identifier, $scope.observations[0].groupMembers[1].value.name.name,$scope.observations[0].groupMembers[0].value.name.name,locationUuid).then(function(response) {
                     $scope.encounter = {
                         patientUuid: $scope.patient.uuid,
                         locationUuid: locationUuid,
@@ -289,12 +289,14 @@ angular.module('bahmni.registration')
                 };
             };
 
-            var sendConsultationFeeOrder = function(patientIdentifier, paymentCategoryName) {
+            var sendConsultationFeeOrder = function(patientIdentifier, paymentCategoryName, patientCategory,locationUuid) {
                 var url = Bahmni.Common.Constants.sendConsultationFeeOrder;
                 return $http.get(url, {
                     params: {
                         patientIdentifier: patientIdentifier,
-                        paymentCategoryName: paymentCategoryName
+                        paymentCategoryName: paymentCategoryName,
+                        patientCategory: patientCategory,
+                       locationUuid: locationUuid
                     }
                 });
             };

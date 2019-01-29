@@ -1,0 +1,11 @@
+{
+    "MANAGMENT_SAVE_SUCCESS_MESSAGE_KEY": "Saved",
+    "ITEM_NAME": "Name",
+    "ITEM_CATEGORY": "Category",
+    "ITEM_PUBLIC_PRICE": "Public Price",
+    "ITEM_INSURANCE_PRICE": "NHIF Price",
+    "EDIT_ITEM": "Edit Item",
+    "SEARCH_ITEM": "Search",
+    "CREATE_ITEM": "Create New Item",
+    "ITEM_MAPPING" : "Reference"
+}

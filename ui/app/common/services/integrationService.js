@@ -15,6 +15,22 @@ angular.module('bahmni.common.services')
             });
         };
 
+        var getBillType = function (patientUuid, conceptName) {
+                    var params = {
+                        patientUuid: patientUuid,
+                        concept: conceptName
+                    };
+                    return $http.get(Bahmni.Common.Constants.observationsUrl, {params: params});
+                };
+
+         var StockReduction = function (drugsTOreduct,payment_type) {
+                            var params = {
+                                orders: drugsTOreduct,
+                                payment_type: payment_type
+                            };
+                            return $http.get(Bahmni.Common.Constants.StockReductionUrl, {params: params});
+                        };
+
         var submitDrugOrder = function (providerUuid, drugOrder, patientUuid, locationUuid) {
             return $http({
                 method: 'POST',
@@ -30,6 +46,40 @@ angular.module('bahmni.common.services')
                 }
             });
         };
+
+      var passBillDrugOrder = function (providerUuid, drug_orders, patientUuid, locationUuid,payment_type){
+                  var params = {
+                        provider: providerUuid,
+                        drug_orders: drug_orders,
+                        patient_uuid: patientUuid,
+                        locationUuid: locationUuid,
+                        payment_type: payment_type
+                                 };
+
+                        return $http.get(Bahmni.Common.Constants.drugBillingUrl, {
+                               method: "GET",
+                               params: params,
+                               withCredentials: true
+                                     });
+
+                 };
+
+          var passBillOrder = function (providerUuid, orders, patientUuid, locationUuid,payment_type){
+                       var params = {
+                             provider: providerUuid,
+                             orders: orders,
+                             patient_uuid: patientUuid,
+                             locationUuid: locationUuid,
+                             payment_type: payment_type
+                                      };
+
+                             return $http.get(Bahmni.Common.Constants.lab_rad_billOrdersUrl, {
+                                    method: "GET",
+                                    params: params,
+                                    withCredentials: true
+                                          });
+
+                      };
 
         var submitDisposition = function (providerUuid, patientUuid, dispositionNotes) {
             return $http({
@@ -73,6 +123,10 @@ angular.module('bahmni.common.services')
             submitDrug: submitDrug,
             submitDrugOrder: submitDrugOrder,
             submitDisposition: submitDisposition,
+            passBillDrugOrder:passBillDrugOrder,
+            StockReduction :StockReduction,
+            passBillOrder:passBillOrder,
+            getBillType: getBillType,
             getGothomisUserID :getGothomisUserID
         };
     }]);

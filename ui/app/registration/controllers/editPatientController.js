@@ -5,6 +5,7 @@ angular.module('bahmni.registration')
         function ($scope, patientService, encounterService, $stateParams, openmrsPatientMapper, $window, $q, spinner, appService, messagingService, $rootScope,providerConfig, ngDialog, locationConfig) {
             var dateUtil = Bahmni.Common.Util.DateUtil;
             var uuid = $stateParams.patientUuid;
+            var doctorRoomsMapLoginLocation = appService.getAppDescriptor().getConfigValue("doctorRoomsMapLoginLocation").doctorRoomsMapLoginLocationDefinition;
             $scope.patient = {};
             $scope.actions = {};
             $scope.addressHierarchyConfigs = appService.getAppDescriptor().getConfigValue("addressHierarchy");
@@ -14,6 +15,20 @@ angular.module('bahmni.registration')
             $scope.locationConfig = locationConfig;
             $scope.today = dateUtil.getDateWithoutTime(dateUtil.now());
             $scope.emergencyRegistration=false;
+
+
+               var doctorRoomsLoginLocMapping = function (doctorRoomsMapLoginLocation, loginLocationName)
+            {
+                angular.forEach(doctorRoomsMapLoginLocation, function(doctorRooms) {
+                 if(doctorRooms.loginLocationName === loginLocationName)
+                 {
+                    console.log("FOUND ONE");
+                    console.log($scope.locationConfig);
+                    $scope.locationConfig.locations=doctorRooms.doctorRooms;
+                    console.log($scope.locationConfig);
+                 }
+             });
+            }
 
                $scope.copyNHIFDetails = function ()
                         {
@@ -102,6 +117,7 @@ angular.module('bahmni.registration')
                         $scope.actions.followUpAction(patientProfileData);
                     }
                 }));
+
             };
 
             var addNewRelationships = function () {
@@ -123,4 +139,10 @@ angular.module('bahmni.registration')
             $scope.afterSave = function () {
                 messagingService.showMessage("info", "REGISTRATION_LABEL_SAVED");
             };
+
+            var init = function() {
+                doctorRoomsLoginLocMapping(doctorRoomsMapLoginLocation,$rootScope.loggedInLocation.display);
+            };
+
+            init();
         }]);

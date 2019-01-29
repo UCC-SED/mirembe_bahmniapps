@@ -5,6 +5,7 @@
 </div>
 <div ng-if="toggleGallery">
     <ul class="doc-upload-accordion" bm-gallery patient="patient" access-impression="false">
+<!--
         <li id="newVisit">
             <h5 ng-click="resetCurrentVisit(newVisit)">
                 <i ng-hide="isCurrentVisit(newVisit)" class="fa fa-plus-circle state"></i>
@@ -123,7 +124,7 @@
 
             </div>
         </li>
-
+-->
         <li ng-repeat="visit in visits">
             <h5 ng-click="resetCurrentVisit(visit)">
                 <i ng-hide="isCurrentVisit(visit)" class="fa fa-plus-circle state"></i>

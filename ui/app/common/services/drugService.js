@@ -37,6 +37,17 @@ angular.module('bahmni.common.services')
             }
         };
 
+        var getDrugStockStatusByDrugName = function (drugName) {
+           
+                var url = Bahmni.Common.Constants.localDrugStockUrl;
+                return $http.get(url, {
+                    params: {
+                        drugName: drugName
+                    }
+                });
+            
+        };
+
 
          var updateDeliveryOrder = function (drugName, patientUuid) {
                         var url = Bahmni.Common.Constants.updateDeliveryOrder;
@@ -82,6 +93,7 @@ angular.module('bahmni.common.services')
             getRegimen: getRegimen,
             getSetMembersOfConcept: getSetMembersOfConcept,
             getDrugStockStatus: getDrugStockStatus,
-            updateDeliveryOrder: updateDeliveryOrder
+            updateDeliveryOrder: updateDeliveryOrder,
+            getDrugStockStatusByDrugName : getDrugStockStatusByDrugName
         };
     }]);

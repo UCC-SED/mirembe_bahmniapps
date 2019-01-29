@@ -1,0 +1,54 @@
+<div>
+</div>
+<div style="60%;padding:30px" >
+    <div id="navigation" style="float:left;">
+        <ul class="top-level">
+            <li><a href="../warehouse/#/products">Sub Store</a></li>
+            <li><a href="../warehouse/#/activateProducts">Activate/Retire Product</a></li>
+            <li><a href="../warehouse/#/price">Add Price</a></li>
+            <li><a href="../warehouse/#/physical_invent">Physical Inventory</a></li>
+            <li><a href="../warehouse/#/products_location">Product Location</a></li>
+        </ul>
+    </div>
+    <div id="add_product" style="border:1px">
+        <div class="audit-log-filter">
+            <header>
+                <p>Add Product Location</p>
+            </header>
+            <article id="startFrom">
+
+                <div  id="salePrice">
+                    <label >Person ID</label>
+                    <p>
+                        <input placeholder="Enter Person ID" class="disposition-action" id="person_id" type="text" ng-model="item.person_id">
+
+                    </p>
+
+                    <label >Location ID</label>
+                    <p>
+                        <input class="disposition-action"  id="location_id" type="text" ng-model="item.location_id">
+                    </p>
+
+                    <button  type="submit"   class="run-report confirm" ng-click="save_location()">
+                        Save
+                    </button>
+                </div>
+            </article>
+
+        </div>
+        <table>
+             <thead>
+            <tr><th>Product Mvt ID</th><th>Person ID</th><th>Product Location</th><th>Date Recorded</th><th></th></tr>
+            </thead>
+            <tbody ng-repeat="productLocation in productLocationList">
+            <tr><td>{{productLocation.id}}</td><td>{{productLocation.person_id}}</td><td>{{productLocation.location_id}}</td><td>{{productLocation.date_recorded}}</td><td><button type="btn" class="btn btn-primary" ng-click="getproductLists()">Edit</button></td></tr>
+
+            </tbody>
+
+
+        </table>
+    </div>
+
+
+</div>
+</div>

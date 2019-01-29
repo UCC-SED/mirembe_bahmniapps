@@ -1,0 +1,92 @@
+<div>
+    <script>
+  $( function() {
+
+    $( "#product_name" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: window.location.protocol + "//" + window.location.host + "/openmrs/ws/rest/v1/get_item/getDrug",
+          dataType: "json",
+          data: {
+            name: request.term
+          },
+          success: function( data ) {
+
+              if(data == null){
+            data = {label : "Other"};
+              response(data);
+                 }
+                 else{
+             response($.map(data, function (value, key) {
+
+                return {
+                    label: value.name,
+                    value: value.drug_id
+                }
+            }));
+          }
+          }
+        } );
+      },
+      minLength: 2,
+      focus: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					$(this).val(ui.item.label);
+				},
+				select: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					// manually update the textbox and hidden field
+					$(this).val(ui.item.label);
+
+					$("#item_id").val(ui.item.value);
+					 $("#item_id").trigger('change');
+				}
+    });
+  } );
+</script>
+
+</div>
+<div style="60%;padding:30px" >
+    <div id="navigation" style="float:left;">
+        <ul class="top-level">
+            <li><a href="../warehouse/#/products">Add Product</a></li>
+            <li><a href="../warehouse/#/activateProducts">Activate/Retire Product</a></li>
+            <li><a href="../warehouse/#/price">Add Price</a></li>
+            <li><a href="../warehouse/#/physical_invent">Physical Inventory</a></li>
+            <li><a href="../warehouse/#/out_of_stock">Out of Stock</a></li>
+        </ul>
+    </div>
+    <div id="actvateRetire_product" >
+
+        <div class="audit-log-filter">
+            <header>
+                <p>Out Of Stock Data</p>
+            </header>
+
+
+    </div>
+    <p>
+        <input placeholder="Search by Name"  id="searchledger" type="text" ng-model="searchInv">
+
+        <button  type="submit"   class="run-report confirm" ng-click="search()">
+            Search
+        </button>
+    </p>
+
+    <table>
+        <thead>
+
+        <table>
+            <thead>
+            <tr><th>Price List name</th><th>Product Name</th><th>Quantity</th></tr>
+            </thead>
+            <tbody ng-repeat="data in OutOfStockData">
+            <tr><td>{{data.price_listName}}</td><td>{{data.name}}</td><td>{{data.qty}}</td></tr>
+
+            </tbody>
+
+
+        </table>
+</div>

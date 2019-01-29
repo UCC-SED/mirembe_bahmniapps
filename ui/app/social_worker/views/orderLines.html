@@ -1,0 +1,49 @@
+<div class="revise-refill-modal-wrapper1"  aria-labelledby="dialog-label" id="re">
+    <span class="ngdialog-start1"></span>
+
+    <span class="ngdialog-close1"></span>
+
+    <div class="drug-details1">
+        <p><strong class="drug-name1"><h2>{{fullName}}</h2></p>
+    </div>
+    <div>
+        <table>
+            <thead>
+            <tr><th>Item</th><th>Quantity</th><th>Amount</th><th>Sub Total</th><th>Action</th></tr>
+            </thead>
+            <tbody ng-repeat="orderLine in orderLines" >
+            <tr><td>{{orderLine.item_name}}</td><td>{{orderLine.qty}}</td><td>{{orderLine.amount}}</td><td>{{orderLine.amount * orderLine.qty}}</td><td><a ng-click="cancelOrderLine(orderLine.order_line_id,fullName,oder_id);closeThisDialog(0)">Cancel</a></td></tr>
+            </tbody>
+
+            <tr><td></td><td></td><td>Total</td><td>{{total}}</td><td></td></tr>
+            <tr><td></td><td></td><td>Discount</td><td>{{discount}}</td><td></td></tr>
+            <tr><td></td><td></td><td>Grand Total</td><td>{{gTotal = total - discount}}</td><td></td></tr>
+        </table>
+        <table >
+            <thead>
+            <tr><th></th><th></th></tr>
+            </thead>
+            <tbody >
+            <tr><td>Discount Type:</td><td>
+                <p>
+                <select class="disposition-action" name="exemptions" id="exemptions"  ng-options="p.uuid as p.display for p in exemptions" ng-model="item.exemptionUuid">
+                    <option value=""></option>
+                </select>
+            </p>
+            </td></tr>
+            <tr><td>Discount Amount:</td><td><input class="disposition-action" id="dicountAmount" type="text" ng-model="item.dicountAmount"></td></tr>
+            </tbody>
+        </table>
+
+    </div>
+    </br>
+    <div class="dialog-button-group">
+        <button id="modal-okay-button" class="secondary-button" ng-click="saveDiscount(item);closeThisDialog(0)"
+                ng-focus="toggleTabIndexWithinModal($event)">Save
+        </button>
+
+    </div>
+
+
+    <span class="ngdialog-end"></span>
+</div>

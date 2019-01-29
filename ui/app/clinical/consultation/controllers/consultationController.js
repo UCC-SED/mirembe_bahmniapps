@@ -183,7 +183,6 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             $scope.showConfirmationPopUp = true;
         });
 
-
         $scope.displayConfirmationDialog = function (event) {
             if ($rootScope.hasVisitedConsultation && $scope.showSaveConfirmDialogConfig) {
                 if (event) {
@@ -453,6 +452,55 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             }));
         };
 
+
+
+        var post_otherOrders_newBilling = function (providerUuid, Orders, patientUuid, locationUuid){
+        var num = 0;
+         var OrdersArray = {};
+                Orders.forEach(function(Order){
+                if(Order.action != "DISCONTINUE"){
+                 OrdersArray[num]= {"item_uuid":Order.concept.uuid}
+                    num++;
+                    }
+                });
+
+         integrationService.getBillType(patientUuid,"Payment Category").then(function(data){
+                       console.log(data.data[0].valueAsString);
+                       var payment_type = data.data[0].valueAsString;
+                        spinner.forPromise(integrationService.passBillOrder(providerUuid,
+                                           OrdersArray, patientUuid, locationUuid,payment_type
+                                                    ).then(function (response) {
+                                                   if(response.data!="updated")
+                                              messagingService.showMessage('error', "Connection Probelm, Please try to Save again");
+                                                    }));
+                           });
+
+        }
+
+
+
+        var post_drug_newBilling = function (providerUuid, DrugOrders, patientUuid, locationUuid){
+
+        var num = 0;
+        var drugOrderArray = {};
+        DrugOrders.forEach(function(DrugOrder){
+          drugOrderArray[num]={"item_uuid":DrugOrder.drug.uuid, "qty":DrugOrder.dosingInstructions.quantity}
+            num++;
+        });
+        integrationService.getBillType(patientUuid,"Payment Category").then(function(data){
+        var payment_type = data.data[0].valueAsString;
+         spinner.forPromise(integrationService.passBillDrugOrder(providerUuid,
+                         drugOrderArray, patientUuid, locationUuid,payment_type
+                     ).then(function (response) {
+						 
+                    if(response.data!="updated")
+                     messagingService.showMessage('error', "Connection Probelm, Please try to Save again");
+                     }));
+
+                      });
+
+        }
+
         var submitDispositionToGothomis = function (providerUuid, patientUuid, dispositionNotes) {
             spinner.forPromise(integrationService.submitDisposition(providerUuid,
                 patientUuid,
@@ -461,22 +509,155 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
             }));
         };
 
+        var processStockReduction = function (observations,patientUuid){
+        var num = 0;
+          var drugsTOreduct = {};
+		  console.log("drugsTOreduct");
+            observations.forEach(function(obs){
+                   if(obs.orderUuid !="" && obs.value == true)
+                  drugsTOreduct[num]={"order_uuid":obs.orderUuid}
+                   num++;
+                   });
+			 console.log("drugsTOreduct");
+			console.log(drugsTOreduct);
+          integrationService.getBillType(patientUuid,"Payment Category").then(function(data){
+                  var payment_type = data.data[0].valueAsString;
+                 spinner.forPromise(integrationService.StockReduction(drugsTOreduct,payment_type
+                                  ).then(function (response) {
+									  console.log("reduct")
+									console.log(response);
+                                 if(response.data!="updated")
+                                  messagingService.showMessage('error', "Connection Probelm, Please try to Save again");
+                                  }));
+                 });
+                   
+            console.log(drugsTOreduct);
+
+        };
+
         $scope.save = function (toStateConfig) {
             if (!isFormValid()) {
                 $scope.$parent.$parent.$broadcast("event:errorsOnForm");
                 return $q.when({});
             }
+
+
+
             return spinner.forPromise($q.all([preSavePromise(), encounterService.getEncounterType($state.params.programUuid, sessionService.getLoginLocationUuid())]).then(function (results) {
                 var encounterData = results[0];
                 encounterData.encounterTypeUuid = results[1].uuid;
                 var params = angular.copy($state.params);
                 params.cachebuster = Math.random();
+
+               console.log("drugsTOreduct");
+               processStockReduction(encounterData.observations,encounterData.patientUuid);
+                var failedUpdate = false;
+                 if (encounterData.drugOrders.length > 0) {
+                    //post_drug_newBilling(encounterData.providers[0].uuid, encounterData.drugOrders, encounterData.patientUuid, encounterData.locationUuid);
+                       var num = 0;
+                        failedUpdate = true;
+                               var drugOrderArray = {};
+                               encounterData.drugOrders.forEach(function(DrugOrder){
+                                 drugOrderArray[num]={"item_uuid":DrugOrder.drug.uuid, "qty":DrugOrder.dosingInstructions.quantity}
+                                   num++;
+                               });
+                               console.log(drugOrderArray);
+                               integrationService.getBillType(encounterData.patientUuid,"Payment Category").then(function(data){
+                               var payment_type = data.data[0].valueAsString;
+                                spinner.forPromise(integrationService.passBillDrugOrder($scope.currentProvider.uuid,
+                                                drugOrderArray, encounterData.patientUuid, encounterData.locationUuid,payment_type
+                                            ).then(function (response) {
+                                            console.log("response");
+                                            console.log(response);
+
+                                           if(response.data=="updated"){
+                                            failedUpdate = false;
+
+                                            }
+
+                    //save data FOR DRUGS ONLY
+                   if(!failedUpdate){
+                                return encounterService.create(encounterData)
+                                    .then(function (saveResponse) {
+                                        var consultationMapper = new Bahmni.ConsultationMapper(configurations.dosageFrequencyConfig(), configurations.dosageInstructionConfig(),
+                                            configurations.consultationNoteConcept(), configurations.labOrderNotesConcept(), $scope.followUpConditionConcept);
+                                        var consultation = consultationMapper.map(saveResponse.data);
+                                        consultation.lastvisited = $scope.lastvisited;
+
+
+                                         angular.forEach($scope.consultation.drugOrdersWithUpdatedOrderAttributes, function(item){
+                                               spinner.forPromise(drugService.updateDeliveryOrder(
+                                                    item.concept.name, $scope.consultation.patientUuid
+                                                                      ).then(function (response) {
+                                                     }));
+                                                  });
+                                        return consultation;
+                                    }).then(function (savedConsultation) {
+                                        return spinner.forPromise(diagnosisService.populateDiagnosisInformation($scope.patient.uuid, savedConsultation)
+                                            .then(function (consultationWithDiagnosis) {
+                                                return saveConditions().then(function (savedConditions) {
+
+                                                 if (encounterData.drugOrders.length > 0) {
+                                                              //    post_drug_newBilling(encounterData.providers[0].uuid, encounterData.drugOrders, encounterData.patientUuid, encounterData.locationUuid);
+                                                                                                                    }
+                                                                if (encounterData.orders.length > 0){
+                                                                   post_otherOrders_newBilling(encounterData.providers[0].uuid, encounterData.orders, encounterData.patientUuid, encounterData.locationUuid);}
+
+                                                 if ($scope.gothomisIntegrationStatus) {
+
+                                                        if (encounterData.orders.length > 0) {
+
+                                                            submitLabOrderToGothomis(encounterData.providers[0].uuid, encounterData.orders[0].concept.uuid, encounterData.patientUuid, encounterData.locationUuid);
+                                                        }
+                                                        if (encounterData.drugOrders.length > 0) {
+                                                            submitTreatmentOrderToGothomis(encounterData.providers[0].uuid, encounterData.drugOrders, encounterData.patientUuid, encounterData.locationUuid);
+                                                             }
+                                                        if (encounterData.disposition != null) {
+                                                            if (encounterData.disposition.code == "ADMIT") {
+                                                                submitDispositionToGothomis(encounterData.providers[0].uuid, encounterData.patientUuid, encounterData.disposition.additionalObs[0].value);
+                                                            }
+                                                        }
+                                                    }
+                                                    consultationWithDiagnosis.conditions = savedConditions;
+                                                    messagingService.showMessage('info', "{{'CLINICAL_SAVE_SUCCESS_MESSAGE_KEY' | translate}}");
+                                                }, function () {
+                                                    consultationWithDiagnosis.conditions = $scope.consultation.conditions;
+                                                }).then(function () {
+                                                    consultationWithDiagnosis.conditions = $scope.consultation.conditions;
+                                                }).then(function () {
+                                                    copyConsultationToScope(consultationWithDiagnosis);
+                                                    if ($scope.targetUrl) {
+                                                        return $window.open($scope.targetUrl, "_self");
+                                                    }
+                                                    return $state.transitionTo(toStateConfig ? toStateConfig.toState : $state.current, toStateConfig ? toStateConfig.toParams : params, {
+                                                        inherit: false,
+                                                        notify: true,
+                                                        reload: (toStateConfig !== undefined)
+                                                    });
+                                                });
+                                            }));
+                                    }).catch(function (error) {
+                                        var message = Bahmni.Clinical.Error.translate(error) || "{{'CLINICAL_SAVE_FAILURE_MESSAGE_KEY' | translate}}";
+                                        messagingService.showMessage('error', message);
+                                    });
+                                      }else{
+                                      messagingService.showMessage('error', "Please try to Save again, Or call admin");
+
+                                            }
+
+
+                                            }));
+                                             });
+
+                        }else{
                 return encounterService.create(encounterData)
                     .then(function (saveResponse) {
                         var consultationMapper = new Bahmni.ConsultationMapper(configurations.dosageFrequencyConfig(), configurations.dosageInstructionConfig(),
                             configurations.consultationNoteConcept(), configurations.labOrderNotesConcept(), $scope.followUpConditionConcept);
                         var consultation = consultationMapper.map(saveResponse.data);
                         consultation.lastvisited = $scope.lastvisited;
+
+
                          angular.forEach($scope.consultation.drugOrdersWithUpdatedOrderAttributes, function(item){
                                spinner.forPromise(drugService.updateDeliveryOrder(
                                     item.concept.name, $scope.consultation.patientUuid
@@ -488,13 +669,22 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
                         return spinner.forPromise(diagnosisService.populateDiagnosisInformation($scope.patient.uuid, savedConsultation)
                             .then(function (consultationWithDiagnosis) {
                                 return saveConditions().then(function (savedConditions) {
-                                    if ($scope.gothomisIntegrationStatus) {
+
+                                 if (encounterData.drugOrders.length > 0) {
+                                              //    post_drug_newBilling(encounterData.providers[0].uuid, encounterData.drugOrders, encounterData.patientUuid, encounterData.locationUuid);
+                                                                                                    }
+                                                if (encounterData.orders.length > 0){
+                                                   post_otherOrders_newBilling(encounterData.providers[0].uuid, encounterData.orders, encounterData.patientUuid, encounterData.locationUuid);}
+
+                                 if ($scope.gothomisIntegrationStatus) {
+
                                         if (encounterData.orders.length > 0) {
+
                                             submitLabOrderToGothomis(encounterData.providers[0].uuid, encounterData.orders[0].concept.uuid, encounterData.patientUuid, encounterData.locationUuid);
                                         }
                                         if (encounterData.drugOrders.length > 0) {
                                             submitTreatmentOrderToGothomis(encounterData.providers[0].uuid, encounterData.drugOrders, encounterData.patientUuid, encounterData.locationUuid);
-                                        }
+                                             }
                                         if (encounterData.disposition != null) {
                                             if (encounterData.disposition.code == "ADMIT") {
                                                 submitDispositionToGothomis(encounterData.providers[0].uuid, encounterData.patientUuid, encounterData.disposition.additionalObs[0].value);
@@ -523,6 +713,7 @@ angular.module('bahmni.clinical').controller('ConsultationController', ['$scope'
                         var message = Bahmni.Clinical.Error.translate(error) || "{{'CLINICAL_SAVE_FAILURE_MESSAGE_KEY' | translate}}";
                         messagingService.showMessage('error', message);
                     });
+                      }
             }));
         };
 

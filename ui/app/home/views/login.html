@@ -8,10 +8,10 @@
     </div>
     <header class="reg-header">
         <div class="left">{{'LOGIN_LABEL_LOGIN_KEY' | translate}}</div>
-        <div class="right locale-wrapper">
-            <span class="locale-text">{{'LOGIN_LABEL_SELECT_LOCALE_KEY' | translate}} </span>
-            <select id="locale" ng-model="selectedLocale" ng-options="item.code as item.nativeName for item in locales" required/>
-        </div>
+        <!-- <div class="right locale-wrapper"> -->
+          <!--  <span class="locale-text">{{'LOGIN_LABEL_SELECT_LOCALE_KEY' | translate}} </span> -->
+            <!-- <select id="locale" ng-model="selectedLocale" ng-options="item.code as item.nativeName for item in locales" required/> -->
+        <!-- </div> -->
     </header>
 
     <form ng-submit="login()" name="loginForm" bm-form autofillable="true">
@@ -118,8 +118,8 @@
 </div>
 
 <div class="power-by">
-    Powered by
-        <img src="./../images/twlogo.png" alt="ThoughtWorks">
-        <img src="./../images/bahmniLogoFull.png" alt="Bahmni" >
-    <a href={{helpLink}}> Bahmni Help</a>
+   <!-- Powered by -->
+        <!-- <img src="./../images/twlogo.png" alt="ThoughtWorks"> -->
+       <!-- <img src="./../images/bahmniLogoFull.png" alt="Bahmni" > -->
+    <!-- <a href={{helpLink}}> Bahmni Help</a>-->
 </div>

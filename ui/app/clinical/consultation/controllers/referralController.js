@@ -2,9 +2,9 @@
 
 angular.module('bahmni.clinical')
     .controller('ReferralController',['$scope', '$rootScope', '$stateParams','$window','$http','contextChangeHandler', 'spinner', 'conceptSetService',
-        'messagingService', 'referralConceptSet', 'appService','$state','locationService','$location', 'visitConfig','sessionService','configurations', 'visitService','retrospectiveEntryService',
+        'messagingService', 'referralConceptSet','printPrivService', 'appService','$state','locationService','providerService','$location', 'visitConfig','sessionService','configurations', 'visitService','retrospectiveEntryService',
         function ($scope, $rootScope,$stateParams,$window, $http,contextChangeHandler, spinner, conceptSetService, messagingService, referralConceptSet,
-                  appService,$state,locationService,$location,visitConfig,sessionService,configurations, visitService,retrospectiveEntryService) {
+                 printPrivService, appService,$state,locationService,providerService,$location,visitConfig,sessionService,configurations, visitService,retrospectiveEntryService) {
 
 			 var vm = this;
 			 var loginLocationUuid = this;
@@ -18,6 +18,18 @@ angular.module('bahmni.clinical')
                $scope.newSpecimens = $scope.consultation.newlyAddedSpecimens || [];
             };
 
+            //use doctors
+            /* var getAllProviders = function () {
+             $scope.rooms=[];
+                    var params = {v: "custom:(display,person,uuid)"};
+                    return providerService.list(params).then(function (response) {
+                        return _.uniqBy(response.data.results, function (result) {
+                            $scope.rooms.push(result.person.display);
+                        });
+                    });
+                };*/
+
+            //use this if its doctors room
             locationService.getAllByTag('Doctors Room').then(function(data)
             					{
             					console.log("Doctors Room");
@@ -30,7 +42,7 @@ angular.module('bahmni.clinical')
 
             					//getLocationuuid(data.data.results);
             					});
-           
+
 			//initializeReferralScopes();
          
             $scope.isRetrospectiveMode = function () {
@@ -46,7 +58,7 @@ angular.module('bahmni.clinical')
                
                 $scope.resultsConceptName = results && results.name.name;
                 $scope.referObservation=$scope.consultation.observations;
-
+                getAllProviders();
             };
 
             $scope.gotToPrint = function () {
@@ -59,16 +71,19 @@ angular.module('bahmni.clinical')
 
             var postSaveReferral = function()
             {
-      console.log("-sasa-"+$scope.room.selected);
+				console.log("-sasa-"+$scope.room.selected);
 				console.log("Post Save");
+				console.log("Post "+$scope.patient.uuid);
+
 				if($scope.room.selected){
+				console.log(998);
+				printPrivService.changeRoom($scope.room.selected,$scope.patient.uuid).then(function(data){
+				//console.log(data);
+				});
 
-         $http.get("https://192.168.33.10/openmrs/ws/rest/v1/SaveDoctorRoom/DoctorRoom?room="+$scope.room.selected+"&patientuuid="+$scope.patient.uuid+"",  {
-                                                                                 withCredentials: true
-                                                                              });
+                                          }
 
-                                             }
-				
+				console.log($scope.consultation.observations);
 				findTransferType($scope.consultation.observations[0].groupMembers);
 				if($scope.TransferIn===true)
 				{
@@ -109,17 +124,16 @@ angular.module('bahmni.clinical')
 				$scope.TransferIn=false;
 				dataTrans.forEach(function(data)
 				{  
-					if(data.conceptNameToDisplay=="Type of Transfer/Referral")
-					{	
+
 						
 						
-						if(data.valueAsString=="Transfer Within")
+						if(data.valueAsString=="Transfer Within Facility")
 						{
 
 						$scope.TransferIn= true;
 						
 						}
-					}
+
 					if(data.conceptNameToDisplay=="Referral Programs")
 					{	
 						
@@ -184,8 +198,8 @@ angular.module('bahmni.clinical')
 
         };
 
-            $scope.consultation.preSaveHandler.register("referralSaveHandlerKey", postSaveReferral);
-          //   $scope.consultation.postSaveHandler.register("referralPostSaveHandlerKey", postSaveReferral);
+           // $scope.consultation.preSaveHandler.register("referralSaveHandlerKey", postSaveReferral);
+             $scope.consultation.postSaveHandler.register("referralPostSaveHandlerKey", postSaveReferral);
 
             init();
 

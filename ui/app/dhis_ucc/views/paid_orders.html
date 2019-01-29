@@ -1,0 +1,94 @@
+<div>
+    <script>
+  $( function() {
+
+    $( "#product_name" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: window.location.protocol + "//" + window.location.host + "/openmrs/ws/rest/v1/get_item/getDrug",
+          dataType: "json",
+          data: {
+            name: request.term
+          },
+          success: function( data ) {
+
+              if(data == null){
+            data = {label : "Other"};
+              response(data);
+                 }
+                 else{
+             response($.map(data, function (value, key) {
+
+                return {
+                    label: value.name,
+                    value: value.drug_id
+                }
+            }));
+          }
+          }
+        } );
+      },
+      minLength: 2,
+      focus: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					$(this).val(ui.item.label);
+				},
+				select: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					// manually update the textbox and hidden field
+					$(this).val(ui.item.label);
+
+					$("#item_id").val(ui.item.value);
+					 $("#item_id").trigger('change');
+				}
+    });
+  } );
+</script>
+
+</div>
+<div style="60%;padding:30px" >
+    <div id="navigation" style="float:left;">
+        <ul class="top-level">
+            <li><a href="../cashier/#/index">New Orders</a></li>
+            <li><a href="../cashier/#/paid_orders">Paid Orders</a></li>
+            <li><a href="../cashier/#/cancelled">Cancelled Orders</a></li>
+        </ul>
+    </div>
+<div id="add_product" style="border:1px">
+    <div class="audit-log-filter">
+        <header>
+            <p>Paid Orders</p>
+        </header>
+        <article id="startFrom">
+<div>
+    <p>
+        <input placeholder="Search by Patient Name"  id="searchledger" type="text" ng-model="searchName">
+
+        <button  type="submit"   class="run-report confirm" ng-click="getPaidsearch()">
+            Search
+        </button>
+    </p>
+    <table>
+        <thead>
+        <tr><th>Order ID</th><th>Patient ID</th><th>Patient Names</th><th>Total Amount</th><th>Control Number</th><th>Status</th><th>Date Paid</th></tr>
+        </thead>
+        <tbody ng-repeat="order in orders">
+        <tr><td><a ng-click="getOrderLines(order.order_id,order.full_name,order.discount)">{{order.order_id}}</a></td><td>{{order.identifier}}</td><td>{{order.full_name}}</td><td>{{order.total_amount}}</td><td>{{order.Ctrl_number}}</td><td><span ng-if="order.paid_status == 1">Paid</span></td><td>{{order.date_payed}}</td></tr>
+
+        </tbody>
+
+
+    </table>
+
+            </div>
+        </article>
+
+    </div>
+
+</div>
+
+
+</div>
+</div>

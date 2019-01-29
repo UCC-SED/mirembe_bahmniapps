@@ -1,0 +1,72 @@
+<div class="adt">
+    <div >
+        <section class="reg-search-wrapper"> 
+             <section class="reg-search">
+                   <article class="search-seperator-l"> 
+                    <div class="search-patient-id fl">
+                    <label for="startFrom">Search By Item Name  </label>
+                    <input class="disposition-action" id="itemName"  ng-model="item.searchName">
+
+                      <button  type="submit"   class="run-report confirm" ng-click="searchItemByName(item.searchName)">
+                    {{::'SEARCH_ITEM' |translate}}
+                   </button>
+                   
+                   
+</article>
+<article class="search-seperator-r">
+                 
+                    <label for="startFrom">Search By Item Category  </label>
+                    <select id="itemCategory" ng-model="item.category" class="disposition-action" ng-model="option" ng-options="o for o in itemCategory" ng-click="onItemCategorySelected(item.category)"></select>
+                      <button  type="submit"   class="run-report confirm" ng-click="searchItemByCategory(item.category)">
+                    {{::'SEARCH_ITEM' |translate}}
+                   </button>
+
+                      <button  type="submit" ng-click="createItem()"  class="run-report confirm right" >
+                    {{::'CREATE_ITEM' |translate}}
+                    </button>
+                    <button  type="submit" ng-show="showEditButton"   class="run-report confirm right" ng-click="editItem()">
+                    {{::'EDIT_ITEM' |translate}}
+                </button>
+                </article>   
+     
+            </section>
+    </section>
+
+        <table ng-show="showTableWithPrice">
+            <thead>
+            <tr>
+                <th ng-class="{'table-mid-width': info.class}" ng-repeat="info in ::tableInfo">
+                    {{ ::info.heading | translate }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in item.items" ng-class="{'selected' : isSelected(appointment)}">
+                <td>{{::item.itemName}}</td>
+                <td>{{::item.itemCategory}}</td>
+                <td>{{::item.itemConceptSource}} - {{::item.itemReferenceTerm}}</td>
+                <td>{{::item.itemPublicPrice}}</td>
+                <td>{{::item.itemInsurancePrice}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+         <table ng-show="showTableWithNoPrice">
+            <thead>
+            <tr>
+                <th ng-class="{'table-mid-width': info.class}" ng-repeat="info in ::headingNoPrice">
+                    {{ ::info.heading | translate }}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in item.items"   ng-class="{'selected' : isSelected(appointment)}">
+                <td>{{::item.itemName}}</td>
+                <td>{{::item.itemCategory}}</td>
+                <td>{{::item.itemConceptSource}} - {{::item.itemReferenceTerm}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

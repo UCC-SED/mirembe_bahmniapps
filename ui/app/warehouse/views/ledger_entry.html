@@ -1,0 +1,151 @@
+<div class="adt">
+    <div>
+        <script>
+  $( function() {
+
+    $( "#item_name" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: window.location.protocol + "//" + window.location.host + "/openmrs/ws/rest/v1/get_item/getDrug",
+          dataType: "json",
+          data: {
+            name: request.term
+          },
+          success: function( data ) {
+
+              if(data == null){
+            data = {label : "Other"};
+              response(data);
+                 }
+                 else{
+             response($.map(data, function (value, key) {
+
+                return {
+                    label: value.name,
+                    value: value.drug_id
+                }
+            }));
+          }
+          }
+        } );
+      },
+      minLength: 2,
+      focus: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					$(this).val(ui.item.label);
+				},
+				select: function(event, ui) {
+					// prevent autocomplete from updating the textbox
+					event.preventDefault();
+					// manually update the textbox and hidden field
+					$(this).val(ui.item.label);
+
+					$("#item_id").val(ui.item.value);
+					 $("#item_id").trigger('change');
+				}
+    });
+  } );
+</script>
+
+    </div>
+    <p> <a id="bahmni.registration2" ng-href="../warehouse/#/index"
+           class="btn btn-secondary" role="button" target="_self"
+           href="../warehouse/#/index">Go Back</a>
+    </p>
+    <div class="box">
+        <div class="audit-log-filter">
+            <header>
+                <p>Ledger Entry</p>
+            </header>
+            <article id="startFrom">
+
+                <div  id="salePrice">
+                    <label >Date</label>
+                    <p>
+                        <input class="disposition-action" id="receiveDate" type="date" ng-model="item.receiveDate" format-date>
+                    </p>
+                    <label >Item Name</label>
+                    <p>
+                        <input class="disposition-action" id="item_name" type="text" ng-model="item.name">
+                        <input style="display:none" class="disposition-action" id="item_id" type="text" ng-model="item.drug_id">
+                    </p>
+                    <label >Price List</label>
+                    <p>
+                       <select class="disposition-action" name="ledger_type" id="price_list"  ng-options="p.price_list_id as p.name for p in priceLists" ng-model="item.pricelist">
+                           <option value=""></option>
+                       </select>
+                    </p>
+                </div>
+                <div>
+                    <label >Ledger Entry Type</label>
+                    <p>
+                        <select class="disposition-action" name="ledger_type" id="ledger_type" ng-model="item.ledger_type">
+                            <option value="Receive from MSD (+ve)">Receive from MSD (+ve)</option>
+                            <option value="Receive from elsewhere (+ve)">Receive from elsewhere (+ve)</option>
+                            <option value="Transfer to other (-ve)">Transfer to other (-ve)</option>
+                            <option value="Demaged (-ve)">Demaged (-ve)</option>
+                            <option value="Lost (-ve)">Lost (-ve)</option>
+                            <option value="Expired (-ve)">Expired (-ve)</option>
+                            <option value="Expired (+ve)">Clinical return (+ve)</option>
+                            <option value="Stock On Hand (+ve)">Stock On Hand (+ve)</option>
+                            <option value="Other (+ve)">Other (+ve)</option>
+                            <option value="Other (-ve)">Other (-ve)</option>
+                        </select>
+                    </p>
+
+
+                    <label >Quantity</label>
+                    <p>
+                        <input class="disposition-action" id="quantity" type="number" ng-model="item.quantity">
+                    </p>
+                    <!--
+                    <label >Amount</label>
+                    <p>
+                        <input class="disposition-action" id="amount" type="number" ng-model="item.amount">
+                    </p>-->
+                </div>
+                <div>
+                    <label >Batch No.</label>
+                    <p>
+                        <input class="disposition-action" id="batchNo" type="text" ng-model="item.batchNo">
+                    </p>
+                    <label >Expiry Date</label>
+                    <p>
+                        <input class="disposition-action" id="expiryDate" type="date" ng-model="item.expiryDate" format-date>
+                    </p>
+                    <label >Invoice No</label>
+                    <p>
+                        <input class="disposition-action" id="invoice" type="number" ng-model="item.invoice">
+                    </p>
+
+                    <button  type="submit"   class="run-report confirm" ng-click="save_ledger()">
+                        Save
+                    </button>
+                </div>
+            </article>
+
+        </div>
+        <div>
+        <p>
+            <input placeholder="Search by Name"  id="searchledger" type="text" ng-model="item.searchLedger">
+
+            <button  type="submit"   class="run-report confirm" ng-click="search()">
+                Search
+            </button>
+        </p>
+        </div>
+        <table>
+            <thead>
+            <tr><th>Receive Date</th><th>Item</th><th>Price List</th><th>Ledger Type</th><th>Quantity</th><th>Batch No</th><th>Expiry Date</th><th>OnHand Qty</th></tr>
+            </thead>
+            <tbody ng-repeat="getLedger in getLedgers">
+            <tr><td>{{getLedger.received_date}}</td><td>{{getLedger.name}}</td><td>{{getLedger.price_list_name}}</td><td>{{getLedger.ledger_type}}</td> <td>{{getLedger.quantity}}</td><td>{{getLedger.batch_no}}</td><td>{{getLedger.expiry_date}}</td><td>{{getLedger.onHand}}</td></tr>
+
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+

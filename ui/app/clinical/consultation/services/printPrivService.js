@@ -46,10 +46,23 @@ angular.module('bahmni.clinical')
                     });
                 };
 
+                var changeRoom = function (roomz, uuid) {
+
+                                    return $http.get(Bahmni.Common.Constants.doctorsRoom, {
+                                        method: "GET",
+                                        params: {
+                                         room: roomz,
+                                         patientuuid: uuid
+                                                  },
+                                        cache: false
+                                    });
+                                };
+
 
         return {
             getTransferData: getTransferData,
             getTB: getTB,
+            changeRoom:changeRoom,
             searchProviderByUuid,
            // openVisit:openVisit
         };
